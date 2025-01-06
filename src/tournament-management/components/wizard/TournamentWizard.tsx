@@ -85,14 +85,14 @@ export const TournamentWizard = ({ onComplete, onCancel }: TournamentWizardProps
   };
 
   return (
-    <div className="max-w-2xl mx-auto">
-      <MainHeading className="text-start mb-8">
+    <div className="max-w-7xl mx-auto my-20">
+      <SubHeading className="text-start mb-20">
         {t('tournamentManagement.creation.title')}
-      </MainHeading>
+      </SubHeading>
 
       <Card className="mb-8">
-        <div className="flex justify-end gap-2">
-            <Help explanation={t(currentQuestion.explanation!)} size="lg" />
+        <div className="flex items-stretch justify-end gap-2">
+          <Help explanation={t(currentQuestion.explanation!)} size="lg" />
         </div>
         <div className="text-center mb-8 mx-8">
           <div className="flex items-center justify-center gap-2">
@@ -100,7 +100,7 @@ export const TournamentWizard = ({ onComplete, onCancel }: TournamentWizardProps
           </div>
         </div>
 
-        <div className="max-w-xl mx-auto flex justify-center items-center">
+        <div className="w-full px-8">
           <WizardField
             field={currentQuestion}
             value={formData[currentQuestion.name]}

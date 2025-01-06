@@ -42,7 +42,7 @@ export const LargeText: FC<TextProps> = ({ children, className = '' }) => (
 
 export const SmallText: FC<TextProps> = ({ children, className = '' }) => (
   <p className={`
-    text-sm 
+    text-base 
     font-roboto
     text-custom-secondary-light dark:text-custom-secondary-dark 
     ${className}

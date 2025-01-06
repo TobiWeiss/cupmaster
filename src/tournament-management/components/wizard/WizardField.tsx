@@ -22,7 +22,7 @@ export const WizardField = ({ field, value, onChange, isValid }: WizardFieldProp
     switch (field.type) {
       case 'text':
         return (
-          <div className="relative flex items-center">
+          <div className="relative flex items-center w-full">
             <input
               type="text"
               value={value || ''}
@@ -43,12 +43,12 @@ export const WizardField = ({ field, value, onChange, isValid }: WizardFieldProp
 
       case 'number':
         return (
-          <div className="relative flex items-center">
+          <div className="relative flex items-center w-full">
             <input
               type="number"
               value={value || ''}
               onChange={(e) => onChange(Number(e.target.value))}
-              className="w-full px-10 py-2 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark"
+              className="w-full px-4 py-2 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark"
               required={field.required}
             />
             {showValidationIcon && (
@@ -63,12 +63,12 @@ export const WizardField = ({ field, value, onChange, isValid }: WizardFieldProp
 
       case 'date':
         return (
-          <div className="relative flex items-center">
+          <div className="relative flex items-center w-full">
             <input
               type="date"
               value={value || ''}
               onChange={(e) => onChange(e.target.value)}
-              className="w-full px-8 py-2 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark cursor-pointer"
+              className="w-full px-4 py-2 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark cursor-pointer"
               required={field.required}
             />
             {showValidationIcon && (
@@ -83,11 +83,11 @@ export const WizardField = ({ field, value, onChange, isValid }: WizardFieldProp
 
       case 'select':
         return (
-          <div className="relative flex items-center">
+          <div className="relative flex items-center w-full">
             <select
               value={value || ''}
               onChange={(e) => onChange(e.target.value)}
-              className="w-full px-10 py-2 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark text-custom-secondary-light dark:text-custom-secondary-dark"
+              className="w-full px-4 py-2 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark text-custom-secondary-light dark:text-custom-secondary-dark"
               required={field.required}
             >
               <option value="">{t('common.select')}</option>
@@ -122,7 +122,7 @@ export const WizardField = ({ field, value, onChange, isValid }: WizardFieldProp
 
       case 'image':
         return (
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 justify-center">
             {value && (
               <img
                 src={value}
@@ -162,7 +162,7 @@ export const WizardField = ({ field, value, onChange, isValid }: WizardFieldProp
   };
 
   return (
-    <div className="space-y-2">
+    <div className="w-full space-y-2">
       {renderField()}
       {!isValid && field.validation?.message && (
         <SmallText className="text-custom-third">

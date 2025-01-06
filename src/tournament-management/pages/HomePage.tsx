@@ -11,15 +11,15 @@ export const HomePage = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="space-y-8">
-      <div className="text-center">
-        <MainHeading>{t('tournamentManagement.home.title')}</MainHeading>
+    <div className="space-y-15">
+      <div className="text-center my-20">
+        <SubHeading>{t('tournamentManagement.home.title')}</SubHeading>
         <LargeText className="mt-2">{t('tournamentManagement.home.subtitle')}</LargeText>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-7xl mx-auto my-20">
         <Card to="/tournament-management/new" className="flex items-center">
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 px-2">
             <Icon 
               icon={PlusCircle} 
               size="xl" 

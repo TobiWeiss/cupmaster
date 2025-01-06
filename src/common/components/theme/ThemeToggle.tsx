@@ -20,19 +20,19 @@ export const ThemeToggle = () => {
   return (
     <button
       onClick={() => setDarkMode(!darkMode)}
-      className="p-2 px-4 py-2 rounded-md border border-custom-secondary bg-custom-primary-light dark:bg-custom-primary-dark text-custom-secondary-light dark:text-custom-secondary-dark"
+      className="px-4 py-2 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark text-custom-secondary-light dark:text-custom-secondary-dark h-[38px] w-[70px] flex items-center justify-center"
       aria-label="Toggle theme"
     >
       {darkMode ? (
         <Icon 
           icon={Sun} 
-          size="base"
+          size="sm"
           className="text-custom-secondary-dark" 
         />
       ) : (
         <Icon 
           icon={Moon} 
-          size="base"
+          size="sm"
           className="text-custom-secondary-light" 
         />
       )}

@@ -3,13 +3,11 @@ import { FC } from 'react';
 interface ProgressIndicatorProps {
   total: number;
   current: number;
-  completed: boolean;
 }
 
 export const ProgressIndicator: FC<ProgressIndicatorProps> = ({ 
   total, 
-  current, 
-  completed 
+  current
 }) => {
   return (
     <div className="flex justify-center gap-2">

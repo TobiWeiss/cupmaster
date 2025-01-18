@@ -71,7 +71,7 @@ describe('TournamentWizard', () => {
 
     it('should display a validation message if the user tries to go to the next step without answering a required question', () => {
       const element = elements.find(element => element.validation);
-      element!.validation!.fun = (_value: any) => false;
+      element!.validation!.fun = () => false;
       renderWizard([element!]);
 
 

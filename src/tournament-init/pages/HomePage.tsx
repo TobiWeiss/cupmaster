@@ -2,7 +2,7 @@ import { PlusCircle, Edit3 } from 'lucide-react';
 import { useTournaments } from '../hooks/useTournaments';
 import { Tournament } from '../types/tournament';
 import { useTranslation } from 'react-i18next';
-import { MainHeading, SubHeading, LargeText, SmallText } from '../../common/components/typography/Text';
+import { SubHeading, LargeText, SmallText } from '../../common/components/typography/Text';
 import { Card } from '../../common/components/ui/Card';
 import { Icon } from '../../common/components/ui/Icon';
 

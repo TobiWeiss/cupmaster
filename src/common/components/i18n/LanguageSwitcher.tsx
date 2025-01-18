@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from "react-i18next";
-import { SmallText } from '../typography/Text';
 
 export const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();

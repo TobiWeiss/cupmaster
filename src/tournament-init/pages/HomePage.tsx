@@ -18,7 +18,7 @@ export const HomePage = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-10 max-w-7xl mx-auto my-20">
-        <Card to="/tournament-management/new" className="flex items-center">
+        <Card to="/tournament-init/new" className="flex items-center">
           <div className="flex-shrink-0 px-2">
             <Icon 
               icon={PlusCircle} 

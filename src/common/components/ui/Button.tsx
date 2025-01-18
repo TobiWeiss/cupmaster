@@ -7,7 +7,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'sm' | 'base' | 'lg';
   icon?: LucideIcon;
   iconPosition?: 'left' | 'right';
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 export const Button: FC<ButtonProps> = ({
@@ -44,6 +44,7 @@ export const Button: FC<ButtonProps> = ({
       text-custom-secondary-light dark:text-custom-secondary-dark
       hover:bg-custom-secondary-light/10 dark:hover:bg-custom-secondary-dark/10
       disabled:opacity-50 disabled:cursor-not-allowed
+      bg-custom-primary-light dark:bg-custom-primary-dark
     `
   };
 

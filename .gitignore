@@ -25,3 +25,6 @@ dist-ssr
 
 # Exclude local development images
 !public/images/
+
+# Coverage
+coverage

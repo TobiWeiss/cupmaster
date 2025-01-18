@@ -1,92 +1,7 @@
-import { TournamentFormat, MatchFormat } from '../../types/enums';
+import { TournamentFormat, MatchFormat } from '../../../types/enums';
+import { IWizardElement } from './types';
 
-export interface IWizardField {
-  type: 'text' | 'number' | 'date' | 'select' | 'image' | 'checkbox';
-  name: string;
-  question: string;
-  placeholder?: string;
-  required?: boolean;
-  options?: { value: string; label: string }[];
-  validation?: {
-    fun: (value: any) => boolean;
-    message?: string;
-  };
-  showIf?: (data: any) => boolean;
-  explanation?: string;
-}
-
-export const wizardFields: IWizardField[] = [
-  // Basic Information
-  {
-    type: 'text',
-    name: 'name',
-    question: 'tournamentManagement.creation.questions.name.question',
-    explanation: 'tournamentManagement.creation.questions.name.explanation',
-    required: true,
-    validation: {
-      fun: (value: string) => value.length > 0 && value.length <= 256,
-      message: 'tournamentManagement.creation.questions.name.validation'
-    }
-  },
-  {
-    type: 'image',
-    name: 'logoUrl',
-    question: 'tournamentManagement.creation.questions.logo.question',
-    validation: {
-      fun: (value: string) => !value || value.startsWith('data:image/'),
-      message: 'tournamentManagement.creation.questions.logo.validation'
-    }
-  },
-  {
-    type: 'select',
-    name: 'format',
-    question: 'tournamentManagement.creation.questions.format.question',
-    required: true,
-    options: [
-      { value: TournamentFormat.LEAGUE, label: 'tournamentManagement.creation.basicInformation.formats.league' },
-      { value: TournamentFormat.GROUP_KNOCKOUT, label: 'tournamentManagement.creation.basicInformation.formats.groupKnockout' },
-      { value: TournamentFormat.KNOCKOUT, label: 'tournamentManagement.creation.basicInformation.formats.knockout' }
-    ],
-    validation: {
-      fun: (value: string) => value.length > 0,
-      message: 'tournamentManagement.creation.questions.format.validation'
-    }
-  },
-
-  // Dates
-  {
-    type: 'date',
-    name: 'startDate',
-    question: 'tournamentManagement.creation.questions.startDate.question',
-    required: true,
-    validation: {
-      fun: (value: string) => value.length > 0,
-      message: 'tournamentManagement.creation.questions.startDate.validation'
-    }
-  },
-  {
-    type: 'date',
-    name: 'endDate',
-    question: 'tournamentManagement.creation.questions.endDate.question',
-    validation: {
-      fun: (value: string) => value.length > 0,
-      message: 'tournamentManagement.creation.questions.endDate.validation'
-    }
-  },
-
-  // Teams
-  {
-    type: 'number',
-    name: 'numberOfTeams',
-    question: 'tournamentManagement.creation.questions.numberOfTeams.question',
-    required: true,
-    validation: {
-      fun: (value: number) => value >= 2 && value <= 64,
-      message: 'tournamentManagement.creation.questions.numberOfTeams.validation'
-    }
-  },
-
-  // League specific
+export const leagueElements: IWizardElement[] = [
   {
     type: 'number',
     name: 'leagueConfig.matchesAgainstEachTeam',
@@ -108,9 +23,10 @@ export const wizardFields: IWizardField[] = [
       message: 'tournamentManagement.creation.questions.matchDuration.validation'
     },
     showIf: (data) => data.format === TournamentFormat.LEAGUE
-  },
+  }
+];
 
-  // Group specific
+export const groupElements: IWizardElement[] = [
   {
     type: 'number',
     name: 'groupConfig.numberOfGroups',
@@ -139,9 +55,10 @@ export const wizardFields: IWizardField[] = [
       message: 'tournamentManagement.creation.questions.matchDuration.validation'
     },
     showIf: (data) => data.format === TournamentFormat.GROUP_KNOCKOUT
-  },
+  }
+];
 
-  // Knockout specific
+export const knockoutElements: IWizardElement[] = [
   {
     type: 'select',
     name: 'knockoutConfig.legs',
@@ -165,7 +82,7 @@ export const wizardFields: IWizardField[] = [
     showIf: (data) => [TournamentFormat.KNOCKOUT, TournamentFormat.GROUP_KNOCKOUT].includes(data.format)
   },
   {
-    type: 'checkbox',
+    type: 'bool',
     name: 'knockoutConfig.hasThirdPlace',
     question: 'tournamentManagement.creation.questions.hasThirdPlace.question',
     showIf: (data) => [TournamentFormat.KNOCKOUT, TournamentFormat.GROUP_KNOCKOUT].includes(data.format)

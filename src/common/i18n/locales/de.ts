@@ -12,6 +12,8 @@ export const de = {
       select: 'Bitte wählen',
       upload: 'Hochladen',
       skip: 'Überspringen',
+      yes: 'Ja',
+      no: 'Nein',
     },
     tournament: {
       name: 'Turniername',
@@ -82,11 +84,16 @@ export const de = {
         tournamentDates: {
           title: 'Turnierdaten',
           startDate: 'Startdatum',
+          multipleDays: 'Mehrere Tage',
           endDate: 'Enddatum'
         },
         teams: {
           title: 'Teams',
-          numberOfTeams: 'Anzahl der Teams'
+          numberOfTeams: 'Anzahl der Teams',
+          teams: 'Teams',
+          team: 'Team',
+          logoUrl: 'Logo',
+          name: 'Name'
         },
         matches: {
           matchesAgainstEachTeam: 'Spiele gegen jedes Team',
@@ -136,6 +143,10 @@ export const de = {
             question: 'Wann beginnt das Turnier?',
             validation: 'Bitte wähle ein Startdatum aus'
           },
+          multipleDays: {
+            question: 'Soll das Turnier mehrere Tage dauern?',
+            validation: 'Bitte wähle aus, ob das Turnier mehrere Tage dauern soll'
+          },
           endDate: {
             question: 'Wann endet das Turnier?',
             validation: 'Das Enddatum muss nach dem Startdatum liegen'
@@ -143,6 +154,10 @@ export const de = {
           numberOfTeams: {
             question: 'Wie viele Teams nehmen am Turnier teil?',
             validation: 'Die Anzahl der Teams muss zwischen 2 und 64 liegen'
+          },
+          teams: {
+            question: 'Welche Teams nehmen am Turnier teil?',
+            validation: 'Jedes Team muss einen Namen haben.'
           },
           matchesAgainstEachTeam: {
             question: 'Wie oft spielt jedes Team gegen jedes andere Team?',

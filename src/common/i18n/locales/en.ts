@@ -7,6 +7,8 @@ export const en = {
       cancel: 'Cancel',
       loading: 'Loading...',
       error: 'Error',
+      add: 'Add',
+      noItems: 'No items yet',
     },
     tournament: {
       name: 'Tournament Name',
@@ -56,5 +58,13 @@ export const en = {
         title: 'Your Tournaments',
       },
     },
+    tournamentManagement: {
+      creation: {
+        teams: {
+          empty: 'No teams added yet',
+          namePlaceholder: 'Enter team name',
+        }
+      }
+    }
   },
 };

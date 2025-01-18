@@ -21,14 +21,11 @@ export const ProgressIndicator: FC<ProgressIndicatorProps> = ({
           <div
             className={`
               h-full rounded-full transition-all duration-1000 ease-out
-              ${index === current
-                ? 'bg-custom-third'
-                : index < current
+              ${index < current
                   ? 'bg-custom-fourth w-full'
                   : 'w-0'
               }
-              ${index === current && !completed ? 'w-0' : 'w-full'}
-            `}
+            `}y
           />
         </div>
       ))}

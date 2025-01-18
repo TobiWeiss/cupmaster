@@ -11,11 +11,13 @@ interface CardProps {
 export const Card: FC<CardProps> = ({ to, disabled = false, children, className = '' }) => {
   const baseStyles = `
     p-8 
-    bg-custom-primary-light dark:bg-custom-primary-dark 
+    bg-custom-primary-light dark:bg-custom-primary-dark
+    bg-opacity-80
     border border-custom-secondary-light dark:border-custom-secondary-dark 
     rounded-2xl 
     transition-all duration-300
-    ${disabled ? 'opacity-50 cursor-not-allowed' : `
+  
+    ${disabled ? 'opacity-30 cursor-not-allowed' : `
       hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
       dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]
     `}

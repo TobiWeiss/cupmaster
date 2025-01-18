@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { MainLayout } from './common/components';
-import { HomePage } from './tournament-management/pages';
-import { CreateTournamentPage, EditTournamentPage } from './tournament-management/pages';
+import { HomePage } from './tournament-init/pages';
+import { InitTournamentPage } from './tournament-init/pages';
 
 export default function App() {
   return (
@@ -9,9 +9,8 @@ export default function App() {
       <Routes>
         <Route element={<MainLayout />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="/tournament-management" element={<HomePage />} />
-          <Route path="/tournament-management/new" element={<CreateTournamentPage />} />
-          <Route path="/tournament-management/edit/:id" element={<EditTournamentPage />} />
+          <Route path="/tournament-init" element={<HomePage />} />
+          <Route path="/tournament-init/new" element={<InitTournamentPage />} />
         </Route>
       </Routes>
     </Router>

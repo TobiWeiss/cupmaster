@@ -1,0 +1,22 @@
+
+import { WizardElementProps } from "../ElementRenderer";
+import { ValidationIcon } from "./ValidationIcon";
+
+
+
+export const TextElement = ({ element, value, onChange, isValid }: WizardElementProps) => {
+  return (
+    <div className="relative flex items-center w-full">
+      <input
+        type="text"
+        value={value || ''}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={element.placeholder}
+        className="w-full px-4 py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark placeholder-custom-secondary-dark dark:placeholder-custom-secondary-light text-custom-secondary-light dark:text-custom-secondary-dark"
+        required={element.required}
+        data-testid={`wizard-input-${element.name}`}
+      />
+      <ValidationIcon value={value} isValid={isValid} />
+    </div>
+  );
+};

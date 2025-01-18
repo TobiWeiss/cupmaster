@@ -1,4 +1,4 @@
-import { Tournament } from "../../../tournament-management/types/tournament";
+import { Tournament } from "../../../tournament-init/types/tournament";
 
 export interface StorageInterface {
   getTournaments(): Promise<Tournament[]>;

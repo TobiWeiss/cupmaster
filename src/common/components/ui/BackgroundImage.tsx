@@ -17,7 +17,7 @@ export const BackgroundImage: React.FC = () => {
 
         const updatedSvg = svgText
           .replace(
-            /style="fill:#FFFFFF;"/,
+            /style="fill:#F6F6F6;"/,
             `style="fill:${isDarkMode ? '#171717' : '#F0E7D8'};"`
           )
           .replace(
@@ -25,7 +25,6 @@ export const BackgroundImage: React.FC = () => {
             `fill:${isDarkMode ? '#ffffff' : '#171717'}`
           );
 
-        // Encode the SVG for use in CSS url()
         const encodedSvg = encodeURIComponent(updatedSvg);
         setSvgContent(`data:image/svg+xml,${encodedSvg}`);
         setIsVisible(true);
@@ -54,21 +53,16 @@ export const BackgroundImage: React.FC = () => {
   }, []);
 
   return (
-    <div className={`w-full h-full transition-opacity duration-150 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
-      {svgContent ? (
+    <div className={`fixed bottom-0 right-0 w-[600px] h-[600px] transition-opacity duration-150 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      {svgContent && (
         <div
           className="w-full h-full"
           style={{ 
             backgroundImage: `url("${svgContent}")`,
             backgroundRepeat: 'no-repeat',
-            backgroundSize: 'cover'
+            backgroundPosition: 'center',
+            backgroundSize: 'contain'
           }}
-        />
-      ) : (
-        <img
-          src={logo}
-          alt="Footballer illustration"
-          className="w-full h-full object-contain dark:opacity-5"
         />
       )}
     </div>

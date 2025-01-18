@@ -1,0 +1,56 @@
+import { Button } from '../../../common/components/ui/Button';
+import { ChevronLeft, ChevronRight, SkipForward } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+
+interface WizardNavigationProps {
+  isFirstStep: boolean;
+  isLastStep: boolean;
+  canSkip: boolean;
+  isValid: boolean;
+  onBack: () => void;
+  onNext: () => void;
+}
+
+/**
+ * Handles the display and logic of wizard navigation buttons
+ * Determines which buttons to show based on wizard state
+ */
+export const WizardNavigation = ({
+  isFirstStep,
+  isLastStep,
+  canSkip,
+  isValid,
+  onBack,
+  onNext
+}: WizardNavigationProps) => {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex justify-between mt-8" data-testid="wizard-actions">
+      <Button
+        variant="outline"
+        icon={ChevronLeft}
+        onClick={onBack}
+        data-testid="wizard-back-button"
+      >
+        {isFirstStep ? t('common.cancel') : t('common.back')}
+      </Button>
+
+      <Button
+        variant={canSkip ? 'outline' : 'primary'}
+        icon={canSkip ? SkipForward : ChevronRight}
+        iconPosition="right"
+        onClick={onNext}
+        disabled={!canSkip && !isValid}
+        data-testid={canSkip ? "wizard-skip-button" : "wizard-next-button"}
+      >
+        {isLastStep 
+          ? t('common.create') 
+          : canSkip 
+            ? t('common.skip') 
+            : t('common.next')
+        }
+      </Button>
+    </div>
+  );
+}; 

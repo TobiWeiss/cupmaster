@@ -2,9 +2,11 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { MainLayout } from './common/components';
 import { HomePage } from './tournament-init/pages';
 import { InitTournamentPage } from './tournament-init/pages';
+import { AnimatePresence } from 'framer-motion';
 
 export default function App() {
   return (
+    <AnimatePresence>
     <Router>
       <Routes>
         <Route element={<MainLayout />}>
@@ -14,5 +16,6 @@ export default function App() {
         </Route>
       </Routes>
     </Router>
+    </AnimatePresence>
   );
 }

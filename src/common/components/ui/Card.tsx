@@ -12,10 +12,12 @@ export const Card: FC<CardProps> = ({ to, disabled = false, children, className 
   const baseStyles = `
     p-8 
     bg-custom-primary-light dark:bg-custom-primary-dark
-    bg-opacity-80
+    bg-opacity-80 dark:bg-opacity-50
     border border-custom-secondary-light dark:border-custom-secondary-dark 
     rounded-2xl 
     transition-all duration-300
+    flex
+    flex-col
   
     ${disabled ? 'opacity-30 cursor-not-allowed' : `
       hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
@@ -23,6 +25,7 @@ export const Card: FC<CardProps> = ({ to, disabled = false, children, className 
     `}
     shadow-[0_4px_20px_rgb(0,0,0,0.08)]
     dark:shadow-[0_4px_20px_rgba(0,0,0,0.2)]
+    justify-between
     ${className}
   `;
 

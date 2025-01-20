@@ -1,5 +1,5 @@
 import { Check } from 'lucide-react';
-import { Icon } from '../../../../common/components/ui/Icon';
+import { Icon } from '../../../../../common/components/ui/Icon';
 
 interface ValidationIconProps {
   value: any;

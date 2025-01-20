@@ -1,12 +1,16 @@
 import { useTranslation } from 'react-i18next';
-import { Button } from '../../../../common/components/ui/Button';
+import { Button } from '../../../../../common/components/ui/Button';
 import { WizardElementProps } from '../ElementRenderer';
+import { easeInOut } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export const BooleanElement = ({ element, value, onChange }: WizardElementProps) => {
   const { t } = useTranslation();
 
   return (
-    <div className="relative flex justify-center gap-4">
+    <motion.div initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 0.5, ease: easeInOut } }}
+      exit={{ opacity: 0, transition: { duration: 0.5, ease: easeInOut } }} className="relative flex justify-center gap-4">
       <Button
         variant={value === true ? "primary" : "outline"}
         onClick={() => onChange(true)}
@@ -23,6 +27,6 @@ export const BooleanElement = ({ element, value, onChange }: WizardElementProps)
       >
         {t('common.no')}
       </Button>
-    </div>
+    </motion.div>
   );
 }; 

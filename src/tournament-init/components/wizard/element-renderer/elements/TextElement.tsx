@@ -1,4 +1,6 @@
 
+import { easeInOut } from "framer-motion";
+import { motion } from "framer-motion";
 import { WizardElementProps } from "../ElementRenderer";
 import { ValidationIcon } from "./ValidationIcon";
 
@@ -6,7 +8,9 @@ import { ValidationIcon } from "./ValidationIcon";
 
 export const TextElement = ({ element, value, onChange, isValid }: WizardElementProps) => {
   return (
-    <div className="relative flex items-center w-full">
+    <motion.div initial={{ opacity: 0 }}
+    animate={{ opacity: 1, transition: { duration: 0.5, ease: easeInOut } }}
+    exit={{ opacity: 0, transition: { duration: 0.5, ease: easeInOut } }} className="relative flex items-center w-full">
       <input
         type="text"
         value={value || ''}
@@ -17,6 +21,6 @@ export const TextElement = ({ element, value, onChange, isValid }: WizardElement
         data-testid={`wizard-input-${element.name}`}
       />
       <ValidationIcon value={value} isValid={isValid} />
-    </div>
+    </motion.div>
   );
 };

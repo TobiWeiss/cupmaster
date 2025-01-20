@@ -1,6 +1,7 @@
 import { Button } from '../../../common/components/ui/Button';
 import { ChevronLeft, ChevronRight, SkipForward } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { SmallestText, SmallText } from '../../../common/components/typography/Text';
 
 interface WizardNavigationProps {
   isFirstStep: boolean;
@@ -33,7 +34,7 @@ export const WizardNavigation = ({
         onClick={onBack}
         data-testid="wizard-back-button"
       >
-        {isFirstStep ? t('common.cancel') : t('common.back')}
+        <SmallestText>{isFirstStep ? t('common.cancel') : t('common.back')}</SmallestText>
       </Button>
 
       <Button
@@ -44,12 +45,12 @@ export const WizardNavigation = ({
         disabled={!canSkip && !isValid}
         data-testid={canSkip ? "wizard-skip-button" : "wizard-next-button"}
       >
-        {isLastStep 
+        <SmallestText className={`${canSkip ? '' : 'text-white'}`}>{isLastStep 
           ? t('common.create') 
           : canSkip 
             ? t('common.skip') 
             : t('common.next')
-        }
+        }</SmallestText>
       </Button>
     </div>
   );

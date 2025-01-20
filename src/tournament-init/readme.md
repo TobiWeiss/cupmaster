@@ -2,7 +2,7 @@
 
 ## Overview
 
-The tournament initialization process provides a guided, step-by-step wizard interface for creating new tournaments. It handles the collection and validation of all necessary tournament configuration data through a series of questions.
+The tournament initialization process provides a guided, step-by-step wizard interface for creating new tournaments. It handles the collection and validation of all necessary tournament configuration data through a series of questions organized by categories.
 
 ## Architecture
 
@@ -12,109 +12,147 @@ Central to the system is the TournamentWizard component, which manages the wizar
 ```plantuml
 @startuml
 
-package "Tournament Initialization" {
-  [InitTournamentPage]
-  [TournamentWizard]
-
-  package "Wizard Configuration" {
-    [WizardConfig]
-    [BasicInformationConfig]
-    [DateConfig]
-    [TeamsConfig]
-    [FormatConfigs]
-  }
+package "Tournament Wizard" {
+  [TournamentWizard] as wizard
+  [WizardNavigation] as navigation
   
-  package "Wizard Elements" {
-    [ElementRenderer]
-    [ElementRegistry]
+  package "Progress Indicator" {
+    [CategoryIndicator] as categoryIndicator
+    [CategoryItem] as item
+    [CategoryIcon] as icon
+    [CategoryProgressBar] as progress
+  }
+
+  package "Configuration" {
+    [WizardConfig] as config
+    [BasicInformationConfig] as basicConfig
+    [DateConfig] as dateConfig
+    [TeamsConfig] as teamsConfig
+    [FormatConfig] as formatConfig
+  }
+
+  package "Elements" {
+    [ElementRenderer] as renderer
+    [FieldRegistry] as registry
     
     package "Base Elements" {
-      [TextElement]
-      [NumberElement]
-      [DateElement]
-      [SelectElement]
-      [BooleanElement]
-      [ImageElement]
-      [ListElement]
+      [TextElement] as text
+      [NumberElement] as number
+      [DateElement] as date
+      [SelectElement] as select
+      [BooleanElement] as bool
+      [ImageElement] as image
+      [ListElement] as list
     }
     
     package "Specialized Elements" {
-      [TeamList]
-      
+      [TeamList] as teamList
     }
   }
 }
 
-' Configuration relationships
-WizardConfig --> BasicInformationConfig
-WizardConfig --> DateConfig
-WizardConfig --> TeamsConfig
-WizardConfig --> FormatConfigs
+wizard --> renderer : uses
+wizard --> actions : uses
+wizard --> categoryIndicator : uses
+categoryIndicator --> item : contains
+item --> icon : uses
+item --> progress : uses
 
-' Component hierarchy
-InitTournamentPage --> TournamentWizard
-TournamentWizard --> WizardConfig
-TournamentWizard --> ElementRenderer
-ElementRenderer --> ElementRegistry
-ElementRegistry --> TextElement
-ElementRegistry --> NumberElement
-ElementRegistry --> DateElement
-ElementRegistry --> SelectElement
-ElementRegistry --> BooleanElement
-ElementRegistry --> ImageElement
-ElementRegistry --> ListElement
+renderer --> registry : uses
+registry --> text : registers
+registry --> number : registers
+registry --> date : registers
+registry --> select : registers
+registry --> bool : registers
+registry --> image : registers
+registry --> list : registers
+list --> teamList : specializes
 
-' Element relationships
-ListElement --> TeamList
+config --> basicConfig : includes
+config --> dateConfig : includes
+config --> teamsConfig : includes
+config --> formatConfig : includes
+
+wizard --> config : reads
 
 @enduml
 ```
 
-## Core Components
+## Components
 
-### Configuration Layer
-- **WizardConfig**: Aggregates all configuration elements
-- **Topic Configs**: Separate configurations for different aspects:
-  - BasicInformationConfig
-  - DateConfig
-  - TeamsConfig
-  - FormatConfigs (League, Group, Knockout)
+### TournamentWizard
+The main component orchestrating the wizard flow. It manages:
+- Form state and validation
+- Navigation between steps
+- Category tracking and completion
+- Progress indication
 
-### Rendering Layer
-- **ElementRenderer**: Main component for rendering wizard elements
-- **ElementRegistry**: Maps element types to their components
-- **Specialized Elements**: Custom components for specific needs
+### Progress Indicator
+A composite component showing the wizard's progress through categories:
+- CategoryIndicator: Main container managing category state
+- CategoryItem: Individual category display with completion status
+- CategoryIcon: Category-specific icons and completion check
+- CategoryProgressBar: Visual progress within current category
 
-### Element Types
-- Text
-- Number
-- Date
-- Select
-- Boolean
-- Image
-- List (with custom components)
+### Element Renderer
+Renders the appropriate input component based on the field type. Works with the FieldRegistry to map field types to their corresponding components.
 
-Hint: The element type 'list' is a special case that requires a custom component to be implemented. All the other elements are implemented using default components (e.g. a text input, a number input, etc.).
+#### Available Elements
+The wizard supports several types of input elements:
 
-## Configuration Structure
+1. **Base Elements**
+   - Text: Single-line text input
+   - Number: Numeric input with validation
+   - Date: Date picker with calendar
+   - Select: Dropdown selection from options
+   - Boolean: Yes/No toggle or checkbox
+   - Image: Image upload with preview
+   - List: Dynamic list of items
 
-The wizard configuration is organized by topics:
+2. **Specialized Elements**
+   - TeamList: Custom component for managing team entries
+     - Supports adding/removing teams
+     - Validates team names
+     - Manages team order
+
+### Wizard Actions
+Handles navigation buttons and their states:
+- Back/Cancel button
+- Next/Skip/Finish button
+- Validates current step before proceeding
+
+## Categories and Questions
+
+The wizard organizes questions into the following categories:
 
 1. **Basic Information**
-   - Tournament name
-   - Logo
-   - Format selection
+   - Tournament name (Text)
+   - Logo upload (Image)
+   - Tournament format (Select)
 
-2. **Dates**
-   - Start date
-   - Multiple days option
-   - End date (conditional)
+2. **Tournament Dates**
+   - Start date (Date)
+   - Multiple days option (Boolean)
+   - End date (Date, conditional)
 
 3. **Teams**
-   - Number of teams
-   - Team list management
+   - Number of teams (Number)
+   - Team list management (List with TeamList)
 
-4. **Format-Specific**
+4. **Tournament Mode**
    - League configuration
+     - Matches against each team (Number)
+     - Match duration (Number)
    - Group stage configuration
+     - Number of groups (Number)
+     - Teams qualifying (Number)
    - Knockout configuration
+     - Match format (Select)
+     - Third place match (Boolean)
+
+5. **Rules**
+   - Match duration (Number)
+   - Points system
+     - Win points (Number)
+     - Draw points (Number)
+   - Tiebreaker rules (List)

@@ -5,31 +5,34 @@ export const dateElements: IWizardElement[] = [
   {
     type: 'date',
     name: 'startDate',
-    question: 'tournamentManagement.creation.questions.startDate.question',
+    category: 'tournamentDates',
+    question: 'tournamentInit.creation.questions.startDate.question',
     required: true,
     validation: {
       fun: (value: string) => value.length > 0,
-      message: 'tournamentManagement.creation.questions.startDate.validation'
+      message: 'tournamentInit.creation.questions.startDate.validation'
     }
   },
   {
     type: 'bool',
     name: 'multipleDays',
-    question: 'tournamentManagement.creation.questions.multipleDays.question',
+    category: 'tournamentDates',
+    question: 'tournamentInit.creation.questions.multipleDays.question',
     required: true,
     validation: {
       fun: (value: boolean) => value !== undefined,
-      message: 'tournamentManagement.creation.questions.multipleDays.validation'
+      message: 'tournamentInit.creation.questions.multipleDays.validation'
     }
   },
   {
     type: 'date',
     name: 'endDate',
-    question: 'tournamentManagement.creation.questions.endDate.question',
+    category: 'tournamentDates',
+    question: 'tournamentInit.creation.questions.endDate.question',
     showIf: (data: any) => data.multipleDays,
     validation: {
       fun: (value: string) => value.length > 0,
-      message: 'tournamentManagement.creation.questions.endDate.validation'
+      message: 'tournamentInit.creation.questions.endDate.validation'
     }
   }
 ]; 

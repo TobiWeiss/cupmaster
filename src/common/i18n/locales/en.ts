@@ -65,6 +65,15 @@ export const en = {
           namePlaceholder: 'Enter team name',
         }
       }
+    },
+    tournamentInit: {
+      categories: {
+        basicInformation: 'Basic Information',
+        tournamentDates: 'Tournament Dates',
+        teams: 'Teams',
+        mode: 'Tournament Mode',
+        rules: 'Rules'
+      },
     }
   },
 };

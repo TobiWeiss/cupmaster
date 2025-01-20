@@ -1,14 +1,18 @@
 import { useTranslation } from 'react-i18next';
 import { ChevronDown } from 'lucide-react';
-import { Icon } from '../../../../common/components/ui/Icon';
+import { Icon } from '../../../../../common/components/ui/Icon';
 import { WizardElementProps } from '../ElementRenderer';
 import { ValidationIcon } from './ValidationIcon';
+import { motion } from 'framer-motion';
+import { easeInOut } from 'framer-motion';
 
 export const SelectElement = ({ element: field, value, onChange, isValid }: WizardElementProps) => {
   const { t } = useTranslation();
 
   return (
-    <div className="relative flex items-center w-full">
+    <motion.div initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 0.5, ease: easeInOut } }}
+      exit={{ opacity: 0, transition: { duration: 0.5, ease: easeInOut } }} className="relative flex items-center w-full">
       <select
         value={value || ''}
         onChange={(e) => onChange(e.target.value)}
@@ -29,6 +33,6 @@ export const SelectElement = ({ element: field, value, onChange, isValid }: Wiza
       <div className="absolute right-8 top-1/2 -translate-y-1/2">
         <ValidationIcon value={value} isValid={isValid} />
       </div>
-    </div>
+    </motion.div>
   );
 }; 

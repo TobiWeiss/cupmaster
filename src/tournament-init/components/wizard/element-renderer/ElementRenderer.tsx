@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { IWizardElement } from './WizardConfig';
-import { SmallText } from '../../../common/components/typography/Text';
+import { IWizardElement } from '../WizardConfig';
+import { SmallestText, SmallText } from '../../../../common/components/typography/Text';
 import { fieldRegistry } from './elements/FieldRegistry';
 
 export interface WizardElementProps {
@@ -24,9 +24,9 @@ export const ElementRenderer = ({ element: field, value, onChange, isValid }: Wi
     <div className="w-full space-y-2">
       {renderField()}
       {!isValid && field.validation?.message && (
-        <SmallText className="text-custom-third" dataTestId="wizard-validation-message">
+        <SmallestText className="text-custom-third pt-6" dataTestId="wizard-validation-message">
           {t(field.validation.message)}
-        </SmallText>
+        </SmallestText>
       )}
     </div>
   );

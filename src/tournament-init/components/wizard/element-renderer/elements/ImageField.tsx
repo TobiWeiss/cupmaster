@@ -1,7 +1,8 @@
 import { Upload } from 'lucide-react';
-import { Button } from '../../../../common/components/ui/Button';
+import { Button } from '../../../../../common/components/ui/Button';
 import { WizardElementProps } from '../ElementRenderer';
 import { useTranslation } from 'react-i18next';
+import { easeInOut, motion } from 'framer-motion';
 
 export const ImageField = ({ element: field, value, onChange }: WizardElementProps) => {
   const { t } = useTranslation();
@@ -18,7 +19,9 @@ export const ImageField = ({ element: field, value, onChange }: WizardElementPro
   };
 
   return (
-    <div className="relative flex items-center space-x-4 justify-center">
+    <motion.div initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 0.5, ease: easeInOut } }}
+      exit={{ opacity: 0, transition: { duration: 0.5, ease: easeInOut } }} className="relative flex items-center space-x-4 justify-center">
       {value && (
         <img
           src={value}
@@ -41,6 +44,6 @@ export const ImageField = ({ element: field, value, onChange }: WizardElementPro
         onChange={handleFileChange}
         data-testid={`wizard-input-${field.name}`}
       />
-    </div>
+    </motion.div>
   );
 }; 

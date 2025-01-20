@@ -5,36 +5,39 @@ export const basicInformationElements: IWizardElement[] = [
   {
     type: 'text',
     name: 'name',
-    question: 'tournamentManagement.creation.questions.name.question',
-    explanation: 'tournamentManagement.creation.questions.name.explanation',
+    category: 'basicInformation',
+    question: 'tournamentInit.creation.questions.name.question',
+    explanation: 'tournamentInit.creation.questions.name.explanation',
     required: true,
     validation: {
       fun: (value: string) => value.length > 0 && value.length <= 256,
-      message: 'tournamentManagement.creation.questions.name.validation'
+      message: 'tournamentInit.creation.questions.name.validation'
     }
   },
   {
     type: 'image',
     name: 'logoUrl',
-    question: 'tournamentManagement.creation.questions.logo.question',
+    category: 'basicInformation',
+    question: 'tournamentInit.creation.questions.logo.question',
     validation: {
       fun: (value: string) => !value || value.startsWith('data:image/'),
-      message: 'tournamentManagement.creation.questions.logo.validation'
+      message: 'tournamentInit.creation.questions.logo.validation'
     }
   },
   {
     type: 'select',
     name: 'format',
-    question: 'tournamentManagement.creation.questions.format.question',
+    category: 'basicInformation',
+    question: 'tournamentInit.creation.questions.format.question',
     required: true,
     options: [
-      { value: TournamentFormat.LEAGUE, label: 'tournamentManagement.creation.basicInformation.formats.league' },
-      { value: TournamentFormat.GROUP_KNOCKOUT, label: 'tournamentManagement.creation.basicInformation.formats.groupKnockout' },
-      { value: TournamentFormat.KNOCKOUT, label: 'tournamentManagement.creation.basicInformation.formats.knockout' }
+      { value: TournamentFormat.LEAGUE, label: 'tournamentInit.creation.basicInformation.formats.league' },
+      { value: TournamentFormat.GROUP_KNOCKOUT, label: 'tournamentInit.creation.basicInformation.formats.groupKnockout' },
+      { value: TournamentFormat.KNOCKOUT, label: 'tournamentInit.creation.basicInformation.formats.knockout' }
     ],
     validation: {
       fun: (value: string) => value.length > 0,
-      message: 'tournamentManagement.creation.questions.format.validation'
+      message: 'tournamentInit.creation.questions.format.validation'
     }
   }
 ]; 

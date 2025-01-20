@@ -51,3 +51,14 @@ export const SmallText: FC<TextProps> = ({ children, className = '', dataTestId 
     {children}
   </p>
 ); 
+
+export const SmallestText: FC<TextProps> = ({ children, className = '', dataTestId }) => (
+  <p className={`
+    text-xs 
+    font-roboto
+    text-custom-secondary-light dark:text-custom-secondary-dark 
+    ${className}
+  `} data-testid={dataTestId}>
+    {children}
+  </p>
+); 

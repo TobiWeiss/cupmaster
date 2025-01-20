@@ -11,9 +11,11 @@ export const de = {
       back: 'Zurück',
       select: 'Bitte wählen',
       upload: 'Hochladen',
+      uploadLogo: 'Logo hochladen',
       skip: 'Überspringen',
       yes: 'Ja',
       no: 'Nein',
+      add: 'Hinzufügen',
     },
     tournament: {
       name: 'Turniername',
@@ -50,7 +52,7 @@ export const de = {
     general: {
       title: 'CupMaster',
     },
-    tournamentManagement: {
+    tournamentInit: {
       home: {
         title: 'Turnier-Planer',
         subtitle: 'Erstellen und verwalten Sie Ihre Fußballturniere',
@@ -69,6 +71,8 @@ export const de = {
       },
       creation: {
         title: 'Turnier erstellen',
+        description: 'Wir sammeln nun Informationen, die wir für das Erstellen deines Turnieres benötigen. Um das so angenehm und einfach wie möglich zu gestalten, stellen wir dier hierzu ein paar Fragen.'
+         + ' Alle Antworten können später noch bearbeitet bzw. ergänzt werden.',
         step: 'Schritt',
         basicInformation: {
           title: 'Grundlegende Informationen',
@@ -93,7 +97,9 @@ export const de = {
           teams: 'Teams',
           team: 'Team',
           logoUrl: 'Logo',
-          name: 'Name'
+          name: 'Name',
+          noTeamsAdded: 'Keine Teams hinzugefügt',
+          namePlaceholder: 'Name des Teams'
         },
         matches: {
           matchesAgainstEachTeam: 'Spiele gegen jedes Team',
@@ -104,7 +110,8 @@ export const de = {
           numberOfGroups: 'Anzahl der Gruppen',
           matchesAgainstEachTeam: 'Spiele gegen jedes Team in der Gruppe',
           teamsQualifying: 'Qualifizierte Teams pro Gruppe',
-          matchDuration: 'Spieldauer Gruppenspiele (Minuten)'
+          matchDuration: 'Spieldauer Gruppenspiele (Minuten)',
+          matchBreak: 'Pause zwischen Gruppenspielen (Minuten)'
         },
         knockout: {
           title: 'K.O.-Runden Konfiguration',
@@ -114,6 +121,7 @@ export const de = {
             homeAndAway: 'Hin- und Rückspiel'
           },
           matchDuration: 'Spieldauer K.O.-Spiele (Minuten)',
+          matchBreak: 'Pause zwischen K.O.-Spielen (Minuten)',
           hasThirdPlace: 'Spiel um Platz 3 durchführen'
         },
         validation: {
@@ -123,7 +131,9 @@ export const de = {
           minMatches: 'Mindestens {{min}} Spiel(e)',
           maxMatches: 'Maximal {{max}} Spiele',
           minDuration: 'Mindestens {{min}} Minuten',
-          maxDuration: 'Maximal {{max}} Minuten'
+          maxDuration: 'Maximal {{max}} Minuten',
+          minMatchBreak: 'Mindestens {{min}} Minuten',
+          maxMatchBreak: 'Maximal {{max}} Minuten'
         },
         questions: {
           name: {
@@ -151,6 +161,10 @@ export const de = {
             question: 'Wann endet das Turnier?',
             validation: 'Das Enddatum muss nach dem Startdatum liegen'
           },
+          startTime: {
+            question: 'Um wie viel Uhr beginnt das Turnier?',
+            validation: 'Bitte wähle ein Startzeit aus'
+          },
           numberOfTeams: {
             question: 'Wie viele Teams nehmen am Turnier teil?',
             validation: 'Die Anzahl der Teams muss zwischen 2 und 64 liegen'
@@ -159,13 +173,25 @@ export const de = {
             question: 'Welche Teams nehmen am Turnier teil?',
             validation: 'Jedes Team muss einen Namen haben.'
           },
-          matchesAgainstEachTeam: {
+          matchesAgainstEachTeamLeague: {
             question: 'Wie oft spielt jedes Team gegen jedes andere Team?',
             validation: 'Die Anzahl der Spiele muss zwischen 1 und 4 liegen'
           },
-          matchDuration: {
+          matchDurationLeague: {
             question: 'Wie lange dauert ein Spiel?',
             validation: 'Die Spieldauer muss zwischen 10 und 120 Minuten liegen'
+          },
+          matchBreakLeague: {
+            question: 'Wie lange dauert die Pause zwischen den Spielen?',
+            validation: 'Die Pause muss zwischen 0 und 10 Minuten liegen'
+          },
+          matchDurationGroup: {
+            question: 'Wie lange dauert ein Spiel?',
+            validation: 'Die Spieldauer muss zwischen 10 und 120 Minuten liegen'
+          },
+          matchBreakGroup: {
+            question: 'Wie lange dauert die Pause zwischen den Gruppenspielen?',
+            validation: 'Die Pause muss zwischen 0 und 10 Minuten liegen'
           },
           numberOfGroups: {
             question: 'In wie viele Gruppen sollen die Teams aufgeteilt werden?',
@@ -179,10 +205,25 @@ export const de = {
             question: 'Welches Format sollen die K.O.-Spiele haben?',
             validation: 'Bitte wähle ein Format für die K.O.-Runden'
           },
+          matchDurationKnockout: {
+            question: 'Wie lange dauert ein K.O.-Spiel?',
+            validation: 'Die Spieldauer muss zwischen 5 und 120 Minuten liegen'
+          },
+          matchBreakKnockout: {
+            question: 'Wie lange dauert die Pause zwischen den K.O.-Spielen?',
+            validation: 'Die Pause muss zwischen 0 und 10 Minuten liegen'
+          },
           hasThirdPlace: {
             question: 'Soll es ein Spiel um Platz 3 geben?',
             validation: 'Bitte wähle aus, ob es ein Spiel um Platz 3 geben soll'
           }
+        },
+        categories: {
+          basicInformation: 'Grundlegendes',
+          tournamentDates: 'Zeiten',
+          teams: 'Teams',
+          mode: 'Turnierformat',
+          rules: 'Regeln'
         }
       },
     },

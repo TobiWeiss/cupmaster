@@ -26,7 +26,7 @@ describe('TournamentWizard', () => {
   const renderWizard = (elements: IWizardElement[]) => {
     return render(
       <TournamentWizard
-        wizardFields={elements}
+        wizardElements={elements}
         onComplete={mockOnComplete}
         onCancel={mockOnCancel}
       />
@@ -95,7 +95,7 @@ describe('TournamentWizard', () => {
       const nextButton = screen.getByTestId('wizard-next-button');
       fireEvent.click(nextButton);
       const validationMessage = screen.getByTestId('wizard-validation-message');
-      expect(validationMessage.textContent).toBe('tournamentManagement.creation.questions.name.validation');
+      expect(validationMessage.textContent).toBe('tournamentInit.creation.questions.name.validation');
     });
 
     it('should allow canceling from first step', () => {
@@ -110,7 +110,7 @@ describe('TournamentWizard', () => {
     it('should start with asking for the tournament name', () => {
       renderWizard(elements);
       const question = screen.getByTestId(`wizard-question`);
-      expect(question.textContent).toBe('tournamentManagement.creation.questions.name.question');
+      expect(question.textContent).toBe('tournamentInit.creation.questions.name.question');
     });
   });
 }); 

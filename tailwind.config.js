@@ -4,6 +4,9 @@ export default {
     darkMode: 'class',
     theme: {
         extend: {
+            animation: {
+                slideIn: "slideIn .25s ease-in-out forwards 1s"
+            },
             colors: {
                 custom: {
                     primary: {
@@ -18,8 +21,23 @@ export default {
                     fourth: '#006DAA'
                 }
             },
+            spacing: {
+                '128': '28rem',
+                '129': '29rem',
+                '130': '30rem',
+                '131': '31rem',
+                '132': '32rem',
+                '133': '33rem',
+                '134': '34rem',
+                '135': '35rem',
+                '136': '36rem',
+                '137': '37rem',
+                '138': '38rem',
+                '139': '39rem',
+                '140': '40rem',
+            },
             fontSize: {
-                'xs': ['1.5vh', { lineHeight: '2vh' }],
+                'xs': ['1.75vh', { lineHeight: '2vh' }],
                 'sm': ['2vh', { lineHeight: '2.5vh' }],
                 'base': ['2.5vh', { lineHeight: '3vh' }],
                 'lg': ['3vh', { lineHeight: '3.5vh' }],
@@ -34,13 +52,17 @@ export default {
                 'roboto': ['Roboto', 'sans-serif'],
             },
             keyframes: {
+                slideIn: {
+                    "0%": { opacity: 0, transform: "translateX(100%)" },
+                    "100%": { opacity: 1, transform: "translateX(0)" }
+                },
                 draw: {
-                    '0%': { 
+                    '0%': {
                         'stroke-dashoffset': '100%',
                         opacity: '0'
                     },
                     '20%': { opacity: '1' },
-                    '100%': { 
+                    '100%': {
                         'stroke-dashoffset': '0%',
                         opacity: '1'
                     }

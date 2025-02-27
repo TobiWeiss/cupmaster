@@ -1,8 +1,9 @@
 import { FC, ReactNode, ButtonHTMLAttributes } from 'react';
 import { LucideIcon } from 'lucide-react';
 import { Icon } from './Icon';
+import { BasicProps } from '../../types/BasicProps';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement>, BasicProps {
   variant?: 'primary' | 'secondary' | 'outline';
   size?: 'sm' | 'base' | 'lg';
   icon?: LucideIcon;

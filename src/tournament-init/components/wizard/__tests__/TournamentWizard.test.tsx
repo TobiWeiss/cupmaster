@@ -38,20 +38,20 @@ describe('TournamentWizard', () => {
     mockOnCancel.mockClear();
   });
 
-  describe('Basic Functionality of the Wizard', () => {
-    it('should not be possible to go to the next step without answering the question if the question is required', () => {
+  describe('Basic Functionality of the Wizard', async () => {
+    it('should not be possible to go to the next step without answering the question if the question is required', async () => {
       const element = elements.find(element => element.required);
-      renderWizard([element!]);
-      const nextButton = screen.getByTestId(`wizard-next-button`);
+      renderWizard([element!, element!]);
+      const nextButton = await screen.findByTestId(`wizard-next-button`);
       fireEvent.click(nextButton);
-      const validationMessage = screen.getByTestId(`wizard-validation-message`);
+      const validationMessage = await screen.getByTestId(`wizard-validation-message`);
       expect(validationMessage.textContent).toBeTruthy();
     });
 
     it('should be possible to go to the next step with a valid answer for a required question', () => {
       const element = elements.find(element => element.required);
-      renderWizard([element!]);
-    
+      renderWizard([element!, element!]);
+
       const nameInput = screen.getByTestId(`wizard-input-${element!.name}`);
       //fill in the input
       fireEvent.change(nameInput, { target: { value: 'Test Tournament' } });
@@ -63,7 +63,7 @@ describe('TournamentWizard', () => {
 
     it('should be possible to skip a non-required question', () => {
       const element = elements.find(element => !element.required);
-      renderWizard([element!]);
+      renderWizard([element!, element!  ]);
       const skipButton = screen.getByTestId(`wizard-skip-button`);
       expect(skipButton).not.toBeDisabled();
       fireEvent.click(skipButton);
@@ -72,7 +72,7 @@ describe('TournamentWizard', () => {
     it('should display a validation message if the user tries to go to the next step without answering a required question', () => {
       const element = elements.find(element => element.validation);
       element!.validation!.fun = () => false;
-      renderWizard([element!]);
+      renderWizard([element!, element!]);
 
 
       const input = screen.getByTestId(`wizard-input-${element!.name}`);
@@ -81,36 +81,9 @@ describe('TournamentWizard', () => {
 
       const nextButton = screen.getByTestId(`wizard-next-button`);
       fireEvent.click(nextButton);
-    
+
       const validationMessage = screen.getByTestId(`wizard-validation-message`);
       expect(validationMessage.textContent).toBeTruthy();
-    });
-
-
-
-
-
-   /* it('should show validation error when trying to proceed with empty required field', () => {
-      renderWizard();
-      const nextButton = screen.getByTestId('wizard-next-button');
-      fireEvent.click(nextButton);
-      const validationMessage = screen.getByTestId('wizard-validation-message');
-      expect(validationMessage.textContent).toBe('tournamentInit.creation.questions.name.validation');
-    });
-
-    it('should allow canceling from first step', () => {
-      renderWizard();
-      const backButton = screen.getByTestId('wizard-back-button');
-      fireEvent.click(backButton);
-      expect(mockOnCancel).toHaveBeenCalled();
-    });*/
-  });
-
-  describe('The Workflow for basic information', () => {
-    it('should start with asking for the tournament name', () => {
-      renderWizard(elements);
-      const question = screen.getByTestId(`wizard-question`);
-      expect(question.textContent).toBe('tournamentInit.creation.questions.name.question');
     });
   });
 }); 

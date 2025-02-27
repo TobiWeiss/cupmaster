@@ -16,6 +16,8 @@ export const de = {
       yes: 'Ja',
       no: 'Nein',
       add: 'Hinzufügen',
+      time: 'Uhrzeit',
+      hour: 'Stunde',
     },
     tournament: {
       name: 'Turniername',
@@ -149,9 +151,13 @@ export const de = {
             question: 'Welches Format soll dein Turnier haben?',
             validation: 'Bitte wähle ein Turnierformat aus'
           },
+          fields: {
+            question: 'Wie viele Spielfelder sollen dein Turnier haben?',
+            validation: 'Die Anzahl der Spielfelder muss zwischen 1 und 10 liegen'
+          },
           startDate: {
             question: 'Wann beginnt das Turnier?',
-            validation: 'Bitte wähle ein Startdatum aus'
+            validation: 'Bitte wähle ein Startdatum sowie eine Startzeit aus'
           },
           multipleDays: {
             question: 'Soll das Turnier mehrere Tage dauern?',

@@ -2,7 +2,6 @@ import { SmallestText } from '../../../../common/components/typography/Text';
 import { useTranslation } from 'react-i18next';
 import { CategoryIcon } from './CategoryIcon';
 import { CategoryProgressBar } from './CategoryProgressBar';
-import { useSpring } from '@react-spring/web';
 import { Category, CategoryProgress } from './CategoryIndicator';
 
 interface CategoryItemProps {
@@ -42,11 +41,12 @@ export const CategoryItem = ({
       `}
     >
       <div className="flex flex-1 justify-center items-center mb-2">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3" data-testid={`wizard-category-item-${category}`}>
           <CategoryIcon 
             category={category}
             isCompleted={isCompleted}
             isCurrent={isCurrent}
+            dataTestId={`wizard-category-completed-icon-${category}`}
           />
           <SmallestText 
             className={`

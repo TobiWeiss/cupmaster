@@ -19,7 +19,7 @@ import { leagueElements, groupElements, knockoutElements } from './configs/forma
  * @param explanation - An explanation for the element - holds the translation key (e.g. 'tournamentInit.creation.questions.name.explanation')
  */
 export interface IWizardElement {
-  type: 'text' | 'number' | 'date' | 'select' | 'image' | 'bool' | 'list';
+  type: 'text' | 'number' | 'date' | 'datetime' | 'select' | 'image' | 'bool' | 'list';
   customComponent?: (props: any) => JSX.Element;
   name: string;
   category: 'basicInformation' | 'tournamentDates' | 'teams' | 'mode' | 'rules'
@@ -37,10 +37,9 @@ export interface IWizardElement {
 
 
 export const elements: IWizardElement[] = [
- 
-  ...teamElements,
   ...basicInformationElements,
   ...dateElements,
+  ...teamElements,
   ...leagueElements,
   ...groupElements,
   ...knockoutElements

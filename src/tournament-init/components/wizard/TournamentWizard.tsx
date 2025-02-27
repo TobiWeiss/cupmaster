@@ -25,6 +25,30 @@ interface TournamentWizardProps {
  * - ElementRenderer: Displays the current question and the input element for the answer
  * - WizardNavigation: Handles the navigation buttons
  * - ProgressIndicator: Displays the progress of the wizard within the current category
+ * 
+ * Value Change Flow:
+ * 1. User interacts with an element (e.g., types in text field)
+ * 2. Element calls onChange with new value
+ * 3. handleFieldChange is called:
+ *    - Updates formData with new value
+ * 4. Effect triggers to filter questions based on new formData
+ * 5. Effect triggers to check category completion
+ * 
+ * Navigation Flow (Next/Skip):
+ * 1. User clicks next/skip button
+ * 2. handleNextStep is called:
+ *    - Sets checkValidity to true
+ *    - Validates current step (isStepValid)
+ *      - Checks if field is required
+ *      - Runs validation function if exists
+ *    - If valid or skipping:
+ *      - If last step: calls onComplete with formData
+ *      - Otherwise: increments currentStep
+ * 3. Effect triggers to:
+ *    - Update currentQuestion
+ *    - Add question to touchedQuestions
+ *    - Reset validation state
+ *    - Check category completion
  */
 export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: TournamentWizardProps) => {
   const { t } = useTranslation();
@@ -89,7 +113,7 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
     );
 
     const isCurrentCategoryComplete = currentCategoryQuestions.every(question => {
-      if(!touchedQuestions.includes(question) && !question?.showIf?.(formData)) return false;
+      if(!touchedQuestions.includes(question) && question?.showIf?.(formData)) return false;
       if(!question.required) return true;
       const value = formData[question.name];
       if (value === undefined || value === '' || value === null) return false;
@@ -102,6 +126,7 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
   }, [currentCategory, formData, wizardElements, touchedQuestions]);
 
   // Validation Functions
+  
   /**
    * Checks if the current step's value is valid
    * Takes into account required fields and validation rules
@@ -124,6 +149,7 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
   };
 
   // Event Handlers
+
   /**
    * Updates form data when a field value changes
    */
@@ -208,13 +234,12 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
   return (
     <div className="flex gap-8 min-h-128">
       {/* Category Indicator */}
-      <div className='flex flex-col gap-4 items-stretch justify-center'>
+      <div className='flex flex-col gap-4 items-stretch justify-center'   data-testid="wizard-category-indicator">
         <CategoryIndicator
           categories={categories}
           currentCategory={currentCategory}
           completedCategories={completedCategories}
           categoryProgress={getCategoryProgress()}
-          data-testid="wizard-category-indicator"
         />
       </div>
 
@@ -224,7 +249,7 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
           {/* Help Icon */}
           <div className="flex items-stretch justify-end gap-2">
             <Help 
-              explanation={t(currentQuestion?.explanation!)} 
+              explanation={t(currentQuestion?.explanation ?? '')} 
               size="lg"
               data-testid="wizard-help"
             />

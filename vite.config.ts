@@ -18,7 +18,7 @@ export default defineConfig({
     // you might also want:
     // css: true,
     deps: {
-      inline: ['@testing-library/user-event']
+      inline: ['@testing-library/user-event', 'vitest-canvas-mock'],
     }
   }
 });

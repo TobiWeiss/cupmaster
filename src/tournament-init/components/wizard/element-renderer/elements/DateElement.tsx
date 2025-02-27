@@ -2,16 +2,41 @@ import { easeInOut } from 'framer-motion';
 import { motion } from 'framer-motion';
 import { WizardElementProps } from '../ElementRenderer';
 import { ValidationIcon } from './ValidationIcon';
+import { useEffect, useState } from 'react';
+
+export const parseDateFromIsoString = (isoString: string) => {
+  if (!isoString) return '';
+  // format to yyyy-MM-dd 
+  const date = new Date(isoString);
+  const locale = date.toLocaleDateString('de-DE', { year: 'numeric', month: '2-digit', day: '2-digit' });
+
+  return `${locale.split('.')[2]}-${locale.split('.')[1]}-${locale.split('.')[0]}`
+}
 
 export const DateElement = ({ element: field, value, onChange, isValid }: WizardElementProps) => {
+  const [date, setDate] = useState<string>('');
+
+
+  const initialDate = parseDateFromIsoString(value);
+
+  useEffect(() => {
+    if (date) {
+      const dateTime = new Date(`${date}`);
+      // make this UTC
+      const utcDate = new Date(Date.UTC(dateTime.getUTCFullYear(), dateTime.getUTCMonth(), dateTime.getUTCDate(), dateTime.getUTCHours(), dateTime.getUTCMinutes()));
+      onChange(utcDate.toISOString());
+
+    }
+  }, [date]);
+
   return (
     <motion.div initial={{ opacity: 0 }}
       animate={{ opacity: 1, transition: { duration: 0.5, ease: easeInOut } }}
       exit={{ opacity: 0, transition: { duration: 0.5, ease: easeInOut } }} className="relative flex items-center w-full">
       <input
         type="date"
-        value={value || ''}
-        onChange={(e) => onChange(e.target.value)}
+        value={date || initialDate || ''}
+        onChange={(e) => setDate(e.target.value)}
         className="w-full px-4 py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light text-custom-secondary-light dark:text-custom-secondary-dark dark:bg-custom-primary-dark cursor-pointer placeholder-custom-secondary-dark dark:placeholder-custom-secondary-light"
         required={field.required}
         data-testid={`wizard-input-${field.name}`}

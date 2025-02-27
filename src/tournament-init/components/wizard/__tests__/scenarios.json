@@ -1,0 +1,380 @@
+[
+    {
+      "name": "Basic League Tournament",
+      "expectedData": {
+        "name": "Summer League 2024",
+        "logoUrl": "data:image/png;base64,dGVzdA==",
+        "format": "LEAGUE",
+        "fields": 1,
+        "startDate": "2024-06-01T09:00:00.000Z",
+        "multipleDays": true,
+        "endDate": "2024-08-31T00:00:00.000Z",
+        "numberOfTeams": 4,
+        "teams": [
+          { "name": "Team 1", "logo": "" },
+          { "name": "Team 2", "logo": "" },
+          { "name": "Team 3", "logo": "" },
+          { "name": "Team 4", "logo": "" }
+        ],
+        "leagueConfig.matchesAgainstEachTeam": 2,
+        "leagueConfig.matchDuration": 90,
+        "leagueConfig.matchBreak": 5
+      },
+      "steps": [
+        {
+          "fieldName": "name",
+          "value": "Summer League 2024",
+          "type": "text",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "logoUrl",
+          "value": "data:image/png;base64,abc123",
+          "type": "image",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "format",
+          "value": "LEAGUE",
+          "type": "select",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "fields",
+          "value": 1,
+          "type": "number",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "startDate",
+          "value": "2024-06-01T09:00:00.000Z",
+          "type": "datetime",
+          "category": "tournamentDates"
+        },
+        {
+          "fieldName": "multipleDays",
+          "value": true,
+          "type": "bool",
+          "category": "tournamentDates"
+        },
+        {
+          "fieldName": "endDate",
+          "value": "2024-08-31T00:00:00.000Z",
+          "type": "date",
+          "category": "tournamentDates"
+        },
+        {
+          "fieldName": "numberOfTeams",
+          "value": 4,
+          "type": "number",
+          "category": "teams"
+        },
+        {
+          "fieldName": "teams",
+          "value": "",
+          "values": [
+            { "name": "Team 1" },
+            { "name": "Team 2" },
+            { "name": "Team 3" },
+            { "name": "Team 4" }
+          ],
+          "type": "list",
+          "category": "teams"
+        },
+        {
+          "fieldName": "leagueConfig.matchesAgainstEachTeam",
+          "value": 2,
+          "type": "number",
+          "category": "mode"
+        },
+        {
+          "fieldName": "leagueConfig.matchDuration",
+          "value": 90,
+          "type": "number",
+          "category": "mode"
+        },
+        {
+          "fieldName": "leagueConfig.matchBreak",
+          "value": 5,
+          "type": "number",
+          "category": "mode"
+        }
+      ]
+    },
+    {
+      "name": "Knockout Tournament",
+      "expectedData": {
+        "name": "Summer Cup 2024",
+        "format": "KNOCKOUT",
+        "fields": 1,
+        "startDate": "2024-07-01T09:00:00.000Z",
+        "multipleDays": true,
+        "endDate": "2024-07-15T00:00:00.000Z",
+        "numberOfTeams": 8,
+        "teams": [
+          { "name": "Team A", "logo": "" },
+          { "name": "Team B", "logo": "" },
+          { "name": "Team C", "logo": "" },
+          { "name": "Team D", "logo": "" },
+          { "name": "Team E", "logo": "" },
+          { "name": "Team F", "logo": "" },
+          { "name": "Team G", "logo": "" },
+          { "name": "Team H", "logo": "" }
+        ],
+        "knockoutConfig.legs": "SINGLE_MATCH",
+        "knockoutConfig.matchDuration": 10,
+        "knockoutConfig.matchBreak": 2,
+        "knockoutConfig.hasThirdPlace": true
+      },
+      "steps": [
+        {
+          "fieldName": "name",
+          "value": "Summer Cup 2024",
+          "type": "text",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "logoUrl",
+          "value": "data:image/png;base64,abc123",
+          "type": "image",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "format",
+          "value": "KNOCKOUT",
+          "type": "select",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "fields",
+          "value": 1,
+          "type": "number",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "startDate",
+          "value": "2024-07-01T09:00:00.000Z",
+          "type": "datetime",
+          "category": "tournamentDates"
+        },
+        {
+          "fieldName": "multipleDays",
+          "value": true,
+          "type": "bool",
+          "category": "tournamentDates"
+        },
+        {
+          "fieldName": "endDate",
+          "value": "2024-07-15T00:00:00.000Z",
+          "type": "date",
+          "category": "tournamentDates"
+        },
+        {
+          "fieldName": "numberOfTeams",
+          "value": 8,
+          "type": "number",
+          "category": "teams"
+        },
+        {
+          "fieldName": "teams",
+          "value": "",
+          "values": [
+            { "name": "Team A" },
+            { "name": "Team B" },
+            { "name": "Team C" },
+            { "name": "Team D" },
+            { "name": "Team E" },
+            { "name": "Team F" },
+            { "name": "Team G" },
+            { "name": "Team H" }
+          ],
+          "type": "list",
+          "category": "teams"
+        },
+        {
+          "fieldName": "knockoutConfig.legs",
+          "value": "SINGLE_MATCH",
+          "type": "select",
+          "category": "mode"
+        },
+        {
+          "fieldName": "knockoutConfig.matchDuration",
+          "value": 10,
+          "type": "number",
+          "category": "mode"
+        },
+        {
+          "fieldName": "knockoutConfig.matchBreak",
+          "value": 2,
+          "type": "number",
+          "category": "mode"
+        },
+        {
+          "fieldName": "knockoutConfig.hasThirdPlace",
+          "value": true,
+          "type": "bool",
+          "category": "mode"
+        }
+      ]
+    },
+    {
+      "name": "Group + Knockout Tournament",
+      "expectedData": {
+        "name": "Champions League 2024",
+        "format": "GROUP_KNOCKOUT",
+        "logoUrl": "data:image/png;base64,dGVzdA==",
+        "fields": 1,
+        "startDate": "2024-09-01T09:00:00.000Z",
+        "multipleDays": false,
+        "numberOfTeams": 16,
+        "teams": [
+          { "name": "Group A Team 1", "logo": "" },
+          { "name": "Group A Team 2", "logo": "" },
+          { "name": "Group A Team 3", "logo": "" },
+          { "name": "Group A Team 4", "logo": "" },
+          { "name": "Group B Team 1", "logo": "" },
+          { "name": "Group B Team 2", "logo": "" },
+          { "name": "Group B Team 3", "logo": "" },
+          { "name": "Group B Team 4", "logo": "" },
+          { "name": "Group C Team 1", "logo": "" },
+          { "name": "Group C Team 2", "logo": "" },
+          { "name": "Group C Team 3", "logo": "" },
+          { "name": "Group C Team 4", "logo": "" },
+          { "name": "Group D Team 1", "logo": "" },
+          { "name": "Group D Team 2", "logo": "" },
+          { "name": "Group D Team 3", "logo": "" },
+          { "name": "Group D Team 4", "logo": "" }
+        ],
+        "groupConfig.numberOfGroups": 4,
+        "groupConfig.teamsQualifying": 2,
+        "groupConfig.matchDuration": 10,
+        "groupConfig.matchBreak": 5,
+        "knockoutConfig.legs": "HOME_AWAY",
+        "knockoutConfig.matchDuration": 90,
+        "knockoutConfig.matchBreak": 5,
+        "knockoutConfig.hasThirdPlace": true
+      },
+      "steps": [
+        {
+          "fieldName": "name",
+          "value": "Champions League 2024",
+          "type": "text",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "logoUrl",
+          "value": "data:image/png;base64,abc123",
+          "type": "image",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "format",
+          "value": "GROUP_KNOCKOUT",
+          "type": "select",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "fields",
+          "value": 1,
+          "type": "number",
+          "category": "basicInformation"
+        },
+        {
+          "fieldName": "startDate",
+          "value": "2024-09-01T09:00:00.000Z",
+          "type": "datetime",
+          "category": "tournamentDates"
+        },
+        {
+          "fieldName": "multipleDays",
+          "value": false,
+          "type": "bool",
+          "category": "tournamentDates"
+        },
+        {
+          "fieldName": "endDate",
+          "value": null,
+          "type": "date",
+          "category": "tournamentDates"
+        },
+        {
+          "fieldName": "numberOfTeams",
+          "value": 16,
+          "type": "number",
+          "category": "teams"
+        },
+        {
+          "fieldName": "teams",
+          "value": "",
+          "values": [
+            { "name": "Group A Team 1" },
+            { "name": "Group A Team 2" },
+            { "name": "Group A Team 3" },
+            { "name": "Group A Team 4" },
+            { "name": "Group B Team 1" },
+            { "name": "Group B Team 2" },
+            { "name": "Group B Team 3" },
+            { "name": "Group B Team 4" },
+            { "name": "Group C Team 1" },
+            { "name": "Group C Team 2" },
+            { "name": "Group C Team 3" },
+            { "name": "Group C Team 4" },
+            { "name": "Group D Team 1" },
+            { "name": "Group D Team 2" },
+            { "name": "Group D Team 3" },
+            { "name": "Group D Team 4" }
+          ],
+          "type": "list",
+          "category": "teams"
+        },
+        {
+          "fieldName": "groupConfig.numberOfGroups",
+          "value": 4,
+          "type": "number",
+          "category": "mode"
+        },
+        {
+          "fieldName": "groupConfig.teamsQualifying",
+          "value": 2,
+          "type": "number",
+          "category": "mode"
+        },
+        {
+          "fieldName": "groupConfig.matchDuration",
+          "value": 10,
+          "type": "number",
+          "category": "mode"
+        },
+        {
+          "fieldName": "groupConfig.matchBreak",
+          "value": 5,
+          "type": "number",
+          "category": "mode"
+        },
+        {
+          "fieldName": "knockoutConfig.legs",
+          "value": "HOME_AWAY",
+          "type": "select",
+          "category": "mode"
+        },
+        {
+          "fieldName": "knockoutConfig.matchDuration",
+          "value": 90,
+          "type": "number",
+          "category": "mode"
+        },
+        {
+          "fieldName": "knockoutConfig.matchBreak",
+          "value": 5,
+          "type": "number",
+          "category": "mode"
+        },
+        {
+          "fieldName": "knockoutConfig.hasThirdPlace",
+          "value": true,
+          "type": "bool",
+          "category": "mode"
+        }
+      ]
+    }
+]

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { IWizardElement } from '../WizardConfig';
-import { SmallestText, SmallText } from '../../../../common/components/typography/Text';
+import { SmallestText } from '../../../../common/components/typography/Text';
 import { fieldRegistry } from './elements/FieldRegistry';
 
 export interface WizardElementProps {

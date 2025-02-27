@@ -1,5 +1,5 @@
 import { TournamentFormat } from '../../../types/enums';
-import { IWizardElement } from './types';
+import { IWizardElement } from '../WizardConfig';
 
 export const basicInformationElements: IWizardElement[] = [
   {
@@ -38,6 +38,17 @@ export const basicInformationElements: IWizardElement[] = [
     validation: {
       fun: (value: string) => value.length > 0,
       message: 'tournamentInit.creation.questions.format.validation'
+    }
+  },
+  {
+    type: 'number', 
+    name: 'fields',
+    category: 'basicInformation',
+    question: 'tournamentInit.creation.questions.fields.question',
+    required: false,
+    validation: {
+      fun: (value: number) => value > 0,
+      message: 'tournamentInit.creation.questions.fields.validation'
     }
   }
 ]; 

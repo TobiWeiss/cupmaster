@@ -3,7 +3,7 @@ import { IWizardElement } from "../WizardConfig";
 
 export const dateElements: IWizardElement[] = [
   {
-    type: 'date',
+    type: 'datetime',
     name: 'startDate',
     category: 'tournamentDates',
     question: 'tournamentInit.creation.questions.startDate.question',

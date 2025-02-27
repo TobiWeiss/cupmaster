@@ -22,6 +22,7 @@ export const ThemeToggle = () => {
       onClick={() => setDarkMode(!darkMode)}
       className="px-4 py-2 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark text-custom-secondary-light dark:text-custom-secondary-dark h-[38px] w-[70px] flex items-center justify-center"
       aria-label="Toggle theme"
+      data-testid="theme-toggle"
     >
       {darkMode ? (
         <Icon 

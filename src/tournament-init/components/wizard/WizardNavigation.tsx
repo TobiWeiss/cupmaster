@@ -43,7 +43,7 @@ export const WizardNavigation = ({
         iconPosition="right"
         onClick={onNext}
         disabled={!canSkip && !isValid}
-        data-testid={canSkip ? "wizard-skip-button" : "wizard-next-button"}
+        data-testid={isLastStep ? "wizard-create-button" : canSkip ? "wizard-skip-button" : "wizard-next-button"}
       >
         <SmallestText className={`${canSkip ? '' : 'text-white'}`}>{isLastStep 
           ? t('common.create') 

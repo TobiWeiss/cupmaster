@@ -1,0 +1,187 @@
+[
+  {
+    "name": "Basic League Tournament",
+    "expectedData": {
+      "name": "Summer League 2024",
+      "logoUrl": "data:image/png;base64,dGVzdA==",
+      "format": "LEAGUE",
+      "fields": 1,
+      "startDate": "2024-06-01T09:00:00.000Z",
+      "multipleDays": true,
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "numberOfParticipants": 4,
+      "participants": [
+        { "name": "Participant 1", "logo": "" },
+        { "name": "Participant 2", "logo": "" },
+        { "name": "Participant 3", "logo": "" },
+        { "name": "Participant 4", "logo": "" }
+      ],
+      "leagueConfig.matchesAgainstEachParticipant": 2,
+      "leagueConfig.matchDuration": 90,
+      "leagueConfig.matchBreak": 5,
+      "leagueConfig.pointsForWin": 3,
+      "leagueConfig.pointsForDraw": 1,
+      "leagueConfig.tiebreakers": [
+        "GOAL_DIFFERENCE",
+        "HEAD_TO_HEAD",
+        "GOALS_SCORED"
+      ]
+    },
+    "inputData": {
+      "name": "Summer League 2024",
+      "logoUrl": "data:image/png;base64,dGVzdA==",
+      "format": "LEAGUE",
+      "fields": 1,
+      "startDate": "2024-06-01T09:00:00.000Z",
+      "multipleDays": true,
+      "endDate": "2024-08-31T00:00:00.000Z",
+      "numberOfParticipants": 4,
+      "participants": [
+        { "name": "Participant 1", "logo": "" },
+        { "name": "Participant 2", "logo": "" },
+        { "name": "Participant 3", "logo": "" },
+        { "name": "Participant 4", "logo": "" }
+      ],
+      "leagueConfig.matchesAgainstEachParticipant": 2,
+      "leagueConfig.matchDuration": 90,
+      "leagueConfig.matchBreak": 5,
+      "leagueConfig.pointsForWin": 3,
+      "leagueConfig.pointsForDraw": 1,
+      "leagueConfig.tiebreakers": [
+        "GOAL_DIFFERENCE",
+        "HEAD_TO_HEAD",
+        "GOALS_SCORED"
+      ]
+    }
+  },
+  {
+    "name": "Knockout Tournament",
+    "expectedData": {
+      "name": "Summer Cup 2024",
+      "format": "KNOCKOUT",
+      "fields": 1,
+      "startDate": "2024-07-01T09:00:00.000Z",
+      "multipleDays": true,
+      "endDate": "2024-07-15T00:00:00.000Z",
+      "numberOfParticipants": 8,
+      "participants": [
+        { "name": "Participant A", "logo": "" },
+        { "name": "Participant B", "logo": "" },
+        { "name": "Participant C", "logo": "" },
+        { "name": "Participant D", "logo": "" },
+        { "name": "Participant E", "logo": "" },
+        { "name": "Participant F", "logo": "" },
+        { "name": "Participant G", "logo": "" },
+        { "name": "Participant H", "logo": "" }
+      ],
+      "knockoutConfig.matchesAgainstEachParticipant": 1,
+      "knockoutConfig.matchDuration": 10,
+      "knockoutConfig.matchBreak": 2,
+      "knockoutConfig.hasThirdPlace": true
+    },
+    "inputData": {
+      "name": "Summer Cup 2024",
+      "format": "KNOCKOUT",
+      "fields": 1,
+      "startDate": "2024-07-01T09:00:00.000Z",
+      "multipleDays": true,
+      "endDate": "2024-07-15T00:00:00.000Z",
+      "numberOfParticipants": 8,
+      "participants": [
+        { "name": "Participant A", "logo": "" },
+        { "name": "Participant B", "logo": "" },
+        { "name": "Participant C", "logo": "" },
+        { "name": "Participant D", "logo": "" },
+        { "name": "Participant E", "logo": "" },
+        { "name": "Participant F", "logo": "" },
+        { "name": "Participant G", "logo": "" },
+        { "name": "Participant H", "logo": "" }
+      ],
+      "knockoutConfig.matchesAgainstEachParticipant": 1,
+      "knockoutConfig.matchDuration": 10,
+      "knockoutConfig.matchBreak": 2,
+      "knockoutConfig.hasThirdPlace": true
+    }
+  },
+  {
+    "name": "Group + Knockout Tournament",
+    "expectedData": {
+      "name": "Champions League 2024",
+      "format": "GROUP_KNOCKOUT",
+      "logoUrl": "data:image/png;base64,dGVzdA==",
+      "fields": 1,
+      "startDate": "2024-09-01T09:00:00.000Z",
+      "multipleDays": false,
+      "numberOfParticipants": 16,
+      "participants": [
+        { "name": "Group A Participant 1", "logo": "" },
+        { "name": "Group A Participant 2", "logo": "" },
+        { "name": "Group A Participant 3", "logo": "" },
+        { "name": "Group A Participant 4", "logo": "" },
+        { "name": "Group B Participant 1", "logo": "" },
+        { "name": "Group B Participant 2", "logo": "" },
+        { "name": "Group B Participant 3", "logo": "" },
+        { "name": "Group B Participant 4", "logo": "" },
+        { "name": "Group C Participant 1", "logo": "" },
+        { "name": "Group C Participant 2", "logo": "" },
+        { "name": "Group C Participant 3", "logo": "" },
+        { "name": "Group C Participant 4", "logo": "" },
+        { "name": "Group D Participant 1", "logo": "" },
+        { "name": "Group D Participant 2", "logo": "" },
+        { "name": "Group D Participant 3", "logo": "" },
+        { "name": "Group D Participant 4", "logo": "" }
+      ],
+      "groupConfig.numberOfGroups": 4,
+      "groupConfig.matchesAgainstEachParticipant": 1,
+      "groupConfig.matchDuration": 10,
+      "groupConfig.matchBreak": 5,
+      "groupConfig.pointsForWin": 3,
+      "groupConfig.pointsForDraw": 1,
+      "groupConfig.tiebreakers": [
+        "GOAL_DIFFERENCE",
+        "HEAD_TO_HEAD",
+        "GOALS_SCORED"
+      ],
+      "groupConfig.qualifiedParticipants": 1,
+      "knockoutConfig.matchesAgainstEachParticipant": 1,
+      "knockoutConfig.matchDuration": 10,
+      "knockoutConfig.matchBreak": 5,
+      "knockoutConfig.hasThirdPlace": true
+    },
+    "inputData": {
+      "name": "Champions League 2024",
+      "format": "GROUP_KNOCKOUT",
+      "logoUrl": "data:image/png;base64,dGVzdA==",
+      "fields": 1,
+      "startDate": "2024-09-01T09:00:00.000Z",
+      "multipleDays": false,
+      "numberOfParticipants": 16,
+      "participants": [
+        { "name": "Group A Participant 1", "logo": "" },
+        { "name": "Group A Participant 2", "logo": "" },
+        { "name": "Group A Participant 3", "logo": "" },
+        { "name": "Group A Participant 4", "logo": "" },
+        { "name": "Group B Participant 1", "logo": "" },
+        { "name": "Group B Participant 2", "logo": "" },
+        { "name": "Group B Participant 3", "logo": "" },
+        { "name": "Group B Participant 4", "logo": "" },
+        { "name": "Group C Participant 1", "logo": "" },
+        { "name": "Group C Participant 2", "logo": "" },
+        { "name": "Group C Participant 3", "logo": "" },
+        { "name": "Group C Participant 4", "logo": "" },
+        { "name": "Group D Participant 1", "logo": "" },
+        { "name": "Group D Participant 2", "logo": "" },
+        { "name": "Group D Participant 3", "logo": "" },
+        { "name": "Group D Participant 4", "logo": "" }
+      ],
+      "groupConfig.numberOfGroups": 4,
+      "groupConfig.teamsQualifying": 2,
+      "groupConfig.matchDuration": 10,
+      "groupConfig.matchBreak": 5,
+      "knockoutConfig.legs": "HOME_AWAY",
+      "knockoutConfig.matchDuration": 10,
+      "knockoutConfig.matchBreak": 5,
+      "knockoutConfig.hasThirdPlace": true
+    }
+  }
+]

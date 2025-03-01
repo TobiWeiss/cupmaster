@@ -4,7 +4,8 @@ import { elements } from '../WizardConfig';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import scenarios from './scenarios.json';
 import { TournamentFormat } from '../../../types/enums';
-import { parseDateFromIsoString, parseTimeFromIsoString } from '../element-renderer/elements/DateTimeElement';
+import { parseDateFromIsoString, parseTimeFromIsoString } from '../../../utils/DateUtils';
+
 
 // Mock translations
 vi.mock('react-i18next', () => ({
@@ -100,18 +101,18 @@ describe('TournamentWizard Scenarios', () => {
         }
     };
 
-    const fillTeamInformation = (numberOfTeams: number, teams: Array<{ name: string }>) => {
-        // Number of Teams
-        const numberOfTeamsInput = screen.getByTestId('wizard-input-numberOfTeams');
-        fireEvent.change(numberOfTeamsInput, { target: { value: numberOfTeams } });
+    const fillParticipantInformation = (numberOfParticipants: number, participants: Array<{ name: string }>) => {
+        // Number of Participants
+        const numberOfParticipantsInput = screen.getByTestId('wizard-input-numberOfParticipants');
+        fireEvent.change(numberOfParticipantsInput, { target: { value: numberOfParticipants } });
         fireEvent.click(screen.getByTestId('wizard-next-button'));
 
         // Team List
-        const addTeamButton = screen.getByTestId('wizard-team-list-button-add');
-        teams.forEach(team => {
-            fireEvent.click(addTeamButton);
-            const teamNameInput = screen.getByPlaceholderText('tournamentInit.creation.teams.namePlaceholder');
-            fireEvent.change(teamNameInput, { target: { value: team.name } });
+        const addParticipantButton = screen.getByTestId('wizard-participant-list-button-add');
+        participants.forEach(participant => {
+            fireEvent.click(addParticipantButton);
+            const participantNameInput = screen.getByPlaceholderText('tournamentInit.creation.participants.namePlaceholder');
+            fireEvent.change(participantNameInput, { target: { value: participant.name } });
             fireEvent.click(screen.getByText('common.save'));
         });
         fireEvent.click(screen.getByTestId('wizard-next-button'));
@@ -119,7 +120,7 @@ describe('TournamentWizard Scenarios', () => {
 
     const fillLeagueConfiguration = (matchesPerTeam: number, duration: number, breakTime: number) => {
         // Matches Against Each Team
-        const matchesInput = screen.getByTestId('wizard-input-leagueConfig.matchesAgainstEachTeam');
+        const matchesInput = screen.getByTestId('wizard-input-leagueConfig.matchesAgainstEachParticipant');
         fireEvent.change(matchesInput, { target: { value: matchesPerTeam } });
         fireEvent.click(screen.getByTestId('wizard-next-button'));
 
@@ -205,11 +206,11 @@ describe('TournamentWizard Scenarios', () => {
                 await verifyCompletionStatus('tournamentDates');
 
                 // Fill team information
-                fillTeamInformation(
+                fillParticipantInformation(
                     scenario.steps[7].value as number,
                     scenario.steps[8].values!
                 );
-                await verifyCompletionStatus('teams');
+                await verifyCompletionStatus('participants');
 
                 // Fill format-specific configuration
                 switch (scenario.expectedData.format) {

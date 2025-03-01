@@ -5,13 +5,13 @@ import { IWizardElement } from '../WizardConfig';
 export const leagueElements: IWizardElement[] = [
   {
     type: 'number',
-    name: 'leagueConfig.matchesAgainstEachTeam',
+    name: 'leagueConfig.matchesAgainstEachParticipant',
     category: 'mode',
-    question: 'tournamentInit.creation.questions.matchesAgainstEachTeamLeague.question',
+    question: 'tournamentInit.creation.questions.matchesAgainstEachParticipantLeague.question',
     required: true,
     validation: {
       fun: (value: number) => value >= 1 && value <= 4,
-      message: 'tournamentInit.creation.questions.matchesAgainstEachTeamLeague.validation'
+      message: 'tournamentInit.creation.questions.matchesAgainstEachParticipantLeague.validation'
     },
     showIf: (data) => data.format === TournamentFormat.LEAGUE
   },

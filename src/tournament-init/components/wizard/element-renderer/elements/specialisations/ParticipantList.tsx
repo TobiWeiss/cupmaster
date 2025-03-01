@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Button } from '../../../../../../common/components/ui/Button';
-import { Plus, Trash2, Edit2, Info, Save, X, Upload } from 'lucide-react';
+import { Plus, Trash2, Info, Save, X, Upload } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { SmallestText } from '../../../../../../common/components/typography/Text';
 import { Icon } from '../../../../../../common/components/ui/Icon';
@@ -10,60 +10,55 @@ interface ListItem {
   name: string;
 }
 
-export interface Team extends ListItem {
+export interface Participant extends ListItem {
   logo?: string;
 }
 
 export interface ListComponentProps<T extends ListItem> {
   items: T[];
-  onChange: (teams: T[]) => void;
+  onChange: (participants: T[]) => void;
   maxItems?: number;
 }
 
-/**
- * List component for managing teams in the tournament wizard
- */
-export const TeamList = ({
-  items: teams,
+export const ParticipantList = ({
+  items: participants,
   onChange,
   maxItems,
-}: ListComponentProps<Team>) => {
+}: ListComponentProps<Participant>) => {
   const { t } = useTranslation();
   const [isAdding, setIsAdding] = useState(false);
   const [editingName, setEditingName] = useState<string | null>(null);
 
-
-
-  const handleAdd = (newTeam: Team) => {
-    onChange([...teams, newTeam]);
+  const handleAdd = (newParticipant: Participant) => {
+    onChange([...participants, newParticipant]);
   };
 
-  const handleEdit = (updatedTeam: Team) => {
+  const handleEdit = (updatedParticipant: Participant) => {
     onChange(
-      teams.map(team =>
-        team.name === editingName
-          ? updatedTeam
-          : team
+      participants.map(participant =>
+        participant.name === editingName
+          ? updatedParticipant
+          : participant
       )
     );
     setEditingName(null);
   };
 
   const handleDelete = (name: string) => {
-    onChange(teams.filter(team => team.name !== name));
+    onChange(participants.filter(participant => participant.name !== name));
   };
 
-  const TeamForm = ({
-    team,
+  const ParticipantForm = ({
+    participant,
     onSave,
     onCancel
   }: {
-    team: Team | null;
-    onSave: (team: Team) => void;
+    participant: Participant | null;
+    onSave: (participant: Participant) => void;
     onCancel: () => void;
   }) => {
-    const [name, setName] = useState(team?.name || '');
-    const [logo, setLogo] = useState(team?.logo || '');
+    const [name, setName] = useState(participant?.name || '');
+    const [logo, setLogo] = useState(participant?.logo || '');
 
     const handleSubmit = (e: React.FormEvent) => {
       e.preventDefault();
@@ -71,14 +66,17 @@ export const TeamList = ({
     };
 
     return (
-      <motion.div   initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.5, ease: easeInOut } }}
-      exit={{ opacity: 0, transition: { duration: 0.5, ease: easeInOut } }} className="flex flex-col items-center gap-4">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1, transition: { duration: 0.5, ease: easeInOut } }}
+        exit={{ opacity: 0, transition: { duration: 0.5, ease: easeInOut } }} 
+        className="flex flex-col items-center gap-4"
+      >
         <input
           type="text"
           value={name}
           onChange={e => setName(e.target.value)}
-          placeholder={t('tournamentInit.creation.teams.namePlaceholder')}
+          placeholder={t('tournamentInit.creation.participants.namePlaceholder')}
           className="w-full px-4 py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark placeholder-custom-secondary-light dark:placeholder-custom-secondary-dark text-custom-secondary-light dark:text-custom-secondary-dark"
           autoFocus
         />
@@ -128,41 +126,41 @@ export const TeamList = ({
     );
   };
 
-  const canAddMore = !maxItems || teams.length < maxItems;
+  const canAddMore = !maxItems || participants.length < maxItems;
 
   return (
     <div className="space-y-4">
-      {teams.length > 0 ? (
+      {participants.length > 0 ? (
         <div className="flex flex-wrap gap-2 max-h-80 overflow-y-auto">
-          {teams.map(team => (
+          {participants.map(participant => (
             <div
-              key={team.name}
+              key={participant.name}
               className="flex min-w-80 items-center justify-between p-3 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark "
             >
-              {editingName === team.name ? (
-                <TeamForm
-                  team={team}
+              {editingName === participant.name ? (
+                <ParticipantForm
+                  participant={participant}
                   onSave={handleEdit}
                   onCancel={() => setEditingName(null)}
                 />
               ) : (
                 <>
                   <div className="flex items-center gap-3 flex-1">
-                    {team.logo && (
+                    {participant.logo && (
                       <img
-                        src={team.logo}
-                        alt={team.name}
+                        src={participant.logo}
+                        alt={participant.name}
                         className="w-8 h-8 rounded-full object-cover"
                       />
                     )}
-                    <SmallestText className='mr-2'>{team.name}</SmallestText>
+                    <SmallestText className='mr-2'>{participant.name}</SmallestText>
                   </div>
                   <div className="flex gap-2">
                     <Button
                       variant="outline"
                       size="sm"
                       icon={Trash2}
-                      onClick={() => handleDelete(team.name)}
+                      onClick={() => handleDelete(participant.name)}
                     />
                   </div>
                 </>
@@ -174,15 +172,15 @@ export const TeamList = ({
         <div className="text-center py-8 flex items-center justify-center gap-2">
           <Icon icon={Info} size="base" className="text-custom-secondary-light dark:text-custom-secondary-dark" />
           <SmallestText className="text-center py-8 text-custom-secondary-light dark:text-custom-secondary-dark">
-            {t('tournamentInit.creation.teams.noTeamsAdded')}
+            {t('tournamentInit.creation.participants.noParticipantsAdded')}
           </SmallestText>
         </div>
       )}
 
       {isAdding ? (
         <div className="p-3 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark">
-          <TeamForm
-            team={null}
+          <ParticipantForm
+            participant={null}
             onSave={handleAdd}
             onCancel={() => setIsAdding(false)}
           />
@@ -194,7 +192,7 @@ export const TeamList = ({
           iconPosition='right'
           onClick={() => setIsAdding(true)}
           className="w-full"
-          data-testid={`wizard-team-list-button-add`}
+          data-testid={`wizard-participant-list-button-add`}
         >
           <SmallestText>{t('common.add')}</SmallestText>
         </Button>

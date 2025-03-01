@@ -1,18 +1,16 @@
 import { useNavigate } from 'react-router-dom';
-import { useTournamentService } from '../hooks/useTournamentService';
 import { TournamentWizard } from '../components/wizard/TournamentWizard';
 import { elements } from '../components/wizard/WizardConfig';
 import { t } from 'i18next';
-import { SmallText, SubHeading } from '../../common/components/typography/Text';
-
+import { PageInfo } from '../../common/components/ui/PageInfo';
+import { Tournament } from '../types/tournament';
 
 export const InitTournamentPage = () => {
   const navigate = useNavigate();
-  const tournamentService = useTournamentService();
 
   const handleComplete = async (data: Record<string, any>) => {
-    console.log(data);
-    //await tournamentService.createTournament(data);
+    const tournament = Tournament.fromFormData(data);
+    console.log(tournament);
     navigate('/');
   };
 
@@ -21,20 +19,18 @@ export const InitTournamentPage = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto my-20">
-    <SubHeading className="text-start mb-20" data-testid="wizard-title">
-      {t('tournamentInit.creation.title')}
-    </SubHeading>
+    <div className="max-w-7xl mx-auto my-5">
+      <PageInfo
+        title={t('tournamentInit.creation.title')}
+        description={t('tournamentInit.creation.description')}
+        className="my-10"
+      />
 
-    <SmallText className="mb-20" >
-      {t('tournamentInit.creation.description')}
-    </SmallText>
-
-    <TournamentWizard
-      onComplete={handleComplete}
-      onCancel={handleCancel}
-      wizardElements={elements}
-    />
+      <TournamentWizard
+        onComplete={handleComplete}
+        onCancel={handleCancel}
+        wizardElements={elements}
+      />
     </div>
   );
 };

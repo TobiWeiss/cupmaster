@@ -25,7 +25,7 @@ export const de = {
       endDate: 'Enddatum',
       format: 'Turnierformat',
       formats: {
-        league: 'Liga (Alle Teams in einer Gruppe)',
+        league: 'Liga (Alle Teilnehmer in einer Gruppe)',
         groupKnockout: 'Gruppenphase + K.O.-Runden',
         knockout: 'Nur K.O.-Runden',
       },
@@ -36,13 +36,13 @@ export const de = {
       },
       config: {
         formatConfig: 'Formatkonfiguration',
-        matchesAgainstEach: 'Spiele gegen jedes Team',
+        matchesAgainstEach: 'Spiele gegen jeden Teilnehmer',
         pointsForWin: 'Punkte für Sieg',
         pointsForDraw: 'Punkte für Unentschieden',
         tiebreakers: 'Reihenfolge der Gleichstandsregeln',
         numberOfGroups: 'Anzahl der Gruppen',
-        teamsPerGroup: 'Teams pro Gruppe',
-        teamsQualifying: 'Qualifizierte Teams pro Gruppe',
+        participantsPerGroup: 'Teilnehmer pro Gruppe',
+        participantsQualifying: 'Qualifizierte Teilnehmer pro Gruppe',
         qualificationMode: 'Qualifikationsmodus',
         knockoutMatches: 'K.O.-Spiele',
         awayGoalsRule: 'Auswärtstorregel',
@@ -93,32 +93,32 @@ export const de = {
           multipleDays: 'Mehrere Tage',
           endDate: 'Enddatum'
         },
-        teams: {
-          title: 'Teams',
-          numberOfTeams: 'Anzahl der Teams',
-          teams: 'Teams',
-          team: 'Team',
+        participants: {
+          title: 'Teilnehmer',
+          numberOfParticipants: 'Anzahl der Teilnehmer',
+          participants: 'Teilnehmer',
+          participant: 'Teilnehmer',
           logoUrl: 'Logo',
           name: 'Name',
-          noTeamsAdded: 'Keine Teams hinzugefügt',
-          namePlaceholder: 'Name des Teams'
+          noParticipantsAdded: 'Keine Teilnehmer hinzugefügt',
+          namePlaceholder: 'Name des Teilnehmers'
         },
         matches: {
-          matchesAgainstEachTeam: 'Spiele gegen jedes Team',
+          matchesAgainstEachParticipant: 'Spiele gegen jeden Teilnehmer',
           matchDuration: 'Spieldauer (Minuten)'
         },
         group: {
           title: 'Gruppenphase-Konfiguration',
           numberOfGroups: 'Anzahl der Gruppen',
-          matchesAgainstEachTeam: 'Spiele gegen jedes Team in der Gruppe',
-          teamsQualifying: 'Qualifizierte Teams pro Gruppe',
+          matchesAgainstEachParticipant: 'Spiele gegen jeden Teilnehmer in der Gruppe',
+          participantsQualifying: 'Qualifizierte Teilnehmer pro Gruppe',
           matchDuration: 'Spieldauer Gruppenspiele (Minuten)',
           matchBreak: 'Pause zwischen Gruppenspielen (Minuten)'
         },
         knockout: {
           title: 'K.O.-Runden Konfiguration',
-          format: 'K.O.-Runden Format',
-          format: {
+          matchFormat: 'K.O.-Runden Format',
+          formats: {
             singleMatch: 'Einzelspiel',
             homeAndAway: 'Hin- und Rückspiel'
           },
@@ -171,16 +171,16 @@ export const de = {
             question: 'Um wie viel Uhr beginnt das Turnier?',
             validation: 'Bitte wähle ein Startzeit aus'
           },
-          numberOfTeams: {
-            question: 'Wie viele Teams nehmen am Turnier teil?',
-            validation: 'Die Anzahl der Teams muss zwischen 2 und 64 liegen'
+          numberOfParticipants: {
+            question: 'Wie viele Teilnehmer nehmen am Turnier teil?',
+            validation: 'Die Anzahl der Teilnehmer muss zwischen 2 und 64 liegen'
           },
-          teams: {
-            question: 'Welche Teams nehmen am Turnier teil?',
-            validation: 'Jedes Team muss einen Namen haben.'
+          participants: {
+            question: 'Welche Teilnehmer nehmen am Turnier teil?',
+            validation: 'Jeder Teilnehmer muss einen Namen haben.'
           },
-          matchesAgainstEachTeamLeague: {
-            question: 'Wie oft spielt jedes Team gegen jedes andere Team?',
+          matchesAgainstEachParticipantLeague: {
+            question: 'Wie oft spielt jeder Teilnehmer gegen jeden anderen Teilnehmer?',
             validation: 'Die Anzahl der Spiele muss zwischen 1 und 4 liegen'
           },
           matchDurationLeague: {
@@ -200,12 +200,12 @@ export const de = {
             validation: 'Die Pause muss zwischen 0 und 10 Minuten liegen'
           },
           numberOfGroups: {
-            question: 'In wie viele Gruppen sollen die Teams aufgeteilt werden?',
+            question: 'In wie viele Gruppen sollen die Teilnehmer aufgeteilt werden?',
             validation: 'Die Anzahl der Gruppen muss zwischen 2 und 8 liegen'
           },
-          teamsQualifying: {
-            question: 'Wie viele Teams qualifizieren sich pro Gruppe?',
-            validation: 'Die Anzahl der qualifizierten Teams muss kleiner als die Anzahl der Teams pro Gruppe sein'
+          participantsQualifying: {
+            question: 'Wie viele Teilnehmer qualifizieren sich pro Gruppe?',
+            validation: 'Die Anzahl der qualifizierten Teilnehmer muss kleiner als die Anzahl der Teilnehmer pro Gruppe sein'
           },
           knockoutFormat: {
             question: 'Welches Format sollen die K.O.-Spiele haben?',
@@ -227,7 +227,7 @@ export const de = {
         categories: {
           basicInformation: 'Grundlegendes',
           tournamentDates: 'Zeiten',
-          teams: 'Teams',
+          participants: 'Teilnehmer',
           mode: 'Turnierformat',
           rules: 'Regeln'
         }

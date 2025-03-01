@@ -14,7 +14,7 @@ interface CategoryItemProps {
 const CATEGORY_LABELS = {
   basicInformation: 'tournamentInit.creation.categories.basicInformation',
   tournamentDates: 'tournamentInit.creation.categories.tournamentDates',
-  teams: 'tournamentInit.creation.categories.teams',
+  participants: 'tournamentInit.creation.categories.participants',
   mode: 'tournamentInit.creation.categories.mode',
   rules: 'tournamentInit.creation.categories.rules',
 } as const;

@@ -7,9 +7,10 @@ import { WizardNavigation } from './WizardNavigation';
 import { useState, useEffect } from 'react';
 import { LargeText } from '../../../common/components/typography/Text';
 import { Category, CategoryIndicator } from './progress-indicator/CategoryIndicator';
+import { easeInOut, motion } from 'framer-motion';
 
 interface TournamentWizardProps {
-  onComplete: (data: any) => void;
+  onComplete: (data: Record<string, any>) => void;
   onCancel: () => void;
   wizardElements: IWizardElement[];
 }
@@ -24,7 +25,6 @@ interface TournamentWizardProps {
  * - CategoryIndicator: Displays the current category and the progress within all available categories
  * - ElementRenderer: Displays the current question and the input element for the answer
  * - WizardNavigation: Handles the navigation buttons
- * - ProgressIndicator: Displays the progress of the wizard within the current category
  * 
  * Value Change Flow:
  * 1. User interacts with an element (e.g., types in text field)
@@ -61,20 +61,20 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
   const [currentQuestion, setCurrentQuestion] = useState<IWizardElement>(activeQuestions[currentStep]);
   const [checkValidity, setCheckValidity] = useState(false);
   const [completedCategories, setCompletedCategories] = useState<Category[]>([]);
-  
+
   // Get unique categories from wizard fields
   const categories = Array.from(new Set(wizardElements.map(field => field.category)));
-  
+
   // Get current category
   const currentCategory = currentQuestion?.category;
 
   // Navigation State
   const isLastStep = currentStep === activeQuestions.length - 1;
   const isFirstStep = currentStep === 0;
-  const canSkip = !currentQuestion?.required && 
-    (formData[currentQuestion?.name] === undefined || 
-     formData[currentQuestion?.name] === '' || 
-     formData[currentQuestion?.name] === null);
+  const canSkip = !currentQuestion?.required &&
+    (formData[currentQuestion?.name] === undefined ||
+      formData[currentQuestion?.name] === '' ||
+      formData[currentQuestion?.name] === null);
 
   /**
    * Updates the current question when the step changes
@@ -89,7 +89,7 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
    * Some questions are only shown based on previous answers
    */
   useEffect(() => {
-    const filteredQuestions = wizardElements.filter(field => 
+    const filteredQuestions = wizardElements.filter(field =>
       !field.showIf || field.showIf(formData)
     );
     setActiveQuestions(filteredQuestions);
@@ -113,8 +113,8 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
     );
 
     const isCurrentCategoryComplete = currentCategoryQuestions.every(question => {
-      if(!touchedQuestions.includes(question) && question?.showIf?.(formData)) return false;
-      if(!question.required) return true;
+      if (!touchedQuestions.includes(question) && question?.showIf?.(formData)) return false;
+      if (!question.required) return true;
       const value = formData[question.name];
       if (value === undefined || value === '' || value === null) return false;
       return question.validation?.fun(value) ?? true;
@@ -126,12 +126,12 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
   }, [currentCategory, formData, wizardElements, touchedQuestions]);
 
   // Validation Functions
-  
+
   /**
    * Checks if the current step's value is valid
    * Takes into account required fields and validation rules
    */
-  const isStepValid = () : boolean => {
+  const isStepValid = (): boolean => {
     const value = formData[currentQuestion?.name];
 
     // Optional fields can be empty
@@ -186,7 +186,7 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
    */
   const handleNextStep = () => {
     setCheckValidity(true);
-    
+
     if (!isStepValid()) {
       return;
     }
@@ -212,16 +212,16 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
    * Gets progress information for each category
    */
   const getCategoryProgress = () => {
-    const progress: {[key: string]: { current: number; total: number }} = {};
-    
+    const progress: { [key: string]: { current: number; total: number } } = {};
+
     categories.forEach(category => {
       const categoryQuestions = activeQuestions.filter(q => q.category === category);
-      const currentIndex = category === currentCategory 
-        ? getCurrentCategoryStep() 
-        : completedCategories.includes(category) 
-          ? categoryQuestions.length 
+      const currentIndex = category === currentCategory
+        ? getCurrentCategoryStep()
+        : completedCategories.includes(category)
+          ? categoryQuestions.length
           : 0;
-      
+
       progress[category] = {
         current: currentIndex,
         total: categoryQuestions.length
@@ -234,27 +234,33 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
   return (
     <div className="flex gap-8 min-h-128">
       {/* Category Indicator */}
-      <div className='flex flex-col gap-4 items-stretch justify-center'   data-testid="wizard-category-indicator">
-        <CategoryIndicator
-          categories={categories}
-          currentCategory={currentCategory}
-          completedCategories={completedCategories}
-          categoryProgress={getCategoryProgress()}
-        />
+
+      <div className='flex flex-col gap-4 items-stretch justify-center' data-testid="wizard-category-indicator">   
+          <CategoryIndicator
+            categories={categories}
+            currentCategory={currentCategory}
+            completedCategories={completedCategories}
+            categoryProgress={getCategoryProgress()}
+          />
       </div>
 
+
       {/* Main Wizard Content */}
+      
+      <motion.div initial={{ x: 200, opacity: 0 }}
+          animate={{ x: 0, opacity: 1, transition: { delay: (categories.length) * 0.5, ease: easeInOut } }}
+          exit={{ x: 200, opacity: 0, transition: { delay: (categories.length) * 0.5, ease: easeInOut } }} className='flex flex-col flex-1'>
       <div className="flex flex-col flex-1">
         <Card className="flex-1 min-h-135 max-h-135">
           {/* Help Icon */}
           <div className="flex items-stretch justify-end gap-2">
-            <Help 
-              explanation={t(currentQuestion?.explanation ?? '')} 
+            <Help
+              explanation={t(currentQuestion?.explanation ?? '')}
               size="lg"
               data-testid="wizard-help"
             />
           </div>
-          
+
           {/* Question Display */}
           <div className="text-center mb-8 mx-8">
             <div className="flex items-center justify-center gap-2" data-testid="wizard-question">
@@ -286,7 +292,9 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
             data-testid="wizard-actions"
           />
         </Card>
+      
       </div>
+      </motion.div>
     </div>
   );
 }; 

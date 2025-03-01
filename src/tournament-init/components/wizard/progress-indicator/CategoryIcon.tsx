@@ -1,4 +1,4 @@
-import { Calendar, Check, Info, Settings, Users } from 'lucide-react';
+import { BookA, Calendar, Check, Info, Settings, Users } from 'lucide-react';
 import { Icon } from '../../../../common/components/ui/Icon';
 import { Category } from './CategoryIndicator';
 import { motion } from 'framer-motion';
@@ -11,9 +11,9 @@ interface CategoryIconProps extends BasicProps {
 }
 
 const CATEGORY_ICONS = {
-  basicInformation: Info,
+  basicInformation: BookA,
   tournamentDates: Calendar,
-  teams: Users,
+  participants: Users,
   mode: Settings,
   rules: Info,
 } as const;

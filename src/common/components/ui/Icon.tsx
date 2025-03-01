@@ -27,7 +27,7 @@ export const Icon: FC<IconProps> = ({
 }) => {
   return (
     <IconComponent 
-      className={`${sizeMap[size]} ${className}`}
+      className={`${sizeMap[size]} ${className} text-custom-secondary-light dark:text-custom-secondary-dark`}
     />
   );
 }; 

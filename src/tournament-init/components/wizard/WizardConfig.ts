@@ -2,6 +2,7 @@ import { basicInformationElements } from './configs/basicInformationConfig';
 import { dateElements } from './configs/dateConfig';
 import { teamElements } from './configs/teamsConfig';
 import { leagueElements, groupElements, knockoutElements } from './configs/formatConfigs';
+import { participantElements } from './configs/participantsConfig';
 
 
 /**
@@ -22,7 +23,7 @@ export interface IWizardElement {
   type: 'text' | 'number' | 'date' | 'datetime' | 'select' | 'image' | 'bool' | 'list';
   customComponent?: (props: any) => JSX.Element;
   name: string;
-  category: 'basicInformation' | 'tournamentDates' | 'teams' | 'mode' | 'rules'
+  category: 'basicInformation' | 'tournamentDates' | 'participants' | 'mode' | 'rules'
   question: string;
   placeholder?: string;
   required?: boolean;
@@ -39,7 +40,7 @@ export interface IWizardElement {
 export const elements: IWizardElement[] = [
   ...basicInformationElements,
   ...dateElements,
-  ...teamElements,
+  ...participantElements,
   ...leagueElements,
   ...groupElements,
   ...knockoutElements

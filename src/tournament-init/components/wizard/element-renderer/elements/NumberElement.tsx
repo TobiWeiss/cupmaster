@@ -1,22 +1,58 @@
-import { easeInOut } from 'framer-motion';
-import { motion } from 'framer-motion';
 import { WizardElementProps } from '../ElementRenderer';
-import { ValidationIcon } from './ValidationIcon';
 
-export const NumberElement = ({ element: field, value, onChange, isValid }: WizardElementProps) => {
+export const NumberElement = ({ element: field, value, onChange }: WizardElementProps) => {
+  const handleIncrement = () => {
+    onChange(Number(value) + 1);
+  };
+
+  const handleDecrement = () => {
+    if (Number(value) <= 0) return;
+    onChange(Number(value) - 1);
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = Number(e.target.value);
+    if (isNaN(newValue)) return;
+    onChange(newValue);
+  };
+
   return (
-    <motion.div initial={{ opacity: 0 }}
-      animate={{ opacity: 1, transition: { duration: 0.5, ease: easeInOut } }}
-      exit={{ opacity: 0, transition: { duration: 0.5, ease: easeInOut } }} className="relative flex items-center w-full">
+    <div className="flex items-center justify-center gap-4">
+      <button
+        type="button"
+        onClick={handleDecrement}
+        className="w-10 h-20 text-2xl font-bold rounded-full bg-custom-primary-light dark:bg-custom-primary-dark 
+                 text-custom-contrast-text-light dark:text-custom-contrast-text-dark
+                 disabled:opacity-50 disabled:cursor-not-allowed
+                 hover:bg-custom-primary-light-hover dark:hover:bg-custom-primary-dark-hover
+                 focus:outline-none focus:ring-2 focus:ring-custom-primary-light dark:focus:ring-custom-primary-dark"
+        aria-label="Decrease value"
+      >
+        -
+      </button>
       <input
         type="number"
-        value={value || ''}
-        onChange={(e) => onChange(Number(e.target.value))}
-        className="w-full px-4 py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark placeholder-custom-secondary-dark dark:placeholder-custom-secondary-light text-custom-secondary-light dark:text-custom-secondary-dark"
-        required={field.required}
-        data-testid={`wizard-input-${field.name}`}
+        value={value || 0}
+        onChange={handleInputChange}
+
+        data-testid={`wizard-input-${field.name}`	}
+        className="text-2xl w-40 bg-transparent border-b-2 border-custom-primary-light dark:border-custom-primary-dark
+                 focus:outline-none focus:border-custom-primary-light-hover dark:focus:border-custom-primary-dark-hover
+                 disabled:opacity-50 disabled:cursor-not-allowed"
       />
-      <ValidationIcon value={value} isValid={isValid} />
-    </motion.div>
+      
+      <button
+        type="button"
+        onClick={handleIncrement}
+        className="w-10 h-20 text-2xl font-bold rounded-full bg-custom-primary-light dark:bg-custom-primary-dark
+                 text-custom-contrast-text-light dark:text-custom-contrast-text-dark
+                 disabled:opacity-50 disabled:cursor-not-allowed
+                 hover:bg-custom-primary-light-hover dark:hover:bg-custom-primary-dark-hover
+                 focus:outline-none focus:ring-2 focus:ring-custom-primary-light dark:focus:ring-custom-primary-dark"
+        aria-label="Increase value"
+      >
+        +
+      </button>
+    </div>
   );
 }; 

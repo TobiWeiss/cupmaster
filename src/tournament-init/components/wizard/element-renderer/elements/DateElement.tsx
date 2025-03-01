@@ -3,15 +3,7 @@ import { motion } from 'framer-motion';
 import { WizardElementProps } from '../ElementRenderer';
 import { ValidationIcon } from './ValidationIcon';
 import { useEffect, useState } from 'react';
-
-export const parseDateFromIsoString = (isoString: string) => {
-  if (!isoString) return '';
-  // format to yyyy-MM-dd 
-  const date = new Date(isoString);
-  const locale = date.toLocaleDateString('de-DE', { year: 'numeric', month: '2-digit', day: '2-digit' });
-
-  return `${locale.split('.')[2]}-${locale.split('.')[1]}-${locale.split('.')[0]}`
-}
+import { parseDateFromIsoString } from '../../../../utils/DateUtils';
 
 export const DateElement = ({ element: field, value, onChange, isValid }: WizardElementProps) => {
   const [date, setDate] = useState<string>('');

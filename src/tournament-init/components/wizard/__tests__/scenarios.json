@@ -9,14 +9,14 @@
         "startDate": "2024-06-01T09:00:00.000Z",
         "multipleDays": true,
         "endDate": "2024-08-31T00:00:00.000Z",
-        "numberOfTeams": 4,
-        "teams": [
-          { "name": "Team 1", "logo": "" },
-          { "name": "Team 2", "logo": "" },
-          { "name": "Team 3", "logo": "" },
-          { "name": "Team 4", "logo": "" }
+        "numberOfParticipants": 4,
+        "participants": [
+          { "name": "Participant 1", "logo": "" },
+          { "name": "Participant 2", "logo": "" },
+          { "name": "Participant 3", "logo": "" },
+          { "name": "Participant 4", "logo": "" }
         ],
-        "leagueConfig.matchesAgainstEachTeam": 2,
+        "leagueConfig.matchesAgainstEachParticipant": 2,
         "leagueConfig.matchDuration": 90,
         "leagueConfig.matchBreak": 5
       },
@@ -64,25 +64,25 @@
           "category": "tournamentDates"
         },
         {
-          "fieldName": "numberOfTeams",
+          "fieldName": "numberOfParticipants",
           "value": 4,
           "type": "number",
-          "category": "teams"
+          "category": "participants"
         },
         {
-          "fieldName": "teams",
+          "fieldName": "participants",
           "value": "",
           "values": [
-            { "name": "Team 1" },
-            { "name": "Team 2" },
-            { "name": "Team 3" },
-            { "name": "Team 4" }
+            { "name": "Participant 1" },
+            { "name": "Participant 2" },
+            { "name": "Participant 3" },
+            { "name": "Participant 4" }
           ],
           "type": "list",
-          "category": "teams"
+          "category": "participants"
         },
         {
-          "fieldName": "leagueConfig.matchesAgainstEachTeam",
+          "fieldName": "leagueConfig.matchesAgainstEachParticipant",
           "value": 2,
           "type": "number",
           "category": "mode"
@@ -110,16 +110,16 @@
         "startDate": "2024-07-01T09:00:00.000Z",
         "multipleDays": true,
         "endDate": "2024-07-15T00:00:00.000Z",
-        "numberOfTeams": 8,
-        "teams": [
-          { "name": "Team A", "logo": "" },
-          { "name": "Team B", "logo": "" },
-          { "name": "Team C", "logo": "" },
-          { "name": "Team D", "logo": "" },
-          { "name": "Team E", "logo": "" },
-          { "name": "Team F", "logo": "" },
-          { "name": "Team G", "logo": "" },
-          { "name": "Team H", "logo": "" }
+        "numberOfParticipants": 8,
+        "participants": [
+          { "name": "Participant A", "logo": "" },
+          { "name": "Participant B", "logo": "" },
+          { "name": "Participant C", "logo": "" },
+          { "name": "Participant D", "logo": "" },
+          { "name": "Participant E", "logo": "" },
+          { "name": "Participant F", "logo": "" },
+          { "name": "Participant G", "logo": "" },
+          { "name": "Participant H", "logo": "" }
         ],
         "knockoutConfig.legs": "SINGLE_MATCH",
         "knockoutConfig.matchDuration": 10,
@@ -170,26 +170,26 @@
           "category": "tournamentDates"
         },
         {
-          "fieldName": "numberOfTeams",
+          "fieldName": "numberOfParticipants",
           "value": 8,
           "type": "number",
-          "category": "teams"
+          "category": "participants"
         },
         {
-          "fieldName": "teams",
+          "fieldName": "participants",
           "value": "",
           "values": [
-            { "name": "Team A" },
-            { "name": "Team B" },
-            { "name": "Team C" },
-            { "name": "Team D" },
-            { "name": "Team E" },
-            { "name": "Team F" },
-            { "name": "Team G" },
-            { "name": "Team H" }
+            { "name": "Participant A" },
+            { "name": "Participant B" },
+            { "name": "Participant C" },
+            { "name": "Participant D" },
+            { "name": "Participant E" },
+            { "name": "Participant F" },
+            { "name": "Participant G" },
+            { "name": "Participant H" }
           ],
           "type": "list",
-          "category": "teams"
+          "category": "participants"
         },
         {
           "fieldName": "knockoutConfig.legs",
@@ -226,24 +226,24 @@
         "fields": 1,
         "startDate": "2024-09-01T09:00:00.000Z",
         "multipleDays": false,
-        "numberOfTeams": 16,
-        "teams": [
-          { "name": "Group A Team 1", "logo": "" },
-          { "name": "Group A Team 2", "logo": "" },
-          { "name": "Group A Team 3", "logo": "" },
-          { "name": "Group A Team 4", "logo": "" },
-          { "name": "Group B Team 1", "logo": "" },
-          { "name": "Group B Team 2", "logo": "" },
-          { "name": "Group B Team 3", "logo": "" },
-          { "name": "Group B Team 4", "logo": "" },
-          { "name": "Group C Team 1", "logo": "" },
-          { "name": "Group C Team 2", "logo": "" },
-          { "name": "Group C Team 3", "logo": "" },
-          { "name": "Group C Team 4", "logo": "" },
-          { "name": "Group D Team 1", "logo": "" },
-          { "name": "Group D Team 2", "logo": "" },
-          { "name": "Group D Team 3", "logo": "" },
-          { "name": "Group D Team 4", "logo": "" }
+        "numberOfParticipants": 16, 
+        "participants": [
+          { "name": "Group A Participant 1", "logo": "" },
+          { "name": "Group A Participant 2", "logo": "" },
+          { "name": "Group A Participant 3", "logo": "" },
+          { "name": "Group A Participant 4", "logo": "" },
+          { "name": "Group B Participant 1", "logo": "" },
+          { "name": "Group B Participant 2", "logo": "" },
+          { "name": "Group B Participant 3", "logo": "" },
+          { "name": "Group B Participant 4", "logo": "" },
+          { "name": "Group C Participant 1", "logo": "" },
+          { "name": "Group C Participant 2", "logo": "" },
+          { "name": "Group C Participant 3", "logo": "" },
+          { "name": "Group C Participant 4", "logo": "" },
+          { "name": "Group D Participant 1", "logo": "" },
+          { "name": "Group D Participant 2", "logo": "" },
+          { "name": "Group D Participant 3", "logo": "" },
+          { "name": "Group D Participant 4", "logo": "" }
         ],
         "groupConfig.numberOfGroups": 4,
         "groupConfig.teamsQualifying": 2,
@@ -304,25 +304,25 @@
           "category": "teams"
         },
         {
-          "fieldName": "teams",
-          "value": "",
+          "fieldName": "participants",
+          "value": "",  
           "values": [
-            { "name": "Group A Team 1" },
-            { "name": "Group A Team 2" },
-            { "name": "Group A Team 3" },
-            { "name": "Group A Team 4" },
-            { "name": "Group B Team 1" },
-            { "name": "Group B Team 2" },
-            { "name": "Group B Team 3" },
-            { "name": "Group B Team 4" },
-            { "name": "Group C Team 1" },
-            { "name": "Group C Team 2" },
-            { "name": "Group C Team 3" },
-            { "name": "Group C Team 4" },
-            { "name": "Group D Team 1" },
-            { "name": "Group D Team 2" },
-            { "name": "Group D Team 3" },
-            { "name": "Group D Team 4" }
+            { "name": "Group A Participant 1" },
+            { "name": "Group A Participant 2" },
+            { "name": "Group A Participant 3" },
+            { "name": "Group A Participant 4" },
+            { "name": "Group B Participant 1" },
+            { "name": "Group B Participant 2" },
+            { "name": "Group B Participant 3" },
+            { "name": "Group B Participant 4" },
+            { "name": "Group C Participant 1" },
+            { "name": "Group C Participant 2" },
+            { "name": "Group C Participant 3" },
+            { "name": "Group C Participant 4" },
+            { "name": "Group D Participant 1" },
+            { "name": "Group D Participant 2" },
+            { "name": "Group D Participant 3" },
+            { "name": "Group D Participant 4" }
           ],
           "type": "list",
           "category": "teams"

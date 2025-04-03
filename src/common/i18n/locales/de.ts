@@ -57,18 +57,36 @@ export const de = {
     tournamentInit: {
       home: {
         title: 'Turnier-Planer',
-        subtitle: 'Erstellen und verwalten Sie Ihre Fußballturniere',
+        subtitle: 'Erstelle und verwalte deine Turniere',
         createTournament: {
           title: 'Turnier erstellen',
-          description: 'Starten Sie ein neues Turnier mit benutzerdefinierten Einstellungen',
+          description: 'Erstelle ein neues Turnier mit benutzerdefinierten Einstellungen',
         },
         editTournament: {
           title: 'Turnier bearbeiten',
-          description: 'Verwalten Sie Ihre bestehenden Turniere',
+          description: 'Verwalte deine bestehenden Turniere',
           noTournaments: 'Keine Turniere verfügbar',
         },
         tournamentList: {
-          title: 'Ihre Turniere',
+          title: 'Deine Turniere',
+          status: {
+            INITIALIZED: 'Initialisiert',
+            READY: 'Bereit',
+            IN_PROGRESS: 'Wird Durchgeführt',
+            COMPLETED: 'Abgeschlossen',
+          },
+          format: {
+            LEAGUE: 'Liga',
+            GROUP_KNOCKOUT: 'Gruppenphase & K.O.-System',
+            KNOCKOUT: 'K.O.-System',
+          },
+          iconLabels: {
+            format: 'Format',
+            beginning: 'Beginn',
+            participants: 'Teilnehmer',
+            status: 'Status',
+            createdAt: 'Erstellt am',
+          }
         },
       },
       creation: {
@@ -125,17 +143,6 @@ export const de = {
           matchDuration: 'Spieldauer K.O.-Spiele (Minuten)',
           matchBreak: 'Pause zwischen K.O.-Spielen (Minuten)',
           hasThirdPlace: 'Spiel um Platz 3 durchführen'
-        },
-        validation: {
-          required: 'Pflichtfeld',
-          minTeams: 'Mindestens {{min}} Teams erforderlich',
-          maxTeams: 'Maximal {{max}} Teams erlaubt',
-          minMatches: 'Mindestens {{min}} Spiel(e)',
-          maxMatches: 'Maximal {{max}} Spiele',
-          minDuration: 'Mindestens {{min}} Minuten',
-          maxDuration: 'Maximal {{max}} Minuten',
-          minMatchBreak: 'Mindestens {{min}} Minuten',
-          maxMatchBreak: 'Maximal {{max}} Minuten'
         },
         questions: {
           name: {
@@ -233,5 +240,57 @@ export const de = {
         }
       },
     },
+    tournamentOperation: {
+      navigation: {
+        gamePlan: 'Spielplan',
+        participants: 'Teilnehmer',
+        settings: 'Einstellungen'
+      },
+      gamePlan: {
+        title: 'Spielplan Übersicht',
+        noMatches: 'Keine Spiele geplant',
+        field: 'Spielfeld'
+      },
+      participants: {
+        title: 'Teilnehmerverwaltung',
+        addParticipant: 'Teilnehmer hinzufügen',
+        editParticipant: 'Teilnehmer bearbeiten',
+        noParticipants: 'Keine Teilnehmer vorhanden',
+        form: {
+          name: 'Name',
+          contact: 'Kontakt',
+          logo: 'Logo',
+          uploadLogo: 'Logo hochladen'
+        }
+      },
+      settings: {
+        title: 'Turniereinstellungen',
+        categories: {
+          basic: {
+            title: 'Grundlegende Informationen',
+            tournamentName: 'Turniername',
+            format: 'Format',
+            numberOfFields: 'Anzahl Spielfelder'
+          },
+          dates: {
+            title: 'Turnierzeiten',
+            startDate: 'Startdatum',
+            endDate: 'Enddatum',
+            singleDay: 'Eintägig'
+          },
+          participants: {
+            title: 'Teilnehmer',
+            numberOfParticipants: 'Anzahl Teilnehmer',
+            registeredParticipants: 'Registrierte Teilnehmer'
+          },
+          format: {
+            title: 'Turnierformat',
+            matchesAgainstEachParticipant: 'Spiele gegen jeden Teilnehmer',
+            matchDuration: 'Spieldauer'
+          }
+        }
+      },
+      loading: 'Turnier wird geladen...'
+    }
   },
 };

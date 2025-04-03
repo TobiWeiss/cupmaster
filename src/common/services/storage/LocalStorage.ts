@@ -1,24 +1,24 @@
-import { Tournament } from '../../../tournament-init/types/tournament';
+import { ITournament, Tournament } from '../../../tournament-init/types/tournament';
 import { StorageInterface } from './StorageInterface';
 
 export class LocalStorage implements StorageInterface {
-  private readonly STORAGE_KEY = 'football_tournaments';
+  private readonly STORAGE_KEY = 'tournaments';
 
-  private async getAll(): Promise<Tournament[]> {
+  private async getAll(): Promise<ITournament[]> {
     const data = localStorage.getItem(this.STORAGE_KEY);
     return data ? JSON.parse(data) : [];
   }
 
-  async getTournaments(): Promise<Tournament[]> {
+  async getTournaments(): Promise<ITournament[]> {
     return this.getAll();
   }
 
-  async getTournament(id: string): Promise<Tournament | null> {
+  async getTournament(id: string): Promise<ITournament | null> {
     const tournaments = await this.getAll();
     return tournaments.find(t => t.id === id) || null;
   }
 
-  async saveTournament(tournament: Tournament): Promise<void> {
+  async saveTournament(tournament: ITournament): Promise<void> {
     const tournaments = await this.getAll();
     const index = tournaments.findIndex(t => t.id === tournament.id);
     

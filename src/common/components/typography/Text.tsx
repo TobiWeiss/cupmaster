@@ -4,59 +4,60 @@ interface TextProps {
   children: ReactNode;
   className?: string;
   dataTestId?: string;
+  color?: string;
 }
 
-export const MainHeading: FC<TextProps> = ({ children, className = '', dataTestId }) => (
+export const MainHeading: FC<TextProps> = ({ children, className = '', dataTestId, color = 'text-custom-secondary-light dark:text-custom-secondary-dark' }) => (
   <h1 className={`
     text-4xl 
     font-bold 
     font-roboto
-    text-custom-secondary-light dark:text-custom-secondary-dark 
+    ${color}
     ${className}
   `} data-testid={dataTestId}>
     {children}
   </h1>
 );
 
-export const SubHeading: FC<TextProps> = ({ children, className = '', dataTestId }) => (
+export const SubHeading: FC<TextProps> = ({ children, className = '', dataTestId, color = 'text-custom-secondary-light dark:text-custom-secondary-dark' }) => (
   <h2 className={`
     text-xl 
     font-semibold 
     font-roboto
-    text-custom-secondary-light dark:text-custom-secondary-dark 
+    ${color}
     ${className}
   `} data-testid={dataTestId}>
     {children}
   </h2>
 );
 
-export const LargeText: FC<TextProps> = ({ children, className = '', dataTestId }) => (
+export const LargeText: FC<TextProps> = ({ children, className = '', dataTestId, color = 'text-custom-secondary-light dark:text-custom-secondary-dark' }) => (
   <p className={`
-    text-lg 
+    text-xl 
     font-roboto
-    text-custom-secondary-light dark:text-custom-secondary-dark 
+    ${color}
     ${className}
   `} data-testid={dataTestId}>
     {children}
   </p>
 );
 
-export const SmallText: FC<TextProps> = ({ children, className = '', dataTestId }) => (
+export const SmallText: FC<TextProps> = ({ children, className = '', dataTestId, color = 'text-custom-secondary-light dark:text-custom-secondary-dark' }) => (
   <p className={`
     text-base 
     font-roboto
-    text-custom-secondary-light dark:text-custom-secondary-dark 
+    ${color}
     ${className}
   `} data-testid={dataTestId}>
     {children}
   </p>
 ); 
 
-export const SmallestText: FC<TextProps> = ({ children, className = '', dataTestId }) => (
+export const SmallestText: FC<TextProps> = ({ children, className = '', dataTestId, color = 'text-custom-secondary-light dark:text-custom-secondary-dark' }) => (
   <p className={`
     text-xs 
     font-roboto
-    text-custom-secondary-light dark:text-custom-secondary-dark 
+    ${color}
     ${className}
   `} data-testid={dataTestId}>
     {children}

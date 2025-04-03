@@ -29,7 +29,7 @@ export const DateElement = ({ element: field, value, onChange, isValid }: Wizard
         type="date"
         value={date || initialDate || ''}
         onChange={(e) => setDate(e.target.value)}
-        className="w-full px-4 py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light text-custom-secondary-light dark:text-custom-secondary-dark dark:bg-custom-primary-dark cursor-pointer placeholder-custom-secondary-dark dark:placeholder-custom-secondary-light"
+        className="w-full px-4 text-base py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light text-custom-secondary-light dark:text-custom-secondary-dark dark:bg-custom-primary-dark cursor-pointer placeholder-custom-secondary-dark dark:placeholder-custom-secondary-light"
         required={field.required}
         data-testid={`wizard-input-${field.name}`}
       />

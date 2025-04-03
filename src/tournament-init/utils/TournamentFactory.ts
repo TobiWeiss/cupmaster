@@ -1,4 +1,4 @@
-import { Tiebreaker, Tournament, TournamentFormat, TournamentPhase } from '../types/tournament';
+import { Tiebreaker, Tournament, TournamentFormat, TournamentPhase } from '../../tournament-init/types/tournament';
 
 /**
  * Converts form data into a Tournament object

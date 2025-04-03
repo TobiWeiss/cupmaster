@@ -27,7 +27,7 @@ package "Tournament Wizard" {
     [WizardConfig] as config
     [BasicInformationConfig] as basicConfig
     [DateConfig] as dateConfig
-    [TeamsConfig] as teamsConfig
+    [ParticipantsConfig] as participantsConfig
     [FormatConfig] as formatConfig
   }
 
@@ -46,13 +46,13 @@ package "Tournament Wizard" {
     }
     
     package "Specialized Elements" {
-      [TeamList] as teamList
+      [ParticipantList] as participantList
     }
   }
 }
 
 wizard --> renderer : uses
-wizard --> actions : uses
+wizard --> navigation : uses
 wizard --> categoryIndicator : uses
 categoryIndicator --> item : contains
 item --> icon : uses
@@ -66,14 +66,53 @@ registry --> select : registers
 registry --> bool : registers
 registry --> image : registers
 registry --> list : registers
-list --> teamList : specializes
+list --> participantList : specializes
 
 config --> basicConfig : includes
 config --> dateConfig : includes
-config --> teamsConfig : includes
+config --> participantsConfig : includes
 config --> formatConfig : includes
 
 wizard --> config : reads
+
+@enduml
+```
+
+## Tournament Creation Flow
+
+The following diagram shows the flow of the tournament creation process.
+
+
+```plantuml
+@startuml Tournament Creation Flow
+
+participant InitTournamentPage
+participant TournamentWizard
+participant ElementRenderer
+participant Tournament
+participant TournamentFactory
+
+InitTournamentPage -> TournamentWizard: wizardElements, onComplete, onCancel
+activate TournamentWizard
+
+TournamentWizard -> ElementRenderer: element, value, onChange
+activate ElementRenderer
+ElementRenderer --> TournamentWizard: field updates
+deactivate ElementRenderer
+
+TournamentWizard -> TournamentWizard: validate & collect formData
+TournamentWizard --> InitTournamentPage: onComplete(formData)
+deactivate TournamentWizard
+
+InitTournamentPage -> TournamentFactory: fromFormData(formData)
+activate TournamentFactory
+TournamentFactory -> Tournament: new Tournament()
+activate Tournament
+Tournament --> TournamentFactory: tournament instance
+TournamentFactory -> TournamentFactory: configure tournament
+TournamentFactory --> InitTournamentPage: configured tournament
+deactivate TournamentFactory
+deactivate Tournament
 
 @enduml
 ```

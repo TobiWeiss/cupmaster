@@ -10,12 +10,12 @@ export default {
             colors: {
                 custom: {
                     primary: {
-                        light: '#F0E7D8',
-                        dark: '#171717'
+                        light: '#F0E9E9',
+                        dark: '#545154'
                     },
                     secondary: {
-                        light: '#171717',
-                        dark: '#F0E7D8'
+                        light: '#545154',
+                        dark: '#F0E9E9'
                     },
                     third: '#A4031F',
                     fourth: '#006DAA'

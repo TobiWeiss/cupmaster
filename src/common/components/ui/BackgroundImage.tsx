@@ -18,7 +18,7 @@ export const BackgroundImage: React.FC = () => {
         const updatedSvg = svgText
           .replace(
             /style="fill:#F6F6F6;"/,
-            `style="fill:${isDarkMode ? '#171717' : '#F0E7D8'};"`
+            `style="fill:${isDarkMode ? '#545154' : '#F0E9E9'};"`
           )
           .replace(
             /fill:#2D61C9/g,

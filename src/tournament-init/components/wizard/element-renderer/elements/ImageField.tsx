@@ -31,6 +31,7 @@ export const ImageField = ({ element: field, value, onChange }: WizardElementPro
       )}
       <Button
         variant="outline"
+        size="lg"
         icon={Upload}
         onClick={() => document.getElementById(field.name)?.click()}
       >

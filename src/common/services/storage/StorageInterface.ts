@@ -1,8 +1,8 @@
-import { Tournament } from "../../../tournament-init/types/tournament";
+import { ITournament} from "../../../tournament-init/types/tournament";
 
 export interface StorageInterface {
-  getTournaments(): Promise<Tournament[]>;
-  getTournament(id: string): Promise<Tournament | null>;
-  saveTournament(tournament: Tournament): Promise<void>;
+  getTournaments(): Promise<ITournament[]>;
+  getTournament(id: string): Promise<ITournament | null>;
+  saveTournament(tournament: ITournament): Promise<void>;
   deleteTournament(id: string): Promise<void>;
 }

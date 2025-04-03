@@ -2,6 +2,7 @@ import { Button } from '../../../common/components/ui/Button';
 import { ChevronLeft, ChevronRight, SkipForward } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { SmallestText, SmallText } from '../../../common/components/typography/Text';
+import { Icon } from '../../../common/components/ui/Icon';
 
 interface WizardNavigationProps {
   isFirstStep: boolean;
@@ -39,8 +40,6 @@ export const WizardNavigation = ({
 
       <Button
         variant={canSkip ? 'outline' : 'primary'}
-        icon={canSkip ? SkipForward : ChevronRight}
-        iconPosition="right"
         onClick={onNext}
         disabled={!canSkip && !isValid}
         data-testid={isLastStep ? "wizard-create-button" : canSkip ? "wizard-skip-button" : "wizard-next-button"}
@@ -51,6 +50,7 @@ export const WizardNavigation = ({
             ? t('common.skip') 
             : t('common.next')
         }</SmallestText>
+        <Icon icon={canSkip ? SkipForward : ChevronRight} size="sm" color={!canSkip ? 'text-white' : 'text-custom-secondary-light dark:text-custom-secondary-dark'} className={'ml-2'} />
       </Button>
     </div>
   );

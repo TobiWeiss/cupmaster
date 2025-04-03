@@ -49,6 +49,8 @@ export const Button: FC<ButtonProps> = ({
     `
   };
 
+  const disabledStyles = 'opacity-50 cursor-not-allowed';
+
   const iconSize = {
     sm: 'xs',
     base: 'sm',
@@ -61,6 +63,7 @@ export const Button: FC<ButtonProps> = ({
         ${baseStyles}
         ${sizeStyles[size]}
         ${variantStyles[variant]}
+        ${disabled ? disabledStyles : ''}
         ${className}
       `}
       disabled={disabled}

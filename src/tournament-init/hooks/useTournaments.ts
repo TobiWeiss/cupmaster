@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTournamentService } from './useTournamentService';
-import type { Tournament } from '../types/tournament';
+import { Tournament } from '../../tournament-init/types/tournament';
 
 export const useTournaments = () => {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
@@ -11,7 +11,8 @@ export const useTournaments = () => {
   useEffect(() => {
     const loadTournaments = async () => {
       try {
-        const data = await tournamentService.getTournaments();
+        const data = await tournamentService.getAllTournaments();
+       
         setTournaments(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load tournaments');

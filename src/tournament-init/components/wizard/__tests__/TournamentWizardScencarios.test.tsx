@@ -71,7 +71,7 @@ describe('TournamentWizard Scenarios', () => {
     const selectNumberOfFields = (fields: number) => {
         const fieldsSelect = screen.getByTestId('wizard-input-fields');
         fireEvent.change(fieldsSelect, { target: { value: fields } });
-        expect(fieldsSelect).toHaveValue(fields);
+        expect(fieldsSelect).toHaveValue(fields.toString());
         fireEvent.click(screen.getByTestId('wizard-next-button'));
     };
 

@@ -7,7 +7,7 @@ import { BackgroundImage } from '../ui/BackgroundImage';
 export const MainLayout = () => {
   return (
     <div className="min-h-screen bg-custom-primary-light dark:bg-custom-primary-dark relative overflow-hidden">
-      <header className="bg-custom-fourth-400 p-4 relative z-10 shadow-md dark:shadow-neutral-100">
+      <header className="bg-custom-fourth-400 p-4 relative z-10">
         <div className="max-w-8xl px-20 mx-auto flex justify-between items-center" >
           <Logo />
           <div className="flex items-center gap-4">

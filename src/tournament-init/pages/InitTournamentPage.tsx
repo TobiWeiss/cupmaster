@@ -3,14 +3,16 @@ import { TournamentWizard } from '../components/wizard/TournamentWizard';
 import { elements } from '../components/wizard/WizardConfig';
 import { t } from 'i18next';
 import { PageInfo } from '../../common/components/ui/PageInfo';
-import { Tournament } from '../types/tournament';
+import { Tournament } from '../../tournament-init/types/tournament';
+import { useTournamentService } from '../hooks/useTournamentService';
 
 export const InitTournamentPage = () => {
   const navigate = useNavigate();
+  const tournamentService = useTournamentService();
 
   const handleComplete = async (data: Record<string, any>) => {
     const tournament = Tournament.fromFormData(data);
-    console.log(tournament);
+    await tournamentService.createTournament(tournament);
     navigate('/');
   };
 

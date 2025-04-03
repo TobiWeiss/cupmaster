@@ -31,6 +31,7 @@ export const ParticipantList = ({
 
   const handleAdd = (newParticipant: Participant) => {
     onChange([...participants, newParticipant]);
+    setIsAdding(false);
   };
 
   const handleEdit = (updatedParticipant: Participant) => {
@@ -85,7 +86,7 @@ export const ParticipantList = ({
             <img
               src={logo}
               alt="Preview"
-              className="w-8 h-8 rounded-full object-cover mr-2"
+              className="w-10 h-10 rounded-full object-scale-down mr-2"
             />
           )}
           <Button
@@ -131,11 +132,11 @@ export const ParticipantList = ({
   return (
     <div className="space-y-4">
       {participants.length > 0 ? (
-        <div className="flex flex-wrap gap-2 max-h-80 overflow-y-auto">
+        <div className={`flex max-h-64 flex-wrap gap-2 overflow-y-auto ${isAdding ? 'max-h-20' : ''}`}>
           {participants.map(participant => (
             <div
               key={participant.name}
-              className="flex min-w-80 items-center justify-between p-3 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark "
+              className="flex overflow-auto min-w-40 items-center justify-between p-3 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark "
             >
               {editingName === participant.name ? (
                 <ParticipantForm
@@ -150,7 +151,7 @@ export const ParticipantList = ({
                       <img
                         src={participant.logo}
                         alt={participant.name}
-                        className="w-8 h-8 rounded-full object-cover"
+                        className="w-10 h-10 rounded-full object-scale-down"
                       />
                     )}
                     <SmallestText className='mr-2'>{participant.name}</SmallestText>

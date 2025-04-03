@@ -8,7 +8,7 @@ import { parseDateFromIsoString, parseTimeFromIsoString } from '../../../../util
 
 
 // value  is an ISO string in UTC
-export const DateTimeElement = ({ element: field, value, onChange, isValid }: WizardElementProps) => {
+export const DateTimeElement = ({ element: field, value, onChange }: WizardElementProps) => {
   const [date, setDate] = useState<string>('');
   const [time, setTime] = useState<string>('');
 
@@ -37,7 +37,7 @@ export const DateTimeElement = ({ element: field, value, onChange, isValid }: Wi
           type="date"
           value={date || initialDate || ''}
           onChange={(e) => setDate(e.target?.value)}
-          className="w-full px-4 py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light text-custom-secondary-light dark:text-custom-secondary-dark dark:bg-custom-primary-dark cursor-pointer placeholder-custom-secondary-dark dark:placeholder-custom-secondary-light"
+          className="w-full text-base px-4 py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light text-custom-secondary-light dark:text-custom-secondary-dark dark:bg-custom-primary-dark cursor-pointer placeholder-custom-secondary-dark dark:placeholder-custom-secondary-light"
           required={field.required}
           data-testid={`wizard-input-${field.name}-date`}
         />
@@ -46,12 +46,11 @@ export const DateTimeElement = ({ element: field, value, onChange, isValid }: Wi
           type="time"
           value={time || initialTime || ''}
           onChange={(e) => setTime(e.target?.value)}
-          className="w-full px-4 py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark placeholder-custom-secondary-dark dark:placeholder-custom-secondary-light text-custom-secondary-light dark:text-custom-secondary-dark"
+          className="w-full text-base px-4 py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark placeholder-custom-secondary-dark dark:placeholder-custom-secondary-light text-custom-secondary-light dark:text-custom-secondary-dark"
           data-testid={`wizard-input-${field.name}-hour`}
         />
 
       </div>
-      <ValidationIcon value={value} isValid={isValid} />
     </motion.div>
   );
 }; 

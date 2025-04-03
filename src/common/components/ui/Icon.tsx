@@ -7,6 +7,7 @@ interface IconProps {
   icon: LucideIcon;
   size?: IconSize;
   className?: string;
+  color?: string;
 }
 
 const sizeMap: Record<IconSize, string> = {
@@ -23,11 +24,12 @@ const sizeMap: Record<IconSize, string> = {
 export const Icon: FC<IconProps> = ({ 
   icon: IconComponent, 
   size = 'base',
-  className = '' 
+  color = 'text-custom-secondary-light dark:text-custom-secondary-dark',
+  className = '',
 }) => {
   return (
     <IconComponent 
-      className={`${sizeMap[size]} ${className} text-custom-secondary-light dark:text-custom-secondary-dark`}
+      className={`${sizeMap[size]} ${className} ${color}`}
     />
   );
 }; 

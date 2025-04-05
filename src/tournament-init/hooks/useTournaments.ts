@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTournamentService } from './useTournamentService';
-import { Tournament } from '../../tournament-init/types/tournament';
+import { Tournament } from '../../tournament-operation/types/tournament/Tournament';
 
 export const useTournaments = () => {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);

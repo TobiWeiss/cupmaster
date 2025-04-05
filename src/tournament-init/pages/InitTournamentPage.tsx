@@ -3,7 +3,7 @@ import { TournamentWizard } from '../components/wizard/TournamentWizard';
 import { elements } from '../components/wizard/WizardConfig';
 import { t } from 'i18next';
 import { PageInfo } from '../../common/components/ui/PageInfo';
-import { Tournament } from '../../tournament-init/types/tournament';
+import { Tournament } from '../../tournament-operation/types/tournament/Tournament';
 import { useTournamentService } from '../hooks/useTournamentService';
 
 export const InitTournamentPage = () => {

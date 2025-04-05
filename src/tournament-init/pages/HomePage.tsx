@@ -6,7 +6,7 @@ import { Card } from '../../common/components/ui/Card';
 import { Icon } from '../../common/components/ui/Icon';
 import { motion } from 'motion/react';
 import { easeInOut } from 'motion/react';
-import { Tournament } from '../../tournament-init/types/tournament';
+import { Tournament } from '../../tournament-operation/types/tournament/Tournament';
 
 export const HomePage = () => {
   const { tournaments } = useTournaments();

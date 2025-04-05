@@ -1,4 +1,4 @@
-import { ITournament, Tournament } from '../../../tournament-init/types/tournament';
+import { ITournament, Tournament } from '../../../tournament-operation/types/tournament/Tournament';
 import { StorageInterface } from './StorageInterface';
 
 export class LocalStorage implements StorageInterface {

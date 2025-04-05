@@ -1,4 +1,4 @@
-import { TournamentFormat } from '../../../types/enums';
+import { TournamentFormat } from '../../../../tournament-operation/types/tournament/TournamentFormat';
 import { IWizardElement } from '../WizardConfig';
 
 export const basicInformationElements: IWizardElement[] = [

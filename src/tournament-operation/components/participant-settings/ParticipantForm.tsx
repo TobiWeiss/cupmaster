@@ -1,5 +1,6 @@
 import { FC, useState } from 'react';
-import { Participant } from '../../../tournament-init/types/tournament';
+import { Participant } from '../../types/tournament/Participant';
+import { IParticipant } from '../../types/tournament/Participant';
 import { Button } from '../../../common/components/ui/Button';
 import { Save, X, Upload } from 'lucide-react';
 import { SmallText } from '../../../common/components/typography/Text';
@@ -7,8 +8,8 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 
 interface ParticipantFormProps {
-  participant?: Participant | null;
-  onSave: (participant: Participant) => void;
+  participant?: IParticipant | null;
+  onSave: (participant: IParticipant) => void;
   onCancel: () => void;
 }
 
@@ -24,12 +25,15 @@ export const ParticipantForm: FC<ParticipantFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave({
-      id: participant?.id || crypto.randomUUID(),
-      name,
-      contact,
-      logo,
-    });
+
+    if (!participant) {
+      participant = new Participant();
+    }
+
+    participant.setName(name);
+    participant.setContact(contact);
+    participant.setLogo(logo);
+    onSave(participant);
   };
 
   return (

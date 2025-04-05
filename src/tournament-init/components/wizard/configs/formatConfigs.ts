@@ -1,4 +1,5 @@
-import { TournamentFormat, MatchFormat } from '../../../types/enums';
+import { MatchFormat } from '../../../../tournament-operation/types/tournament/MatchFormat';
+import { TournamentFormat } from '../../../../tournament-operation/types/tournament/TournamentFormat';
 import { IWizardElement } from '../WizardConfig';
 
 

@@ -5,6 +5,7 @@ import { AnimatePresence } from 'framer-motion';
 import { TournamentOperationPage } from './tournament-operation/pages/TournamentOperationPage';
 
 export default function App() {
+
   return (
     <AnimatePresence>
       <Router>

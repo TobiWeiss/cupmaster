@@ -1,101 +1,64 @@
-import { TournamentFactory } from "../../tournament-init/utils/TournamentFactory";
-
-
-
-export enum TournamentFormat {
-  LEAGUE = 'LEAGUE',
-  GROUP_KNOCKOUT = 'GROUP_KNOCKOUT',
-  KNOCKOUT = 'KNOCKOUT'
-}
-
-export enum MatchFormat {
-  SINGLE_MATCH = 'SINGLE_MATCH',
-  HOME_AWAY = 'HOME_AWAY'
-}
-
-export enum KnockoutQualification {
-  POINTS = 'POINTS',
-  GROUP_POSITION = 'GROUP_POSITION'
-}
-
-export enum Tiebreaker {
-  GOAL_DIFFERENCE = 'GOAL_DIFFERENCE',
-  HEAD_TO_HEAD = 'HEAD_TO_HEAD',
-  GOALS_SCORED = 'GOALS_SCORED'
-}
-
-export enum TournamentPhase {
-  GROUP_STAGE = 'GROUP_STAGE',
-  KNOCKOUT_STAGE = 'KNOCKOUT_STAGE'
-}
-
-export interface TournamentConfig {
-  // Basic settings
-  id?: string;
-  name: string;
-  logoUrl?: string;
-  startDate: Date;
-  endDate?: Date;
-  fields: number;
-  numberOfParticipants: number;
-  type: {
-    format: TournamentFormat;
-    phases: TournamentPhase[];
-  }
-
-  // League specific
-  leagueConfig?: {
-    matchesAgainstEachParticipant: number;
-    matchDuration: number;
-    matchBreakDuration: number;
-    pointsForWin: number;
-    pointsForDraw: number;
-    tiebreakers: Tiebreaker[];
-  };
-
-  // Group stage specific
-  groupConfig?: {
-    numberOfGroups: number;
-    matchesAgainstEachParticipant: number;
-    matchDuration: number;
-    matchBreakDuration: number;
-    pointsForWin: number;
-    pointsForDraw: number;
-    tiebreakers: Tiebreaker[];
-    qualifiedParticipants: number;
-  };
-
-  // Knockout specific
-  knockoutConfig?: {
-    matchesAgainstEachParticipant: number;
-    matchDuration: number;
-    matchBreakDuration: number;
-    hasThirdPlaceMatch: boolean;
-  };
-}
-
-export interface Participant {
-  id?: string;
-  name: string;
-  contact?: string;
-  logo?: string;
-}
+import { TournamentFactory } from "../../../tournament-init/services/TournamentFactory";
+import { TournamentConfig } from "./TournamentConfig";
+import { IParticipant, Participant } from "./Participant";
+import { TournamentStatus } from "./TournamentStatus";
+import { MatchFormat, TournamentFormat, TournamentPhase } from "./TournamentFormat";
+import { Tiebreaker } from "./Tiebreaker";
+import { v4 as uuidv4 } from 'uuid';
 
 export interface ITournament {
-  id?: string;
-  status: TournamentStatus;
-  config: TournamentConfig;
-  participants: Participant[];
+  getId(): string;
+  setId(id: string): void;
+  getStatus(): TournamentStatus;
+  setStatus(status: TournamentStatus): void;
+  getConfig(): TournamentConfig;
+  setConfig(config: TournamentConfig): void;
+  getParticipants(): IParticipant[];
+  setParticipants(participants: IParticipant[]): void;
+  getNumberOfParticipants(): number;
+  setNumberOfParticipants(numberOfParticipants: number): void;
+  addParticipant(participant: IParticipant): void;
+  removeParticipant(participant: IParticipant): void;
+  getLogoUrl(): string | undefined;
+  setLogoUrl(logoUrl: string): void;
+  getStartDate(): Date;
+  setStartDate(startDate: Date): void;
+  getEndDate(): Date | undefined;
+  setEndDate(endDate: Date): void;
+  getFormat(): TournamentFormat;
+  getPhases(): TournamentPhase[];
+  setFields(fields: number): void;
+  getFields(): number;
+  getNumberOfGroups(type: TournamentFormat, phase?: TournamentPhase): number;
+  setNumberOfGroups(numberOfGroups: number, type: TournamentFormat, phase?: TournamentPhase): void;
+  getMatchesAgainstEachParticipant(type: TournamentFormat, phase?: TournamentPhase): number;
+  setMatchesAgainstEachParticipant(matches: number, type: TournamentFormat, phase?: TournamentPhase): void;
+  getMatchDuration(type: TournamentFormat, phase?: TournamentPhase): number;
+  setMatchDuration(duration: number, type: TournamentFormat, phase?: TournamentPhase): void;
+  getMatchBreakDuration(type: TournamentFormat, phase?: TournamentPhase): number;
+  setMatchBreakDuration(duration: number, type: TournamentFormat, phase?: TournamentPhase): void;
+  getPointsForWin(type: TournamentFormat, phase?: TournamentPhase): number;
+  setPointsForWin(points: number, type: TournamentFormat, phase?: TournamentPhase): void;
+  getPointsForDraw(type: TournamentFormat, phase?: TournamentPhase): number;
+  setPointsForDraw(points: number, type: TournamentFormat, phase?: TournamentPhase): void;
+  getTiebreakers(type: TournamentFormat, phase?: TournamentPhase): Tiebreaker[];
+  setTiebreakers(tiebreakers: Tiebreaker[], type: TournamentFormat, phase?: TournamentPhase): void;
+  getHasThirdPlaceMatch(type: TournamentFormat, phase?: TournamentPhase): boolean;
+  setHasThirdPlaceMatch(hasThirdPlaceMatch: boolean, type: TournamentFormat, phase?: TournamentPhase): void;
+  getLegs(type: TournamentFormat, phase?: TournamentPhase): MatchFormat;
+  setLegs(legs: MatchFormat, type: TournamentFormat, phase?: TournamentPhase): void;
+  getQualifiedParticipants(type: TournamentFormat, phase?: TournamentPhase): number;
+  setQualifiedParticipants(participants: number, type: TournamentFormat, phase?: TournamentPhase): void;
 }
 
 export class Tournament implements ITournament {
-  id?: string;
+  id: string;
   status!: TournamentStatus;
   config!: TournamentConfig;
-  participants!: Participant[];
+  participants!: IParticipant[];
 
   constructor() {
-    this.id = undefined;
+    this.id = uuidv4();
     this.status = TournamentStatus.INITIALIZED;
     this.config = {
       name: '',
@@ -134,7 +97,7 @@ export class Tournament implements ITournament {
     this.participants = [];
   }
 
-  static init(data: ITournament) {
+  static init(data: Record<string, any>) {
     if (!data) return new Tournament();
     const tournament = new Tournament();
     tournament.id = data.id;
@@ -142,17 +105,26 @@ export class Tournament implements ITournament {
     tournament.config = data.config;
     tournament.config.startDate = new Date(data.config.startDate);
     tournament.config.endDate = data.config.endDate ? new Date(data.config.endDate) : undefined;
-    tournament.participants = data.participants;
+    tournament.participants = data.participants.map((participant: Record<string, any>) => Participant.init(participant));
 
     return tournament;
   }
 
-  toObject(): ITournament {
+  static fromObject(data: Record<string, any>) {
+    const tournament = new Tournament();
+    tournament.id = data.id;
+    tournament.status = data.status;
+    tournament.config = data.config;
+    tournament.participants = data.participants.map((participant: Record<string, any>) => Participant.init(participant));
+    return tournament;
+  }
+
+  toObject(): Record<string, any> {
     return {
       id: this.id,
       status: this.status,
       config: this.config,
-      participants: this.participants,
+      participants: this.participants.map(participant => (participant as Participant).toObject()),
     };
   }
 
@@ -271,7 +243,7 @@ export class Tournament implements ITournament {
     return this.participants;
   }
 
-  setParticipants(participants: Participant[]) {
+  setParticipants(participants: IParticipant[]) {
     this.participants = participants;
   }
 
@@ -358,11 +330,4 @@ export class Tournament implements ITournament {
   static fromFormData(formData: Record<string, any>) {
     return TournamentFactory.fromFormData(formData);
   }
-}
-
-export enum TournamentStatus {
-  INITIALIZED = 'INITIALIZED',
-  READY = 'READY',
-  IN_PROGRESS = 'IN_PROGRESS',
-  COMPLETED = 'COMPLETED'
 }

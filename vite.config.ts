@@ -15,6 +15,7 @@ export default defineConfig({
       provider: 'istanbul' // or 'v8'
     },
     setupFiles: ['./src/setupTests.ts'],
+    include: ["**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}"],
     // you might also want:
     // css: true,
     deps: {

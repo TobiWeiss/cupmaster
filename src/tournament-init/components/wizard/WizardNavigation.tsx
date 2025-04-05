@@ -1,7 +1,7 @@
 import { Button } from '../../../common/components/ui/Button';
 import { ChevronLeft, ChevronRight, SkipForward } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { SmallestText, SmallText } from '../../../common/components/typography/Text';
+import { SmallestText } from '../../../common/components/typography/Text';
 import { Icon } from '../../../common/components/ui/Icon';
 
 interface WizardNavigationProps {

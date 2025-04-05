@@ -5,7 +5,7 @@ import { WizardElementProps } from "../ElementRenderer";
 
 
 
-export const TextElement = ({ element, value, onChange, isValid }: WizardElementProps) => {
+export const TextElement = ({ element, value, onChange }: WizardElementProps) => {
   return (
     <motion.div initial={{ opacity: 0 }}
     animate={{ opacity: 1, transition: { duration: 0.5, ease: easeInOut } }}

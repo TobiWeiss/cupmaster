@@ -3,7 +3,7 @@ import { TournamentWizard } from '../TournamentWizard';
 import { elements } from '../WizardConfig';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import scenarios from './scenarios.json';
-import { TournamentFormat } from '../../../types/enums';
+import { TournamentFormat } from '../../../types/TournamentFormat';
 import { parseDateFromIsoString, parseTimeFromIsoString } from '../../../utils/DateUtils';
 
 
@@ -101,20 +101,26 @@ describe('TournamentWizard Scenarios', () => {
         }
     };
 
-    const fillParticipantInformation = (numberOfParticipants: number, participants: Array<{ name: string }>) => {
+    const fillParticipantInformation = async (numberOfParticipants: number, participants: Array<{ name: string }>) => {
         // Number of Participants
         const numberOfParticipantsInput = screen.getByTestId('wizard-input-numberOfParticipants');
         fireEvent.change(numberOfParticipantsInput, { target: { value: numberOfParticipants } });
         fireEvent.click(screen.getByTestId('wizard-next-button'));
 
         // Team List
-        const addParticipantButton = screen.getByTestId('wizard-participant-list-button-add');
-        participants.forEach(participant => {
+       
+        for (const participant of participants) {
+            const addParticipantButton = await screen.findByTestId('wizard-participant-list-button-add');
             fireEvent.click(addParticipantButton);
-            const participantNameInput = screen.getByPlaceholderText('tournamentInit.creation.participants.namePlaceholder');
+            
+            // Wait for the participant input to appear and use testId instead of placeholder
+            const participantNameInput = await screen.findByTestId('wizard-participant-list-input-name');
             fireEvent.change(participantNameInput, { target: { value: participant.name } });
-            fireEvent.click(screen.getByText('common.save'));
-        });
+            
+            // Find and click the save button
+            fireEvent.click(screen.getByTestId('wizard-participant-list-button-save'));
+        }
+        
         fireEvent.click(screen.getByTestId('wizard-next-button'));
     };
 
@@ -205,8 +211,8 @@ describe('TournamentWizard Scenarios', () => {
                 fillDateInformation(scenario.steps[4].value as string, scenario.steps[5].value as boolean, scenario.steps[6].value as string);
                 await verifyCompletionStatus('tournamentDates');
 
-                // Fill team information
-                fillParticipantInformation(
+                // Fill team information - now with await
+                await fillParticipantInformation(
                     scenario.steps[7].value as number,
                     scenario.steps[8].values!
                 );

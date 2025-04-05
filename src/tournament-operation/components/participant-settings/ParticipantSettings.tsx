@@ -1,37 +1,50 @@
 import { FC, useState } from 'react';
-import { Tournament, Participant } from '../../../tournament-init/types/tournament';
+import { Tournament } from '../../types/tournament/Tournament';
+import { IParticipant, Participant } from '../../types/tournament/Participant';
 import { Card } from '../../../common/components/ui/Card';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LargeText, SmallText } from '../../../common/components/typography/Text';
+import { SmallText } from '../../../common/components/typography/Text';
 import { Button } from '../../../common/components/ui/Button';
 import { Plus, Edit2, Trash2, Users } from 'lucide-react';
 import { ParticipantForm } from './ParticipantForm';
 import { useTranslation } from 'react-i18next';
+import { PageInfo } from '../../../common/components/ui/PageInfo';
+import { useTournamentService } from '../../hooks/useTournamentService';
 
 interface ParticipantSettingsProps {
   tournament: Tournament;
+  onSave: (participants: IParticipant[]) => void;
 }
 
-export const ParticipantSettings: FC<ParticipantSettingsProps> = ({ tournament }) => {
+export const ParticipantSettings: FC<ParticipantSettingsProps> = ({ tournament, onSave }) => {
   const { t } = useTranslation();
   const [isAddingParticipant, setIsAddingParticipant] = useState(false);
-  const [editingParticipant, setEditingParticipant] = useState<Participant | null>(null);
-  const [participants, setParticipants] = useState<Participant[]>(tournament.getParticipants());
+  const [editingParticipant, setEditingParticipant] = useState<IParticipant | null>(null);
+  const [participants, setParticipants] = useState<IParticipant[]>(tournament.getParticipants() || []);
 
   const handleAddParticipant = (participant: Participant) => {
-    setParticipants([...participants, participant]);
+    const newParticipants = [...participants, participant];
+    setParticipants(newParticipants);
     setIsAddingParticipant(false);
+
+    onSave(newParticipants);
   };
 
-  const handleEditParticipant = (updatedParticipant: Participant) => {
+  const handleEditParticipant = (updatedParticipant: IParticipant) => {
     setParticipants(participants.map(p => 
       p.id === updatedParticipant.id ? updatedParticipant : p
     ));
+   
     setEditingParticipant(null);
+
+    onSave(participants);
   };
 
   const handleDeleteParticipant = (participantId: string) => {
-    setParticipants(participants.filter(p => p.id !== participantId));
+    const newParticipants = participants.filter(p => p.id !== participantId);
+    setParticipants(newParticipants);
+
+    onSave(newParticipants);
   };
 
   return (
@@ -41,7 +54,11 @@ export const ParticipantSettings: FC<ParticipantSettingsProps> = ({ tournament }
       className="space-y-6"
     >
       <div className="flex justify-between items-center">
-        <LargeText>{t('tournamentOperation.participants.title')}</LargeText>
+      <PageInfo
+        title={t('tournamentOperation.participants.title')}
+        description={t('tournamentOperation.participants.description')}
+        className="my-10"
+      />
         <Button
           variant="outline"
           icon={Plus}
@@ -60,7 +77,7 @@ export const ParticipantSettings: FC<ParticipantSettingsProps> = ({ tournament }
           >
             <Card className="mb-4">
               <ParticipantForm
-                participant={editingParticipant}
+                participant={editingParticipant ? Participant.fromObject(editingParticipant) : null}
                 onSave={editingParticipant ? handleEditParticipant : handleAddParticipant}
                 onCancel={() => {
                   setIsAddingParticipant(false);
@@ -85,8 +102,8 @@ export const ParticipantSettings: FC<ParticipantSettingsProps> = ({ tournament }
                 <div className="flex items-center gap-3">
                   {participant.logo ? (
                     <img
-                      src={participant.logo}
-                      alt={participant.name}
+                      src={participant.getLogo()}
+                      alt={participant.getName()}
                       className="w-10 h-10 rounded-full object-cover"
                     />
                   ) : (

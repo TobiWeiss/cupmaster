@@ -1,64 +1,45 @@
-import { FC, useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Tournament } from '../../tournament-init/types/tournament';
+import { FC, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { GamePlanOverview } from '../components/game-plan/GamePlanOverview';
 import { ParticipantSettings } from '../components/participant-settings/ParticipantSettings';
 import { TournamentSettings } from '../components/tournament-settings/TournamentSettings';
 import { BottomNavigation } from '../components/navigation/BottomNavigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useTournamentService } from '../../tournament-init/hooks/useTournamentService';
 import { LargeText } from '../../common/components/typography/Text';
+import { useGamePlan } from '../hooks/useGamePlan';
+import { useTournament } from '../hooks/useTournament';
+import { IParticipant } from '../types/tournament/Participant';
 
 type ActiveView = 'game-plan' | 'participants' | 'settings';
 
 export const TournamentOperationPage: FC = () => {
   const { id } = useParams<{ id: string }>();
-  const navigate = useNavigate();
-  const tournamentService = useTournamentService();
-  const [tournament, setTournament] = useState<Tournament | null>(null);
+  
   const [activeView, setActiveView] = useState<ActiveView>('game-plan');
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const loadTournament = async () => {
-      if (!id) {
-        navigate('/');
-        return;
-      }
+  const { tournament, setTournament, loading: tournamentLoading } = useTournament(id);
+  const { gamePlan, updateGamePlan, loading: gamePlanLoading } = useGamePlan(tournament);
 
-      try {
-        const loadedTournament = await tournamentService.getTournament(id);
-        if (!loadedTournament) {
-          navigate('/');
-          return;
-        }
-        setTournament(loadedTournament);
-      } catch (error) {
-        console.error('Failed to load tournament:', error);
-        navigate('/');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadTournament();
-  }, []);
+  const onChangeParticipants = (participants: IParticipant[]) => {
+    tournament?.setParticipants(participants);
+    setTournament(tournament);
+    updateGamePlan(tournament!);
+  }
 
   const renderActiveView = () => {
-    console.log('rendering');
     if (!tournament) return null;
 
     switch (activeView) {
       case 'game-plan':
-        return <GamePlanOverview tournament={tournament} />;
+        return <GamePlanOverview gamePlan={gamePlan} />;
       case 'participants':
-        return <ParticipantSettings tournament={tournament} />;
+        return <ParticipantSettings tournament={tournament} onSave={onChangeParticipants} />;
       case 'settings':
         return <TournamentSettings tournament={tournament} />;
     }
   };
 
-  if (isLoading) {
+  if (tournamentLoading || gamePlanLoading) {
     return (
       <div className="flex items-center justify-center h-screen">
         <LargeText>Loading tournament...</LargeText>

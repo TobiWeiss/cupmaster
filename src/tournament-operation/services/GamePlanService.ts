@@ -1,19 +1,15 @@
-import { Tournament } from '../../tournament-init/types/tournament';
-import { GamePlan } from '../types/game-plan';
+import { GamePlan } from '../types/game-plan/GamePlan';
+import { Tournament } from '../types/tournament/Tournament';
 
 export class GamePlanService {
-  async createGamePlan(tournament: Tournament): Promise<GamePlan> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async createGamePlan(tournament: Tournament): Promise<GamePlan | null> {
     // Dummy implementation for now
-    return {
-      id: 'dummy-id',
-      tournamentId: tournament.getId() || '',
-      matches: [],
-      created: new Date(),
-      modified: new Date()
-    };
+    return null;
   }
 
-  async getGamePlan(tournamentId: string): Promise<GamePlan | null> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async getGamePlan(_id: string): Promise<GamePlan | null> {
     // Dummy implementation for now
     return null;
   }

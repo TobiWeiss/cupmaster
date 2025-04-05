@@ -4,6 +4,11 @@ export enum TournamentFormat {
   KNOCKOUT = 'KNOCKOUT'
 }
 
+export enum TournamentPhase {
+  GROUP_STAGE = 'GROUP_STAGE',
+  KNOCKOUT_STAGE = 'KNOCKOUT_STAGE'
+}
+
 export enum MatchFormat {
   SINGLE_MATCH = 'SINGLE_MATCH',
   HOME_AWAY = 'HOME_AWAY'
@@ -12,16 +17,4 @@ export enum MatchFormat {
 export enum KnockoutQualification {
   POINTS = 'POINTS',
   GROUP_POSITION = 'GROUP_POSITION'
-}
-
-export enum Tiebreaker {
-  GOAL_DIFFERENCE = 'GOAL_DIFFERENCE',
-  HEAD_TO_HEAD = 'HEAD_TO_HEAD',
-  GOALS_SCORED = 'GOALS_SCORED'
-}
-
-export enum TournamentStatus {
-  NOT_STARTED = 'NOT_STARTED',
-  IN_PROGRESS = 'IN_PROGRESS',
-  COMPLETED = 'COMPLETED'
 } 

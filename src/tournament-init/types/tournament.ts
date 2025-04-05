@@ -1,85 +1,9 @@
-import { TournamentFactory } from "../../tournament-init/utils/TournamentFactory";
-
-
-
-export enum TournamentFormat {
-  LEAGUE = 'LEAGUE',
-  GROUP_KNOCKOUT = 'GROUP_KNOCKOUT',
-  KNOCKOUT = 'KNOCKOUT'
-}
-
-export enum MatchFormat {
-  SINGLE_MATCH = 'SINGLE_MATCH',
-  HOME_AWAY = 'HOME_AWAY'
-}
-
-export enum KnockoutQualification {
-  POINTS = 'POINTS',
-  GROUP_POSITION = 'GROUP_POSITION'
-}
-
-export enum Tiebreaker {
-  GOAL_DIFFERENCE = 'GOAL_DIFFERENCE',
-  HEAD_TO_HEAD = 'HEAD_TO_HEAD',
-  GOALS_SCORED = 'GOALS_SCORED'
-}
-
-export enum TournamentPhase {
-  GROUP_STAGE = 'GROUP_STAGE',
-  KNOCKOUT_STAGE = 'KNOCKOUT_STAGE'
-}
-
-export interface TournamentConfig {
-  // Basic settings
-  id?: string;
-  name: string;
-  logoUrl?: string;
-  startDate: Date;
-  endDate?: Date;
-  fields: number;
-  numberOfParticipants: number;
-  type: {
-    format: TournamentFormat;
-    phases: TournamentPhase[];
-  }
-
-  // League specific
-  leagueConfig?: {
-    matchesAgainstEachParticipant: number;
-    matchDuration: number;
-    matchBreakDuration: number;
-    pointsForWin: number;
-    pointsForDraw: number;
-    tiebreakers: Tiebreaker[];
-  };
-
-  // Group stage specific
-  groupConfig?: {
-    numberOfGroups: number;
-    matchesAgainstEachParticipant: number;
-    matchDuration: number;
-    matchBreakDuration: number;
-    pointsForWin: number;
-    pointsForDraw: number;
-    tiebreakers: Tiebreaker[];
-    qualifiedParticipants: number;
-  };
-
-  // Knockout specific
-  knockoutConfig?: {
-    matchesAgainstEachParticipant: number;
-    matchDuration: number;
-    matchBreakDuration: number;
-    hasThirdPlaceMatch: boolean;
-  };
-}
-
-export interface Participant {
-  id?: string;
-  name: string;
-  contact?: string;
-  logo?: string;
-}
+import { TournamentFactory } from "../services/TournamentFactory";
+import { TournamentConfig } from "./TournamentConfig";
+import { Participant } from "./Participant";
+import { TournamentStatus } from "./TournamentStatus";
+import { MatchFormat, TournamentFormat, TournamentPhase } from "./TournamentFormat";
+import { Tiebreaker } from "./Tiebreaker";
 
 export interface ITournament {
   id?: string;
@@ -358,11 +282,4 @@ export class Tournament implements ITournament {
   static fromFormData(formData: Record<string, any>) {
     return TournamentFactory.fromFormData(formData);
   }
-}
-
-export enum TournamentStatus {
-  INITIALIZED = 'INITIALIZED',
-  READY = 'READY',
-  IN_PROGRESS = 'IN_PROGRESS',
-  COMPLETED = 'COMPLETED'
 }

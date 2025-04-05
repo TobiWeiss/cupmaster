@@ -1,8 +1,8 @@
 import { FC, useState, useEffect } from 'react';
 import { Calendar, Users, Settings } from 'lucide-react';
-import { easeInOut, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { SmallText } from '../../../common/components/typography/Text';
+import { SmallestText, SmallText } from '../../../common/components/typography/Text';
 import { Icon } from '../../../common/components/ui/Icon';
 
 interface BottomNavigationProps {
@@ -47,8 +47,8 @@ export const BottomNavigation: FC<BottomNavigationProps> = ({
   }, [activeView]);
 
   return (
-    <div className="fixed bottom-5 left-0 right-0 max-w-2xl mx-auto rounded-3xl bg-custom-primary-dark dark:bg-custom-primary-light">
-      <div className="container mx-auto px-4">
+    <div className="fixed bottom-5 left-0 right-0 max-w-xl mx-auto rounded-3xl bg-custom-primary-light dark:bg-custom-primary-dark">
+      <div className="container mx-auto">
         <div className="flex justify-center items-center py-2">
           {navigationItems.map((item) => (
             <div key={item.id} className="relative">
@@ -59,15 +59,16 @@ export const BottomNavigation: FC<BottomNavigationProps> = ({
                 className={`flex flex-col items-center px-8 py-2 rounded-lg ${
                   activeView === item.id
                     ? 'text-custom-secondary-light dark:text-custom-secondary-dark'
-                    : 'text-custom-contrast-text-light dark:text-custom-contrast-text-dark'
+                    : 'text-custom-secondary-light dark:text-custom-secondary-dark'
                 }`}
               >
                 <Icon 
-                color='text-custom-secondary-dark dark:text-custom-secondary-light'
-                icon={item.icon} size="4xl" />
-                <SmallText
-                color='text-custom-secondary-dark dark:text-custom-secondary-light'
-                >{item.label}</SmallText>
+                color='text-custom-secondary-light dark:text-custom-secondary-dark'
+                icon={item.icon} size="sm" />
+                <SmallestText
+                color='text-custom-secondary-light dark:text-custom-secondary-dark'
+                >{item.label}
+                </SmallestText>
               </motion.button>
               {activeView === item.id && (
                 <motion.div 
@@ -88,7 +89,7 @@ export const BottomNavigation: FC<BottomNavigationProps> = ({
                       duration: 0.5,     
                     } 
                   }}
-                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-1 w-16 bg-custom-secondary-dark dark:bg-custom-secondary-light rounded-t-lg"
+                  className="absolute bottom-0 left-1/2 transform -translate-x-1/2 h-1 w-16 bg-custom-secondary-light dark:bg-custom-secondary-dark rounded-t-lg"
                 />
               )}
             </div>

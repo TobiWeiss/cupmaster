@@ -1,6 +1,7 @@
-import { ITournament, Team, Tournament, TournamentStatus } from '../../tournament-init/types/tournament';
+import { ITournament,  Tournament, } from '../types/tournament/Tournament';
 import { StorageInterface } from '../../common/services/storage/StorageInterface';
 import { v4 as uuidv4 } from 'uuid';
+import { TournamentStatus } from '../types/tournament/TournamentStatus';
 
 export class TournamentService {
   constructor(private storage: StorageInterface) {}
@@ -24,9 +25,9 @@ export class TournamentService {
     return data.map((tournament: ITournament) => Tournament.init(tournament));
   }
 
-  async updateTournament(tournament: Tournament): Promise<Tournament> {
-    this.storage.saveTournament(tournament.toObject());
+  async updateTournament(tournament: ITournament): Promise<Tournament> {
+    this.storage.saveTournament(tournament);
 
-    return tournament;
+    return Tournament.init(tournament);
   }
 }

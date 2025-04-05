@@ -69,12 +69,13 @@ export const ParticipantList = ({
     return (
       <motion.div 
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1, transition: { duration: 0.5, ease: easeInOut } }}
-        exit={{ opacity: 0, transition: { duration: 0.5, ease: easeInOut } }} 
+        animate={{ opacity: 1, transition: { duration: 0.0001, ease: easeInOut } }}
+        exit={{ opacity: 0, transition: { duration: 0.0001, ease: easeInOut } }} 
         className="flex flex-col items-center gap-4"
       >
         <input
           type="text"
+          data-testid={`wizard-participant-list-input-name`}
           value={name}
           onChange={e => setName(e.target.value)}
           placeholder={t('tournamentInit.creation.participants.namePlaceholder')}
@@ -116,10 +117,10 @@ export const ParticipantList = ({
         </div>
 
         <div className="flex gap-2 mt-8">
-          <Button onClick={handleSubmit} icon={Save} iconPosition='right' variant="outline" size="sm">
+          <Button onClick={handleSubmit} icon={Save} iconPosition='right' variant="outline" size="sm" data-testid={`wizard-participant-list-button-save`}>
             <SmallestText>{t('common.save')}</SmallestText>
           </Button>
-          <Button type="button" icon={X} iconPosition='right' variant="outline" size="sm" onClick={onCancel}>
+          <Button type="button" icon={X} iconPosition='right' variant="outline" size="sm" onClick={onCancel} data-testid={`wizard-participant-list-button-cancel`}>
             <SmallestText>{t('common.cancel')}</SmallestText>
           </Button>
         </div>

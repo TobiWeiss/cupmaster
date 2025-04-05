@@ -248,11 +248,17 @@ export const de = {
       },
       gamePlan: {
         title: 'Spielplan Übersicht',
+        description: 'Hier kannst du den Spielplan deines Turniers ansehen.',
+        currentAndUpcoming: 'Aktuelle und anstehende Spiele',
         noMatches: 'Keine Spiele geplant',
-        field: 'Spielfeld'
+        field: 'Spielfeld',
+        allMatches: 'Alle Spiele',
+        hideAllMatches: 'Alle Spiele ausblenden',
+        showAllMatches: 'Alle Spiele anzeigen'
       },
       participants: {
         title: 'Teilnehmerverwaltung',
+        description: 'Hier kannst du die Teilnehmer deines Turniers verwalten.',
         addParticipant: 'Teilnehmer hinzufügen',
         editParticipant: 'Teilnehmer bearbeiten',
         noParticipants: 'Keine Teilnehmer vorhanden',
@@ -265,6 +271,7 @@ export const de = {
       },
       settings: {
         title: 'Turniereinstellungen',
+        description: 'Hier kannst du die Einstellungen deines Turniers bearbeiten.',
         categories: {
           basic: {
             title: 'Grundlegende Informationen',

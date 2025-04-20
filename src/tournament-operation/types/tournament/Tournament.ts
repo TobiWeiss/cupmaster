@@ -1,11 +1,11 @@
-import { TournamentFactory } from "../../../tournament-init/services/TournamentFactory";
+import { TournamentCreator } from "../../../tournament-init/services/TournamentCreator";
 import { TournamentConfig } from "./TournamentConfig";
 import { IParticipant, Participant } from "./Participant";
 import { TournamentStatus } from "./TournamentStatus";
 import { MatchFormat, TournamentFormat, TournamentPhase } from "./TournamentFormat";
 import { Tiebreaker } from "./Tiebreaker";
 import { v4 as uuidv4 } from 'uuid';
-
+import { Field, IField } from "./Field";
 export interface ITournament {
   getId(): string;
   setId(id: string): void;
@@ -27,8 +27,8 @@ export interface ITournament {
   setEndDate(endDate: Date): void;
   getFormat(): TournamentFormat;
   getPhases(): TournamentPhase[];
-  setFields(fields: number): void;
-  getFields(): number;
+  setFields(fields: IField[]): void;
+  getFields(): IField[];
   getNumberOfGroups(type: TournamentFormat, phase?: TournamentPhase): number;
   setNumberOfGroups(numberOfGroups: number, type: TournamentFormat, phase?: TournamentPhase): void;
   getMatchesAgainstEachParticipant(type: TournamentFormat, phase?: TournamentPhase): number;
@@ -92,7 +92,7 @@ export class Tournament implements ITournament {
         pointsForDraw: 0,
         tiebreakers: [],
       },
-      fields: 0,
+      fields: [],
     };
     this.participants = [];
   }
@@ -105,7 +105,8 @@ export class Tournament implements ITournament {
     tournament.config = data.config;
     tournament.config.startDate = new Date(data.config.startDate);
     tournament.config.endDate = data.config.endDate ? new Date(data.config.endDate) : undefined;
-    tournament.participants = data.participants.map((participant: Record<string, any>) => Participant.init(participant));
+    tournament.participants = data.participants.map((participant: Record<string, any>) => Participant.fromObject(participant));
+    tournament.config.fields = data.config.fields.map((field: Record<string, any>) => Field.fromObject(field));
 
     return tournament;
   }
@@ -115,7 +116,8 @@ export class Tournament implements ITournament {
     tournament.id = data.id;
     tournament.status = data.status;
     tournament.config = data.config;
-    tournament.participants = data.participants.map((participant: Record<string, any>) => Participant.init(participant));
+    tournament.participants = data.participants.map((participant: Record<string, any>) => Participant.fromObject(participant));
+    tournament.config.fields = data.config.fields.map((field: Record<string, any>) => Field.fromObject(field));
     return tournament;
   }
 
@@ -125,6 +127,7 @@ export class Tournament implements ITournament {
       status: this.status,
       config: this.config,
       participants: this.participants.map(participant => (participant as Participant).toObject()),
+      fields: this.config.fields.map(field => (field as Field).toObject()),
     };
   }
 
@@ -215,12 +218,16 @@ export class Tournament implements ITournament {
     return this.config.type.phases;
   }
 
-  setFields(fields: number) {
+  setFields(fields: IField[]) {
     this.config.fields = fields;
   }
 
   getFields() {
     return this.config.fields;
+  }
+
+  addField(field: IField) {
+    this.config.fields.push(field);
   }
 
   setNumberOfParticipants(numberOfParticipants: number) {
@@ -328,6 +335,6 @@ export class Tournament implements ITournament {
   }
 
   static fromFormData(formData: Record<string, any>) {
-    return TournamentFactory.fromFormData(formData);
+    return TournamentCreator.fromFormData(formData);
   }
 }

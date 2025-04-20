@@ -18,20 +18,26 @@ export const TournamentOperationPage: FC = () => {
   const [activeView, setActiveView] = useState<ActiveView>('game-plan');
 
   const { tournament, setTournament, loading: tournamentLoading } = useTournament(id);
-  const { gamePlan, updateGamePlan, loading: gamePlanLoading } = useGamePlan(tournament);
+  const { gamePlan, updateGamePlan, reorderGames, loading: gamePlanLoading } = useGamePlan(tournament);
 
   const onChangeParticipants = (participants: IParticipant[]) => {
     tournament?.setParticipants(participants);
+    tournament.setNumberOfParticipants(participants.length);
     setTournament(tournament);
     updateGamePlan(tournament!);
   }
 
+  const handleReorderGames = (sourceIndex: number, destinationIndex: number) => {
+    reorderGames(sourceIndex, destinationIndex);
+  };
+
+  console.info("rendered")
   const renderActiveView = () => {
     if (!tournament) return null;
 
     switch (activeView) {
       case 'game-plan':
-        return <GamePlanOverview gamePlan={gamePlan} />;
+        return <GamePlanOverview gamePlan={gamePlan} onReorderGames={handleReorderGames} />;
       case 'participants':
         return <ParticipantSettings tournament={tournament} onSave={onChangeParticipants} />;
       case 'settings':

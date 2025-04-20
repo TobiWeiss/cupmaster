@@ -1,4 +1,4 @@
-import { TournamentFactory } from "../services/TournamentFactory";
+import { TournamentCreator } from "../services/TournamentCreator";
 import { TournamentConfig } from "./TournamentConfig";
 import { Participant } from "./Participant";
 import { TournamentStatus } from "./TournamentStatus";
@@ -280,6 +280,6 @@ export class Tournament implements ITournament {
   }
 
   static fromFormData(formData: Record<string, any>) {
-    return TournamentFactory.fromFormData(formData);
+    return TournamentCreator.fromFormData(formData);
   }
 }

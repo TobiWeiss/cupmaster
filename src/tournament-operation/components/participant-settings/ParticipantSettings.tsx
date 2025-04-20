@@ -9,7 +9,6 @@ import { Plus, Edit2, Trash2, Users } from 'lucide-react';
 import { ParticipantForm } from './ParticipantForm';
 import { useTranslation } from 'react-i18next';
 import { PageInfo } from '../../../common/components/ui/PageInfo';
-import { useTournamentService } from '../../hooks/useTournamentService';
 
 interface ParticipantSettingsProps {
   tournament: Tournament;

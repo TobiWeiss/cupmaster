@@ -1,3 +1,4 @@
+import React from 'react';
 import { FC, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -8,7 +9,7 @@ interface CardProps {
   className?: string;
 }
 
-export const Card: FC<CardProps> = ({ to, disabled = false, children, className = '' }) => {
+export const Card: FC<CardProps> = React.forwardRef(({ to, disabled = false, children, className = '' }, ref) => {
   const baseStyles = `
     p-8 
     bg-custom-primary-light dark:bg-custom-primary-dark
@@ -38,8 +39,8 @@ export const Card: FC<CardProps> = ({ to, disabled = false, children, className 
   }
 
   return (
-    <div className={baseStyles}>
+    <div className={baseStyles} ref={ref as React.RefObject<HTMLDivElement>}>
       {children}
     </div>
   );
-}; 
+});

@@ -1,11 +1,12 @@
 import { GameStatus } from './GameStatus';
 import { IScore, Score } from './Score';
-import { Field, IField } from './Field';
+import { GameField, IGameField } from './GameField';
 import { GameTime, IGameTime } from './GameTime';
 import { GameParticipant, IGameParticipant } from './GameParticipant';
 import { v4 as uuidv4 } from 'uuid';
+import { IBaseClass } from '../../../common/types/BaseClass';
 
-export interface IGame {
+export interface IGame extends IBaseClass {
   getId(): string;
   setId(id: string): void;
   getFirstParticipant(): IGameParticipant;
@@ -34,8 +35,8 @@ export interface IGame {
   setEndTime(endTime: Date): void;
   getDuration(): number;
   setDuration(duration: number): void;
-  getField(): IField;
-  setField(field: IField): void;
+  getField(): IGameField;
+  setField(field: IGameField): void;
   getFieldId(): string;
   setFieldId(fieldId: string): void;
   getFieldName(): string;
@@ -56,7 +57,7 @@ export class Game implements IGame {
   secondParticipant: IGameParticipant;
   score: IScore;
   time: IGameTime;
-  field: IField;
+  field: IGameField;
   status: GameStatus;
   winnerPlays: IGame | null; 
   loserPlays: IGame | null;
@@ -67,7 +68,7 @@ export class Game implements IGame {
     this.secondParticipant = new GameParticipant();
     this.score = new Score();
     this.time = new GameTime();
-    this.field = new Field();
+    this.field = new GameField();
     this.status = GameStatus.PENDING;
     this.winnerPlays = null;
     this.loserPlays = null;
@@ -75,17 +76,31 @@ export class Game implements IGame {
 
   static init(data: Record<string, any>): Game {
     const game = new Game();
-    game.id = data.id;
-    game.firstParticipant = data.firstParticipant;
-    game.secondParticipant = data.secondParticipant;
-    game.score = data.score;
-    game.time = data.time;
-    game.field = data.field;
+    game.firstParticipant = GameParticipant.init(data.firstParticipant.name, data.firstParticipant.logo);
+    game.secondParticipant = GameParticipant.init(data.secondParticipant.name, data.secondParticipant.logo);
+    game.score = Score.init(data.score);
+    game.time = GameTime.init(data.time);
+    game.field = GameField.init(data.field);
     game.status = data.status;
     game.winnerPlays = data.winnerPlays;
     game.loserPlays = data.loserPlays;
     return game;
-  } 
+  }
+  
+   clone(): Game {
+    const newGame = new Game();
+
+    newGame.firstParticipant = GameParticipant.fromObject(this.firstParticipant);
+    newGame.secondParticipant = GameParticipant.fromObject(this.secondParticipant);
+    newGame.score = Score.fromObject(this.score);
+    newGame.time = GameTime.fromObject(this.time);
+    newGame.field = GameField.fromObject(this.field);
+    newGame.status = this.status;
+    newGame.winnerPlays = this.winnerPlays;
+    newGame.loserPlays = this.loserPlays;
+    
+    return newGame;
+  }
 
   toObject(): Record<string, any> {
     return {
@@ -101,16 +116,22 @@ export class Game implements IGame {
     };
   }
 
-  fromObject(object: Record<string, any>) {
-    this.id = object.id;
-    this.firstParticipant = object.firstParticipant;
-    this.secondParticipant = object.secondParticipant;
-    this.score = object.score;
-    this.time = object.time;
-    this.field = object.field;
-    this.status = object.status;
-    this.winnerPlays = object.winnerPlays;
-    this.loserPlays = object.loserPlays;
+  static fromObject(object: Record<string, any>) {
+    const game = new Game();
+    game.id = object.id;
+    game.firstParticipant = GameParticipant.fromObject(object.firstParticipant);
+    game.secondParticipant = GameParticipant.fromObject(object.secondParticipant);
+    game.score = Score.fromObject(object.score);
+    game.time = GameTime.fromObject(object.time);
+    game.field = GameField.fromObject(object.field);
+    game.status = object.status;
+    game.winnerPlays = object.winnerPlays;
+    game.loserPlays = object.loserPlays;
+    game.setStartTime(object.startTime);
+    game.setEndTime(object.endTime);
+    game.setDuration(object.duration);
+
+    return game;
   }
 
   setId(id: string) {
@@ -228,7 +249,7 @@ export class Game implements IGame {
     return this.time.getDuration();
   }
 
-  setField(field: IField) {
+  setField(field: IGameField) {
     this.field = field;
   }
 

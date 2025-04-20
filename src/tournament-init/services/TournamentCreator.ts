@@ -1,3 +1,5 @@
+import { Field, IField } from '../../tournament-operation/types/tournament/Field';
+import { IParticipant, Participant } from '../../tournament-operation/types/tournament/Participant';
 import { Tiebreaker } from '../../tournament-operation/types/tournament/Tiebreaker';
 import { Tournament, } from '../../tournament-operation/types/tournament/Tournament';
 import { TournamentFormat, TournamentPhase } from '../../tournament-operation/types/tournament/TournamentFormat';
@@ -5,7 +7,7 @@ import { TournamentFormat, TournamentPhase } from '../../tournament-operation/ty
 /**
  * Converts form data into a Tournament object
  */
-export class TournamentFactory {
+export class TournamentCreator {
   /**
    * Creates a Tournament instance from form data
    */
@@ -29,11 +31,20 @@ export class TournamentFactory {
     // Add participants
     if (Array.isArray(formData.participants)) {
       formData.participants.forEach((participant: { name: string, logo: string }) => {
-        tournament.addParticipant({
-          name: participant.name,
-          logo: participant.logo,
-        });
+          tournament.addParticipant(new Participant(participant.name, participant.logo));
       });
+    }
+
+    // Add fields
+    if (formData.fields) {
+        let index = 0;
+        const numberOfFields = formData!.fields! as unknown as number;
+        const fields: IField[] = [];
+        while(index < numberOfFields) {
+            fields.push(new Field("Field " + (index + 1)));
+            index++;
+        }
+        tournament.setFields(fields);
     }
 
     // Configure format-specific settings

@@ -22,7 +22,7 @@ export const useTournaments = () => {
     };
 
     loadTournaments();
-  }, [tournamentService]);
+  }, []);
 
   return { tournaments, loading, error };
 };

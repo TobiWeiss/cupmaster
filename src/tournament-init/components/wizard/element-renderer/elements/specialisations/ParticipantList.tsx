@@ -4,7 +4,7 @@ import { Plus, Trash2, Info, Save, X, Upload } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { SmallestText } from '../../../../../../common/components/typography/Text';
 import { Icon } from '../../../../../../common/components/ui/Icon';
-import { easeInOut, motion } from 'framer-motion';
+import { AnimatePresence, easeInOut, motion } from 'framer-motion';
 
 interface ListItem {
   name: string;
@@ -27,22 +27,10 @@ export const ParticipantList = ({
 }: ListComponentProps<Participant>) => {
   const { t } = useTranslation();
   const [isAdding, setIsAdding] = useState(false);
-  const [editingName, setEditingName] = useState<string | null>(null);
 
   const handleAdd = (newParticipant: Participant) => {
     onChange([...participants, newParticipant]);
     setIsAdding(false);
-  };
-
-  const handleEdit = (updatedParticipant: Participant) => {
-    onChange(
-      participants.map(participant =>
-        participant.name === editingName
-          ? updatedParticipant
-          : participant
-      )
-    );
-    setEditingName(null);
   };
 
   const handleDelete = (name: string) => {
@@ -67,10 +55,10 @@ export const ParticipantList = ({
     };
 
     return (
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1, transition: { duration: 0.0001, ease: easeInOut } }}
-        exit={{ opacity: 0, transition: { duration: 0.0001, ease: easeInOut } }} 
+        exit={{ opacity: 0, transition: { duration: 0.0001, ease: easeInOut } }}
         className="flex flex-col items-center gap-4"
       >
         <input
@@ -139,34 +127,27 @@ export const ParticipantList = ({
               key={participant.name}
               className="flex overflow-auto min-w-40 items-center justify-between p-3 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark "
             >
-              {editingName === participant.name ? (
-                <ParticipantForm
-                  participant={participant}
-                  onSave={handleEdit}
-                  onCancel={() => setEditingName(null)}
-                />
-              ) : (
-                <>
-                  <div className="flex items-center gap-3 flex-1">
-                    {participant.logo && (
-                      <img
-                        src={participant.logo}
-                        alt={participant.name}
-                        className="w-10 h-10 rounded-full object-scale-down"
-                      />
-                    )}
-                    <SmallestText className='mr-2'>{participant.name}</SmallestText>
-                  </div>
-                  <div className="flex gap-2">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      icon={Trash2}
-                      onClick={() => handleDelete(participant.name)}
+
+              <>
+                <div className="flex items-center gap-3 flex-1">
+                  {participant.logo && (
+                    <img
+                      src={participant.logo}
+                      alt={participant.name}
+                      className="w-10 h-10 rounded-full object-scale-down"
                     />
-                  </div>
-                </>
-              )}
+                  )}
+                  <SmallestText className='mr-2'>{participant.name}</SmallestText>
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    icon={Trash2}
+                    onClick={() => handleDelete(participant.name)}
+                  />
+                </div>
+              </>
             </div>
           ))}
         </div>
@@ -178,27 +159,34 @@ export const ParticipantList = ({
           </SmallestText>
         </div>
       )}
-
-      {isAdding ? (
-        <div className="p-3 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark">
-          <ParticipantForm
-            participant={null}
-            onSave={handleAdd}
-            onCancel={() => setIsAdding(false)}
-          />
-        </div>
-      ) : canAddMore && (
-        <Button
-          variant="outline"
-          icon={Plus}
-          iconPosition='right'
-          onClick={() => setIsAdding(true)}
-          className="w-full"
-          data-testid={`wizard-participant-list-button-add`}
-        >
-          <SmallestText>{t('common.add')}</SmallestText>
-        </Button>
-      )}
+      <AnimatePresence>
+        {isAdding ? (
+          <div className="p-3 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark">
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+            >
+              <ParticipantForm
+                participant={null}
+                onSave={handleAdd}
+                onCancel={() => setIsAdding(false)}
+              />
+            </motion.div>
+          </div>
+        ) : canAddMore && (
+          <Button
+            variant="outline"
+            icon={Plus}
+            iconPosition='right'
+            onClick={() => setIsAdding(true)}
+            className="w-full"
+            data-testid={`wizard-participant-list-button-add`}
+          >
+            <SmallestText>{t('common.add')}</SmallestText>
+          </Button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }; 

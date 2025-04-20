@@ -1,6 +1,6 @@
 import { TournamentFormat, TournamentPhase } from "./TournamentFormat";
 import { Tiebreaker } from "./Tiebreaker";
-
+import { IField } from "./Field";
 export interface TournamentConfig {
   // Basic settings
   id?: string;
@@ -8,7 +8,7 @@ export interface TournamentConfig {
   logoUrl?: string;
   startDate: Date;
   endDate?: Date;
-  fields: number;
+  fields: IField[];
   numberOfParticipants: number;
   type: {
     format: TournamentFormat;

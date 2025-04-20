@@ -12,9 +12,29 @@ export class Field implements IField {
   id: string;
   name?: string;
 
-  constructor() {
+  constructor(name: string = '') {
     this.id = uuidv4();
-    this.name = '';
+    this.name = name;
+  }
+
+  static init(data: Record<string, any>): Field {
+    const field = new Field();
+    field.name = data.name;
+    return field;
+  }
+
+  static fromObject(object: Record<string, any>): Field {
+    const field = new Field();
+    field.id = object.id;
+    field.name = object.name;
+    return field;
+  }
+
+  toObject(): Record<string, any> {
+    return {
+      id: this.id,
+      name: this.name,
+    };
   }
 
   getId(): string {

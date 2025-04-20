@@ -1,7 +1,8 @@
-import { IGame } from './Game';
+import { Game, IGame } from './Game';
 import { v4 as uuidv4 } from 'uuid';
+import { IBaseClass } from '../../../common/types/BaseClass';
 
-export interface IGamePlan {
+export interface IGamePlan extends IBaseClass {
   getId(): string;
   setId(id: string): void;
   getGames(): IGame[];
@@ -67,6 +68,14 @@ export class GamePlan implements IGamePlan {
       games: this.games,
       metadata: this.metadata,
     };
+  }
+
+  clone(): GamePlan {
+    const gamePlan = new GamePlan(this.tournamentId);
+    gamePlan.setId(this.id);
+    gamePlan.setGames(this.games.map(game => Game.fromObject(game)));
+    gamePlan.setMetadata(this.metadata);
+    return gamePlan;
   }
 
 

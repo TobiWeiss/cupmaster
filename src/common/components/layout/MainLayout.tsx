@@ -1,15 +1,21 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import { LanguageSwitcher } from '../i18n/LanguageSwitcher';
 import { ThemeToggle } from '../theme/ThemeToggle';
 import { Logo } from '../ui/Logo';
 
 export const MainLayout = () => {
+  const navigate = useNavigate();
+
+  const goToInitPage = () => {
+    navigate('/tournament-init', { replace: true });
+  }
+
   return (
     <div className="h-screen flex flex-col overflow-hidden bg-custom-primary-light dark:bg-custom-primary-dark">
       {/* Fixed header */}
       <header className="flex-none bg-custom-primary-light dark:bg-custom-primary-dark rounded-b-3xl shadow-md">
-        <div className="max-w-8xl px-20 mx-auto flex justify-between items-center py-4">
-          <Logo />
+        <div className="max-w-8xl px-20 mx-auto flex justify-between items-center py-3">
+          <Logo onClick={goToInitPage} />
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
             <ThemeToggle />

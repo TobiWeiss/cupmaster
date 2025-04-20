@@ -1,25 +1,27 @@
 import { useEffect, useState, useMemo } from "react";
 import { GamePlan, IGamePlan } from "../types/game-plan/GamePlan";
-import { GamePlanFactory } from "../services/GamePlanFactory";
+import { GamePlanManager } from "../services/GamePlanManager";
 import { GamePlanService } from "../services/GamePlanService";
-import { Tournament } from "../types/tournament/Tournament";
+import { ITournament, Tournament } from "../types/tournament/Tournament";
+import { arrayMove } from "@dnd-kit/sortable";
 
-export const useGamePlan = (tournament: Tournament | null) => {
+export const useGamePlan = (tournament: ITournament | null) => {
   const [gamePlan, setGamePlan] = useState<IGamePlan | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   // Memoize the service instance so it doesn't change on every render
   const gamePlanService = useMemo(() => new GamePlanService(), []);
+  const tournamentMemo = useMemo(() => tournament, [tournament]);
 
 
-  const loadGamePlan = async (tournament: Tournament) => {
-    if (!tournament.id) return;
+  const loadGamePlan = async (tournament: ITournament) => {
+    if (!tournament.getId()) return;
     try {
       const data = await gamePlanService.getGamePlan(tournament.getId()!);
 
       if (!data) {
-        const gamePlan = GamePlanFactory.createGamePlan(tournament);
+        const gamePlan = GamePlanManager.createGamePlan(tournament);
         setGamePlan(gamePlan);
       } else {
         setGamePlan(data);
@@ -33,15 +35,23 @@ export const useGamePlan = (tournament: Tournament | null) => {
   };
 
   useEffect(() => {
-     if (tournament?.id) {
+     if (tournament?.getId()) {
       loadGamePlan(tournament);
     } 
-  }, [tournament?.id]);
+  }, [tournament?.getId()]);
 
   const updateGamePlan = (tournament: Tournament) => {
-    const gamePlan = GamePlanFactory.createGamePlan(tournament!);
+    const gamePlan = GamePlanManager.createGamePlan(tournament!);
     setGamePlan(gamePlan);
   }
+  const reorderGames = (sourceIndex: number, destinationIndex: number) => {
+
+    if (!gamePlan) return;
+    const newGamePlan = GamePlanManager.recalulateGameTimes(gamePlan, tournamentMemo!, sourceIndex, destinationIndex);
+    console.log('newGamePlan', newGamePlan);
+
+    setGamePlan(newGamePlan);
+  }
   
-  return { gamePlan, updateGamePlan, loading, error };
+  return { gamePlan, updateGamePlan, reorderGames, loading, error };
 };

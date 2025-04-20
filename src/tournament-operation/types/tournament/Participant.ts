@@ -22,16 +22,15 @@ export class Participant implements IParticipant {
   contact?: string;
   logo?: string;
 
-  constructor() {
+  constructor(name: string = '', logo: string = '', contact: string = '') {
     this.id = uuidv4();
-    this.name = '';
-    this.contact = undefined;
-    this.logo = undefined;
+    this.name = name;
+    this.contact = contact;
+    this.logo = logo;
   }
 
   static init(data: Record<string, any>) {
     const participant = new Participant();
-    participant.id = data.id;
     participant.name = data.name;
     participant.contact = data.contact;
     participant.logo = data.logo;

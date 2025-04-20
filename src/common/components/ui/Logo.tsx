@@ -2,11 +2,12 @@ import { FC } from 'react';
 
 interface LogoProps {
   className?: string;
+  onClick?: () => void;
 }
 
-export const Logo: FC<LogoProps> = ({ className = '' }) => {
+export const Logo: FC<LogoProps> = ({ className = '', onClick }) => {
   return (
-    <div className={`flex flex-col items-center ${className}`}>
+    <div className={`flex flex-col items-center cursor-pointer ${className}`} onClick={onClick}>
       <svg
         className="w-8 h-8 mb-0 text-custom-secondary-light dark:text-custom-secondary-dark"
         viewBox="0 0 24 24"
@@ -40,7 +41,7 @@ export const Logo: FC<LogoProps> = ({ className = '' }) => {
           d="M18 2H6v7a6 6 0 0 0 12 0V2Z" 
         />
       </svg>
-      <span className="ml-2 text-2xl font-bold">
+      <span className="ml-2 text-lg font-bold">
         <span className="text-custom-secondary-light dark:text-custom-secondary-dark">Cup</span>
         <span className="text-custom-secondary-light dark:text-custom-secondary-dark">Master</span>
       </span>

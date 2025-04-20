@@ -26,10 +26,6 @@ describe('App', () => {
   it('renders the home page by default', () => {
     render(<App />);
     
-    // Verify home page content is rendered
-    expect(screen.getByText('tournamentInit.home.title')).toBeInTheDocument();
-    expect(screen.getByText('tournamentInit.home.subtitle')).toBeInTheDocument();
-    
     // Verify create tournament card is present
     expect(screen.getByText('tournamentInit.home.createTournament.title')).toBeInTheDocument();
   });

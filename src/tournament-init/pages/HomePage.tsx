@@ -15,11 +15,6 @@ export const HomePage = () => {
 
   return (
     <div className="space-y-15">
-      <div className="text-center my-20">
-        <SubHeading>{t('tournamentInit.home.title')}</SubHeading>
-        <LargeText className="mt-2">{t('tournamentInit.home.subtitle')}</LargeText>
-      </div>
-
       <div className="grid grid-cols-1 gap-20 max-w-7xl mx-auto my-20">
         <motion.div initial={{ y: 200, opacity: 0 }}
           animate={{ y: 0, opacity: 1, transition: { delay: 0, duration: 0.5, ease: easeInOut } }}
@@ -45,7 +40,7 @@ export const HomePage = () => {
           <motion.div initial={{  opacity: 0 }}
             animate={{  opacity: 1, transition: { delay: 0.5 * tournaments.length, ease: easeInOut } }}
             exit={{  opacity: 0, transition: { delay: 0.5 * tournaments.length, ease: easeInOut } }}>
-            <SubHeading className="mb-4">{t('tournamentInit.home.tournamentList.title')}</SubHeading>
+            <SubHeading className="mb-4" color="text-custom-secondary-dark dark:text-custom-secondary-light">{t('tournamentInit.home.tournamentList.title')}</SubHeading>
           </motion.div>
           <div className="grid gap-4">
             {tournaments.map((tournament: Tournament, index: number) => (

@@ -15,6 +15,34 @@ export class Score implements IScore {
     this.secondParticipant = 0;
   }
 
+  static init(data: Record<string, any>): Score {
+    const score = new Score();
+    score.firstParticipant = data.firstParticipant;
+    score.secondParticipant = data.secondParticipant;
+    return score;
+  }
+
+  static clone(score: Score): Score {
+    const newScore = new Score();
+    newScore.firstParticipant = score.firstParticipant;
+    newScore.secondParticipant = score.secondParticipant;
+    return newScore;
+  }
+
+  toObject(): Record<string, any> {
+    return {
+      firstParticipant: this.firstParticipant,
+      secondParticipant: this.secondParticipant,
+    };
+  }
+
+  static fromObject(object: Record<string, any>): Score {
+    const score = new Score();
+    score.firstParticipant = object.firstParticipant;
+    score.secondParticipant = object.secondParticipant;
+    return score;
+  }
+
   getFirstParticipantsScore(): number {
     return this.firstParticipant;
   }

@@ -9,7 +9,7 @@ import { Icon } from '../../../common/components/ui/Icon';
 import { Clock, MapPin } from 'lucide-react';
 
 interface GameListItemProps {
-  game: IGame; 
+  game: IGame;
   index: number;
   isHighlighted?: boolean;
 }
@@ -24,12 +24,9 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
       transition={{ delay: index * 0.03 }}
       whileHover={{ scale: 1.01 }}
     >
-      <Card
-        className={`p-1 flex px-10`}
-      >
-
+      <Card className="flex px-10">
         {/* Top Row as Grid Layout */}
-        <div className="grid grid-cols-9 items-center my-2">
+        <div className="grid grid-cols-9 items-center my-0">
           {/* Time */}
           <div className="col-span-3 flex items-center">
             <Icon className='mr-2' size="sm" icon={Clock} />
@@ -54,14 +51,13 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
           </div>
         </div>
 
-        {/* Participants */}
         {/* Participants and Score in Grid Layout */}
-        <div className="grid grid-cols-9 items-center justify-items-center mx-80">
+        <div className="grid grid-cols-1 xl:grid-cols-9 items-center justify-items-center mx-0 lg:mx-10 xl:mx-80">
           {/* First participant */}
           <div className="col-span-4 flex items-center justify-center min-w-0">
             {game.getFirstParticipantLogo() ? (
               <img
-                src={game.getFirstParticipantLogo()} 
+                src={game.getFirstParticipantLogo()}
                 alt={game.getFirstParticipantName()}
                 className="w-5 h-5 rounded-full mr-2"
               />
@@ -103,4 +99,4 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
       </Card>
     </motion.div>
   );
-}; 
+};

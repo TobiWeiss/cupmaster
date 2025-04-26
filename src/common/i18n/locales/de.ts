@@ -18,6 +18,9 @@ export const de = {
       add: 'Hinzufügen',
       time: 'Uhrzeit',
       hour: 'Stunde',
+      fields: 'Spielfelder',
+      minutes: 'Minuten',
+      saveChanges: 'Änderungen speichern',
     },
     tournament: {
       name: 'Turniername',
@@ -272,29 +275,42 @@ export const de = {
       settings: {
         title: 'Turniereinstellungen',
         description: 'Hier kannst du die Einstellungen deines Turniers bearbeiten.',
+        addField: 'Spielfeld hinzufügen',
         categories: {
           basic: {
             title: 'Grundlegende Informationen',
             tournamentName: 'Turniername',
             format: 'Format',
-            numberOfFields: 'Anzahl Spielfelder'
+            formats: {
+              league: 'Liga',
+              groupKnockout: 'Gruppenphase & K.O.-System',
+              knockout: 'K.O.-System'
+            },
+            numberOfFields: 'Spielfelder'
           },
           dates: {
             title: 'Turnierzeiten',
-            startDate: 'Startdatum',
-            endDate: 'Enddatum',
+            startDate: 'Startzeitpunkt',
+            endDate: 'Endzeitpunkt',
             singleDay: 'Eintägig'
-          },
-          participants: {
-            title: 'Teilnehmer',
-            numberOfParticipants: 'Anzahl Teilnehmer',
-            registeredParticipants: 'Registrierte Teilnehmer'
           },
           format: {
             title: 'Turnierformat',
             matchesAgainstEachParticipant: 'Spiele gegen jeden Teilnehmer',
-            matchDuration: 'Spieldauer'
+            matchDuration: 'Spieldauer',
+            matchBreakDuration: 'Pausendauer',
+            pointsForWin: 'Punkte für Sieg',
+            pointsForDraw: 'Punkte für Unentschieden',
+            tiebreakers: 'Punktgleicheit'
           }
+        },
+        tiebreakers: {
+          current: 'Aktuelle Regeln bei Punktgleicheit',
+          available: 'Verfügbare Regeln',
+          none: 'Keine Gleichstandsregeln festgelegt',
+          GOAL_DIFFERENCE: 'Tordifferenz',
+          HEAD_TO_HEAD: 'Direkter Vergleich',
+          GOALS_SCORED: 'Erzielte Tore',
         }
       },
       loading: 'Turnier wird geladen...'

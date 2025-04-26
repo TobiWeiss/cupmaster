@@ -26,7 +26,7 @@ export const Card: FC<CardProps> = React.forwardRef(({ to, disabled = false, chi
     `}
     shadow-[0_4px_20px_rgb(0,0,0,0.08)]
     dark:shadow-[0_4px_20px_rgba(0,0,0,0.2)]
-    justify-between
+    
     ${className}
   `;
 

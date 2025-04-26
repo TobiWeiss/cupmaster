@@ -26,24 +26,17 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
     >
       <Card className="flex px-10">
         {/* Top Row as Grid Layout */}
-        <div className="grid grid-cols-9 items-center my-0">
+        <div className="grid grid-cols-10 items-center my-0">
           {/* Time */}
-          <div className="col-span-3 flex items-center">
+          <div className="col-span-5 flex items-center">
             <Icon className='mr-2' size="sm" icon={Clock} />
             <SmallText className="text-xs font-medium">
               {formatDate(game.getStartTime())}
             </SmallText>
           </div>
 
-          {/* Group */}
-          <div className="col-span-3 flex justify-center">
-            <SmallText className="text-xs inline-block px-2 py-0.5 rounded-full bg-custom-secondary-light/10 dark:bg-custom-secondary-dark/10">
-              Group {index % 2 === 0 ? "A" : "B"}
-            </SmallText>
-          </div>
-
           {/* Field */}
-          <div className="col-span-3 flex items-center justify-end">
+          <div className="col-span-5 flex items-center justify-end">
             <Icon className='mr-2' size="sm" icon={MapPin} />
             <SmallText className="text-xs">
               {t('tournamentOperation.gamePlan.field')} {game.getFieldName()}

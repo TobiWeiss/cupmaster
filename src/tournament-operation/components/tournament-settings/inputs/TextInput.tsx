@@ -4,7 +4,7 @@ import { Button } from '../../../../common/components/ui/Button';
 import { useTranslation } from 'react-i18next';
 import { Save } from 'lucide-react';
 
-interface TextInputProps {
+export interface TextInputProps {
   id: string;
   value: string;
   onChange: (value: string) => void;

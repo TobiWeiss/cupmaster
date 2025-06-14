@@ -6,6 +6,7 @@ import { MatchFormat, TournamentFormat, TournamentPhase } from "./TournamentForm
 import { Tiebreaker } from "./Tiebreaker";
 import { v4 as uuidv4 } from 'uuid';
 import { Field, IField } from "./Field";
+import { IGamePlan } from "../game-plan/GamePlan";
 export interface ITournament {
   getId(): string;
   setId(id: string): void;
@@ -332,6 +333,14 @@ export class Tournament implements ITournament {
 
   setQualifiedParticipants(participants: number, type: TournamentFormat, phase?: TournamentPhase) {
     this._getConfigByType(type, phase).qualifiedParticipants = participants;
+  }
+
+  updateEndDate(gamePlan: IGamePlan) {
+    const lastGame = gamePlan.getLastGame();
+    
+    if (lastGame) {
+      this.setEndDate(lastGame.getTime().getEndTime()!);
+    }
   }
 
   static fromFormData(formData: Record<string, any>) {

@@ -9,6 +9,7 @@ import { LargeText } from '../../common/components/typography/Text';
 import { useGamePlan } from '../hooks/useGamePlan';
 import { useTournament } from '../hooks/useTournament';
 import { IParticipant } from '../types/tournament/Participant';
+import { Tournament } from '../types/tournament/Tournament';
 
 type ActiveView = 'game-plan' | 'participants' | 'settings';
 
@@ -27,11 +28,16 @@ export const TournamentOperationPage: FC = () => {
     updateGamePlan(tournament!);
   }
 
+  const onChangeSettings = (tournament: Tournament) => {
+    const updatedGamePlan = updateGamePlan(tournament);
+    tournament.updateEndDate(updatedGamePlan);
+    setTournament(tournament);
+  }
+
   const handleReorderGames = (sourceIndex: number, destinationIndex: number) => {
     reorderGames(sourceIndex, destinationIndex);
   };
 
-  console.info("rendered")
   const renderActiveView = () => {
     if (!tournament) return null;
 
@@ -41,7 +47,7 @@ export const TournamentOperationPage: FC = () => {
       case 'participants':
         return <ParticipantSettings tournament={tournament} onSave={onChangeParticipants} />;
       case 'settings':
-        return <TournamentSettings tournament={tournament} />;
+        return <TournamentSettings tournament={tournament} onSave={onChangeSettings} />;
     }
   };
 

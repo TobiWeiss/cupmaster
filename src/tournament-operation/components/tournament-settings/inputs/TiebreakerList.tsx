@@ -5,9 +5,8 @@ import { useTranslation } from 'react-i18next';
 import { Save, ArrowUp, ArrowDown, X } from 'lucide-react';
 import { SmallText } from '../../../../common/components/typography/Text';
 import { Tiebreaker } from '../../../types/tournament/Tiebreaker';
-import { Icon } from '../../../../common/components/ui/Icon';
 
-interface TiebreakerListProps {
+export interface TiebreakerListProps {
   id: string;
   value: Tiebreaker[];
   onChange: (value: Tiebreaker[]) => void;
@@ -21,8 +20,6 @@ export const TiebreakerList: FC<TiebreakerListProps> = ({ value, onChange, onSav
     Tiebreaker.GOAL_DIFFERENCE,
     Tiebreaker.HEAD_TO_HEAD,
     Tiebreaker.GOALS_SCORED,
-    Tiebreaker.FAIR_PLAY,
-    Tiebreaker.RANDOM
   ].filter(tb => !value.includes(tb)));
 
   const handleAddTiebreaker = (tiebreaker: Tiebreaker) => {

@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Save, ChevronDown } from 'lucide-react';
 import { Icon } from '../../../../common/components/ui/Icon';
 
-interface SelectOption {
+export interface SelectOption {
   value: string;
   label: string;
 }

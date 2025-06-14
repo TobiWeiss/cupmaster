@@ -40,7 +40,7 @@ export const HomePage = () => {
           <motion.div initial={{  opacity: 0 }}
             animate={{  opacity: 1, transition: { delay: 0.5 * tournaments.length, ease: easeInOut } }}
             exit={{  opacity: 0, transition: { delay: 0.5 * tournaments.length, ease: easeInOut } }}>
-            <SubHeading className="mb-4" color="text-custom-secondary-dark dark:text-custom-secondary-light">{t('tournamentInit.home.tournamentList.title')}</SubHeading>
+            <SubHeading className="mb-4" color="text-custom-secondary-light">{t('tournamentInit.home.tournamentList.title')}</SubHeading>
           </motion.div>
           <div className="grid gap-4">
             {tournaments.map((tournament: Tournament, index: number) => (
@@ -53,7 +53,7 @@ export const HomePage = () => {
                 >
                   <div className="flex items-center my-2">
                     {tournament.getLogoUrl() && (
-                      <img src={tournament.getLogoUrl()} alt="Tournament Logo" className="w-10 h-10 rounded-full" />
+                      <img src={tournament.getLogoUrl()} alt="Tournament Logo" className="w-10 h-10 rounded-full mr-2" />
                     )}
                     <SubHeading className="text-xl">{tournament.getName()}</SubHeading>
                   </div>

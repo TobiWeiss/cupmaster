@@ -4,7 +4,7 @@ import { Button } from '../../../../common/components/ui/Button';
 import { useTranslation } from 'react-i18next';
 import { Save } from 'lucide-react';
 
-interface DateTimeInputProps {
+export interface DateTimeInputProps {
   id: string;
   value: Date;
   onChange: (value: Date) => void;
@@ -13,9 +13,12 @@ interface DateTimeInputProps {
 
 export const DateTimeInput: FC<DateTimeInputProps> = ({ value, onChange, onSave }) => {
   const { t } = useTranslation();
-  const [date, setDate] = useState(value.toISOString().split('T')[0]);
+  
+  // Convert UTC to local for display
+  const localDate = new Date(value.getTime() + value.getTimezoneOffset() * 60000);
+  const [date, setDate] = useState(localDate.toISOString().split('T')[0]);
   const [time, setTime] = useState(
-    `${value.getHours().toString().padStart(2, '0')}:${value.getMinutes().toString().padStart(2, '0')}`
+    `${localDate.getHours().toString().padStart(2, '0')}:${localDate.getMinutes().toString().padStart(2, '0')}`
   );
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -30,8 +33,21 @@ export const DateTimeInput: FC<DateTimeInputProps> = ({ value, onChange, onSave 
     const [year, month, day] = date.split('-').map(Number);
     const [hours, minutes] = time.split(':').map(Number);
     
-    const newDate = new Date(Date.UTC(year, month - 1, day, hours, minutes));
-    onChange(newDate);
+    // Create date in local timezone
+    const localDateTime = new Date(year, month - 1, day, hours, minutes);
+    
+    // Convert to UTC
+    const utcDateTime = new Date(
+      Date.UTC(
+        localDateTime.getFullYear(),
+        localDateTime.getMonth(),
+        localDateTime.getDate(),
+        localDateTime.getHours(),
+        localDateTime.getMinutes()
+      )
+    );
+
+    onChange(utcDateTime);
     onSave();
   };
 

@@ -1,13 +1,12 @@
 import { FC, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Button } from '../../../../common/components/ui/Button';
 import { useTranslation } from 'react-i18next';
 import { Save, Plus, Trash2, Edit } from 'lucide-react';
 import { SmallText } from '../../../../common/components/typography/Text';
 import { IField, Field } from '../../../types/tournament/Field';
-import { v4 as uuidv4 } from 'uuid';
 
-interface FieldListProps {
+export interface FieldListProps {
   id: string;
   value: IField[];
   onChange: (value: IField[]) => void;
@@ -22,7 +21,7 @@ export const FieldList: FC<FieldListProps> = ({ value, onChange, onSave }) => {
 
   const handleAddField = () => {
     if (newFieldName.trim()) {
-      const newField = new Field(uuidv4(), newFieldName);
+      const newField = new Field(newFieldName);
       setFields([...fields, newField]);
       setNewFieldName('');
     }
@@ -35,7 +34,7 @@ export const FieldList: FC<FieldListProps> = ({ value, onChange, onSave }) => {
   const handleEditField = (id: string, newName: string) => {
     setFields(fields.map(field => 
       field.getId() === id 
-        ? { ...field, name: newName, getName: () => newName, setName: (n: string) => {} } 
+        ? { ...field, name: newName, getName: () => newName, setName: (n: string) => { field.setName(n) } } 
         : field
     ));
     setEditingField(null);

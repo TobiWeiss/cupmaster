@@ -111,6 +111,7 @@ export class LeagueCreator implements IGamePlanCreator {
         let currentCycleStartTime = new Date(tournament.getStartDate()!.getTime());
         games.forEach((game, index) => {
             game.setStartTime(new Date(currentCycleStartTime));
+            game.setEndTime(new Date(currentCycleStartTime.getTime() + tournament.getMatchDuration(TournamentFormat.LEAGUE)));
 
             if ((index + 1) % numberOfFields == 0) {
                 currentCycleStartTime = new Date(currentCycleStartTime.setMinutes(currentCycleStartTime.getMinutes()

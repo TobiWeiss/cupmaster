@@ -274,7 +274,7 @@ export const de = {
       },
       settings: {
         title: 'Turniereinstellungen',
-        description: 'Hier kannst du die Einstellungen deines Turniers bearbeiten.',
+        description: 'Hier kannst du die Einstellungen deines Turniers bearbeiten. Klicke auf die gewünschte Einstellung um sie zu bearbieten.',
         addField: 'Spielfeld hinzufügen',
         categories: {
           basic: {

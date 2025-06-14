@@ -4,7 +4,7 @@ import { useTournamentService } from './useTournamentService';
 import { LocalStorage } from '../../common/services';
 
 export const useTournament = (id: string | undefined) => {
-  const [tournament, setTournament] = useState<ITournament | null>(null);
+  const [tournament, setTournament] = useState<Tournament | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const tournamentService = useTournamentService(new LocalStorage());
@@ -28,9 +28,9 @@ export const useTournament = (id: string | undefined) => {
 
   useEffect(() => {
     if (tournament) {
-      tournamentService.updateTournament(tournament);
+      tournamentService.updateTournament(tournament as ITournament);
     }
   }, [tournament]);
-
+  
   return { tournament: Tournament.init(tournament!), setTournament, loading, error };
 };

@@ -14,7 +14,6 @@ export const useGamePlan = (tournament: ITournament | null) => {
   const gamePlanService = useMemo(() => new GamePlanService(), []);
   const tournamentMemo = useMemo(() => tournament, [tournament]);
 
-
   const loadGamePlan = async (tournament: ITournament) => {
     if (!tournament.getId()) return;
     try {
@@ -41,16 +40,16 @@ export const useGamePlan = (tournament: ITournament | null) => {
   }, [tournament?.getId()]);
 
   const updateGamePlan = (tournament: Tournament) => {
-    const gamePlan = GamePlanManager.createGamePlan(tournament!);
-    setGamePlan(gamePlan);
+    const newGamePlan = GamePlanManager.createGamePlan(tournament);
+    setGamePlan(newGamePlan);
+    return newGamePlan;
   }
-  const reorderGames = (sourceIndex: number, destinationIndex: number) => {
 
+  const reorderGames = (sourceIndex: number, destinationIndex: number) => {
     if (!gamePlan) return;
     const newGamePlan = GamePlanManager.recalulateGameTimes(gamePlan, tournamentMemo!, sourceIndex, destinationIndex);
-    console.log('newGamePlan', newGamePlan);
-
     setGamePlan(newGamePlan);
+    return newGamePlan;
   }
   
   return { gamePlan, updateGamePlan, reorderGames, loading, error };

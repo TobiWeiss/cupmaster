@@ -17,6 +17,7 @@ export interface IGamePlan extends IBaseClass {
     modified: Date;
     version: number;
   }): void;
+  getLastGame(): IGame | null;
 } 
 
 export class GamePlan implements IGamePlan {
@@ -93,6 +94,16 @@ export class GamePlan implements IGamePlan {
 
   getGames() {
     return this.games;
+  }
+
+  getLastGame() {
+    if(this.games.length === 0) {
+      return null;
+    }
+    // sort by date before returning the last game
+    const sortedGames = this.games.sort((a, b) => a.getTime().getStartTime().getTime() - b.getTime().getStartTime().getTime());
+    console.info("sortedGames", sortedGames);
+    return sortedGames[sortedGames.length - 1];
   }
 
   setMetadata(metadata: {

@@ -6,7 +6,7 @@ import { Save, Plus, Minus } from 'lucide-react';
 import { Icon } from '../../../../common/components/ui/Icon';
 import { SmallText } from '../../../../common/components/typography/Text';
 
-interface NumberInputProps {
+export interface NumberInputProps {
   id: string;
   value: number;
   onChange: (value: number) => void;

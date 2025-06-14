@@ -1,9 +1,8 @@
 import { useEffect, useState, useMemo } from "react";
-import { GamePlan, IGamePlan } from "../types/game-plan/GamePlan";
+import { IGamePlan } from "../types/game-plan/GamePlan";
 import { GamePlanManager } from "../services/GamePlanManager";
 import { GamePlanService } from "../services/GamePlanService";
 import { ITournament, Tournament } from "../types/tournament/Tournament";
-import { arrayMove } from "@dnd-kit/sortable";
 
 export const useGamePlan = (tournament: ITournament | null) => {
   const [gamePlan, setGamePlan] = useState<IGamePlan | null>(null);
@@ -40,14 +39,14 @@ export const useGamePlan = (tournament: ITournament | null) => {
   }, [tournament?.getId()]);
 
   const updateGamePlan = (tournament: Tournament) => {
-    const newGamePlan = GamePlanManager.createGamePlan(tournament);
+    const newGamePlan = GamePlanManager.updateGamePlan(gamePlan!, tournament);
     setGamePlan(newGamePlan);
     return newGamePlan;
   }
 
   const reorderGames = (sourceIndex: number, destinationIndex: number) => {
     if (!gamePlan) return;
-    const newGamePlan = GamePlanManager.recalulateGameTimes(gamePlan, tournamentMemo!, sourceIndex, destinationIndex);
+    const newGamePlan = GamePlanManager.reorderGames(gamePlan, tournamentMemo!, sourceIndex, destinationIndex);
     setGamePlan(newGamePlan);
     return newGamePlan;
   }

@@ -10,6 +10,7 @@ import { useGamePlan } from '../hooks/useGamePlan';
 import { useTournament } from '../hooks/useTournament';
 import { IParticipant } from '../types/tournament/Participant';
 import { Tournament } from '../types/tournament/Tournament';
+import { useNotify } from '../../common/hooks/useNotifications';
 
 type ActiveView = 'game-plan' | 'participants' | 'settings';
 
@@ -17,6 +18,7 @@ export const TournamentOperationPage: FC = () => {
   const { id } = useParams<{ id: string }>();
   
   const [activeView, setActiveView] = useState<ActiveView>('game-plan');
+  const { showConfirmation } = useNotify();
 
   const { tournament, setTournament, loading: tournamentLoading } = useTournament(id);
   const { gamePlan, updateGamePlan, reorderGames, loading: gamePlanLoading } = useGamePlan(tournament);
@@ -29,9 +31,13 @@ export const TournamentOperationPage: FC = () => {
   }
 
   const onChangeSettings = (tournament: Tournament) => {
-    const updatedGamePlan = updateGamePlan(tournament);
-    tournament.updateEndDate(updatedGamePlan);
-    setTournament(tournament);
+    showConfirmation("Das Ändern dieser Einstellung führt dazu, dass der Spielplan neu berechnet und die Match-Reihenfolge geändert wird. Sind sie sicher?", () => {
+      const updatedGamePlan = updateGamePlan(tournament);
+      tournament.updateEndDate(updatedGamePlan);
+      setTournament(tournament);
+    }, () => {
+      console.log("Abgebrochen");
+    });
   }
 
   const handleReorderGames = (sourceIndex: number, destinationIndex: number) => {

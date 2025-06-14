@@ -47,7 +47,7 @@ export const BottomNavigation: FC<BottomNavigationProps> = ({
   }, [activeView]);
 
   return (
-    <div className="fixed bottom-5 left-0 right-0 max-w-xl mx-auto rounded-3xl bg-custom-primary-light dark:bg-custom-primary-dark">
+    <div className="fixed bottom-5 left-0 right-0 max-w-xl mx-auto rounded-3xl bg-custom-primary-light dark:bg-custom-primary-dark shadow-lg shadow-custom-secondary-light dark:shadow-custom-secondary-dark">
       <div className="container mx-auto">
         <div className="flex justify-center items-center py-2">
           {navigationItems.map((item) => (

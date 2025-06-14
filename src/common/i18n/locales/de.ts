@@ -276,6 +276,11 @@ export const de = {
         title: 'Turniereinstellungen',
         description: 'Hier kannst du die Einstellungen deines Turniers bearbeiten. Klicke auf die gewünschte Einstellung um sie zu bearbieten.',
         addField: 'Spielfeld hinzufügen',
+        notification: {
+          success: 'Einstellung gespeichert, der Spielplan wurde automatisch aktualisiert. Die Reihenfolge der Spiele wurde beibehalten',
+          warning: 'Das Ändern dieser Einstellung führt dazu, dass der Spielplan neu berechnet und die Match-Reihenfolge geändert wird. Sind sie sicher?',
+          error: 'Einstellung konnte nicht gespeichert werden.'
+        },
         categories: {
           basic: {
             title: 'Grundlegende Informationen',

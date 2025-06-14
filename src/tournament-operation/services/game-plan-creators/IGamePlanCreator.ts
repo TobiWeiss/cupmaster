@@ -3,4 +3,5 @@ import { ITournament, Tournament } from "../../types/tournament/Tournament";
 
 export interface IGamePlanCreator {
     createGamePlan(tournament: ITournament): IGamePlan;
+    updateGamePlan(gamePlan: IGamePlan, tournament: ITournament): IGamePlan;
 }

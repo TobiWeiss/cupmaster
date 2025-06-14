@@ -9,7 +9,12 @@ export class GamePlanManager {
     return factory.createGamePlan(tournament);
   }
 
-  static recalulateGameTimes(gamePlan: IGamePlan, tournament: ITournament, oldIndex: number, newIndex: number): IGamePlan {
+  static updateGamePlan(gamePlan: IGamePlan, tournament: ITournament): IGamePlan {
+    const factory = new LeagueCreator();
+    return factory.updateGamePlan(gamePlan, tournament);
+  }
+
+  static reorderGames(gamePlan: IGamePlan, tournament: ITournament, oldIndex: number, newIndex: number): IGamePlan {
     const factory = new LeagueSorter();
 
 

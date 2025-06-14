@@ -95,10 +95,10 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
         className="my-10"
       />
 
-      <div className="grid gap-4 grid-cols-10">
+      <div className="grid gap-4 grid-cols-2">
         {categories.map((category, categoryIndex) => (
           <motion.div
-            className={categoryIndex != 2 ? 'col-span-5' : 'col-span-10'}
+            className={categoryIndex === categories.length - 1 ? 'col-span-2' : 'col-span-1'}
             key={category.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -108,7 +108,7 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
               <div className="flex items-center gap-2 mb-4">
                 <LargeText className="font-bold">{category.title}</LargeText>
               </div>
-              <div className="space-y-4">
+              <div className={categoryIndex === categories.length - 1 ? 'grid grid-cols-2 gap-4' : 'space-y-4'}>
                 {category.settings.map((setting) => (
                   <div key={setting.id} className="space-y-2 cursor-pointer" onClick={() => openEdit(setting.id)}>
                     <div className="flex justify-between items-center">

@@ -25,6 +25,28 @@ export class LeagueCreator implements IGamePlanCreator {
         return gamePlan;
     }
 
+    /**
+     * Update the game plan with the new tournament settings. Only the fields and dates are updated.
+     * If you want to update the game plan with the new tournament settings, use the createGamePlan method.
+     * @param gamePlan the game plan to update
+     * @param tournament the tournament to update the game plan with
+     * @returns the updated game plan
+     */
+    updateGamePlan(gamePlan: IGamePlan, tournament: ITournament): IGamePlan {
+        let games = gamePlan.getGames();
+
+        if (this._hasAmountOfMatchesAgainstEachOtherChanged(tournament, gamePlan)) {
+            return this.createGamePlan(tournament);
+        }
+       
+        games = this._assignFields(games, tournament);
+        games = this._setGameDates(games, tournament);
+
+        gamePlan.setGames(games);
+
+        return gamePlan;
+    }
+
     _createGames(tournament: ITournament): IGame[] {
         let games: IGame[] = [];
         const participants = tournament.getParticipants();
@@ -95,8 +117,6 @@ export class LeagueCreator implements IGamePlanCreator {
     _assignFields(games: IGame[], tournament: ITournament): IGame[] {
         const fields = tournament.getFields();
         const gameFields = fields.map(field => new GameField(field.getName()));
-
-        console.info("Game fields", gameFields);
 
 
         games.forEach((game, index) => {
@@ -263,5 +283,12 @@ export class LeagueCreator implements IGamePlanCreator {
         teamsLastPlayed.push(homeTeamId);
         teamsLastPlayed.push(awayTeamId);
         return teamsLastPlayed;
+    }
+
+    _hasAmountOfMatchesAgainstEachOtherChanged(tournament: ITournament, gamePlan: IGamePlan): boolean {
+        const amountOfMatchesAgainstEachOther = tournament.getMatchesAgainstEachParticipant(TournamentFormat.LEAGUE);
+        const games = gamePlan.getGames();
+        const amountOfMatchesAgainstEachOtherInGamePlan = games.filter(g => g.getFirstParticipant().getId() == g.getSecondParticipant().getId()).length;
+        return amountOfMatchesAgainstEachOther !== amountOfMatchesAgainstEachOtherInGamePlan;
     }
 }

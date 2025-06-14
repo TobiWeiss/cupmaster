@@ -1,3 +1,5 @@
+import { SmallText } from "../../typography/Text";
+
 interface WarningProps {
     message: string;
     onConfirm: () => void;
@@ -7,7 +9,7 @@ interface WarningProps {
 export const Warning = ({ message, onConfirm, onCancel }: WarningProps): JSX.Element => {
     return (
         <div className="msg-container flex flex-col gap-4">
-            <h1 className="text-lg font-bold">{message}</h1>
+            <SmallText color="text-custom-secondary-light dark:text-custom-secondary-dark">{message}</SmallText>
             <div className="flex flex-row gap-4">
                 <button onClick={onConfirm} className="btn btn-primary">Bestätigen</button>
                 <button onClick={onCancel} className="btn btn-secondary">Abbrechen</button>

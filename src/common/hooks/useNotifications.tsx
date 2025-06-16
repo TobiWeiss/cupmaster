@@ -17,16 +17,29 @@ export const useNotify = () => {
         });
     }
 
-    const showConfirmation = (message: string, onConfirm: () => void, onCancel: () => void) => {
-        const isDarkMode = document.documentElement.classList.contains('dark');
-        toast.warning(<Warning message={message} onConfirm={onConfirm} onCancel={onCancel} />, {
-            position: NotificationPosition.TOP_RIGHT,
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            theme: isDarkMode ? 'dark' : 'light',
+    const showConfirmation = (message: string) => {
+        return new Promise((resolve) => {
+          const toastId = toast(
+            ({ closeToast }) => (
+              <Warning message={message} onConfirm={() => {
+                resolve(true);
+                closeToast();
+                toast.dismiss(toastId);
+              }} onCancel={() => {
+                resolve(false);
+                closeToast();
+                toast.dismiss(toastId);
+              }} />
+            ),
+            {
+              autoClose: false,
+              closeOnClick: false,
+              closeButton: false,
+              position: NotificationPosition.TOP_RIGHT,
+            }
+          );
         });
-    }
+      }
 
     return {showNotification, showConfirmation}
 }

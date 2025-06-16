@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../../../../common/components/ui/Button';
 import { useTranslation } from 'react-i18next';
-import { Save, Plus, Trash2, Edit } from 'lucide-react';
+import { Save, Plus, Trash2, Edit, X } from 'lucide-react';
 import { SmallText } from '../../../../common/components/typography/Text';
 import { IField, Field } from '../../../types/tournament/Field';
 
@@ -42,6 +42,13 @@ export const FieldList: FC<FieldListProps> = ({ value, onChange, onSave }) => {
 
   const handleSave = () => {
     onChange(fields);
+    onSave();
+  };
+
+  const handleCancel = () => {
+    setFields(value);
+    setNewFieldName('');
+    setEditingField(null);
     onSave();
   };
 
@@ -109,7 +116,15 @@ export const FieldList: FC<FieldListProps> = ({ value, onChange, onSave }) => {
         />
       </div>
 
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={handleCancel}
+          icon={X}
+        >
+          {t('common.cancel')}
+        </Button>
         <Button 
           variant="outline" 
           size="sm" 

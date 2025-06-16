@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../../../../common/components/ui/Button';
 import { useTranslation } from 'react-i18next';
-import { Save } from 'lucide-react';
+import { Save, X } from 'lucide-react';
 
 export interface TextInputProps {
   id: string;
@@ -24,6 +24,11 @@ export const TextInput: FC<TextInputProps> = ({ value, onChange, onSave }) => {
     onSave();
   };
 
+  const handleCancel = () => {
+    setLocalValue(value);
+    onSave();
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -37,7 +42,15 @@ export const TextInput: FC<TextInputProps> = ({ value, onChange, onSave }) => {
         onChange={handleChange}
         className="w-full px-4 py-2 text-base rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark text-custom-secondary-light dark:text-custom-secondary-dark"
       />
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={handleCancel}
+          icon={X}
+        >
+          {t('common.cancel')}
+        </Button>
         <Button 
           variant="outline" 
           size="sm" 

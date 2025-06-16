@@ -50,6 +50,16 @@ export const TiebreakerList: FC<TiebreakerListProps> = ({ value, onChange, onSav
     onSave();
   };
 
+  const handleCancel = () => {
+    setTiebreakers(value);
+    setAvailableTiebreakers([
+      Tiebreaker.GOAL_DIFFERENCE,
+      Tiebreaker.HEAD_TO_HEAD,
+      Tiebreaker.GOALS_SCORED,
+    ].filter(tb => !value.includes(tb)));
+    onSave();
+  };
+
   const getTiebreakerLabel = (tiebreaker: Tiebreaker): string => {
     switch (tiebreaker) {
       case Tiebreaker.GOAL_DIFFERENCE:
@@ -136,7 +146,15 @@ export const TiebreakerList: FC<TiebreakerListProps> = ({ value, onChange, onSav
         </div>
       )}
 
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={handleCancel}
+          icon={X}
+        >
+          {t('common.cancel')}
+        </Button>
         <Button 
           variant="outline" 
           size="sm" 

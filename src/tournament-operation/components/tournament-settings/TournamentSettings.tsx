@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useState, useEffect } from 'react';
 import { Tournament } from '../../types/tournament/Tournament';
 import { Card } from '../../../common/components/ui/Card';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -10,16 +10,22 @@ import { TournamentFormat } from '../../types/tournament/TournamentFormat';
 import { createSettingsConfig, createLeagueFormatSettings } from './config';
 import { Map } from 'lucide-react';
 import { Setting } from './types';
+import { cloneDeep } from 'lodash';
 
 interface TournamentSettingsProps {
   tournament: Tournament;
-  onSave?: (tournament: Tournament) => void;
+  onSave?: (tournament: Tournament) => Promise<boolean>;
 }
 
 export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, onSave }) => {
   const { t } = useTranslation();
-  const [editedTournament, setEditedTournament] = useState<Tournament>(tournament);
   const [isEditing, setIsEditing] = useState<Record<string, boolean>>({});
+  const [editedTournament, setEditedTournament] = useState<Tournament>(Tournament.fromObject(cloneDeep(tournament.toObject())));
+
+  // Update editedTournament when parent tournament changes
+  useEffect(() => {
+    setEditedTournament(Tournament.fromObject(cloneDeep(tournament.toObject())));
+  }, [tournament]);
 
   const openEdit = (field: string) => {
     if(isEditing[field]) {
@@ -39,13 +45,21 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
   };
 
   const updateTournament = (onChange: (tournament: Tournament, value: any) => void, value: any) => {
-    const newTournament = Tournament.fromObject({ ...editedTournament.toObject() });
-    onChange(newTournament, value);
-    setEditedTournament(newTournament);
+    onChange(editedTournament, value);
+    setEditedTournament(editedTournament);
+  
     if (onSave) {
-      onSave(newTournament);
+      onSave(editedTournament).then((success: boolean) => {
+        if (!success) {
+          rollbackTournament();
+        }
+      });
     }
   };
+
+  const rollbackTournament = () => {
+    setEditedTournament(Tournament.fromObject(cloneDeep(tournament.toObject())));
+  }
 
   const categories = createSettingsConfig(t);
   

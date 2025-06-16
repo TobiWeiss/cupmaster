@@ -27,18 +27,13 @@ export class LeagueCreator implements IGamePlanCreator {
 
     /**
      * Update the game plan with the new tournament settings. Only the fields and dates are updated.
-     * If you want to update the game plan with the new tournament settings, use the createGamePlan method.
      * @param gamePlan the game plan to update
      * @param tournament the tournament to update the game plan with
      * @returns the updated game plan
      */
-    updateGamePlan(gamePlan: IGamePlan, tournament: ITournament): IGamePlan {
+    updateFieldsAndDates(gamePlan: IGamePlan, tournament: ITournament): IGamePlan {
         let games = gamePlan.getGames();
 
-        if (this._hasAmountOfMatchesAgainstEachOtherChanged(tournament, gamePlan)) {
-            return this.createGamePlan(tournament);
-        }
-       
         games = this._assignFields(games, tournament);
         games = this._setGameDates(games, tournament);
 
@@ -46,6 +41,8 @@ export class LeagueCreator implements IGamePlanCreator {
 
         return gamePlan;
     }
+
+
 
     _createGames(tournament: ITournament): IGame[] {
         let games: IGame[] = [];

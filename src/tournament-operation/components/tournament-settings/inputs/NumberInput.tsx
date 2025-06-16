@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../../../../common/components/ui/Button';
 import { useTranslation } from 'react-i18next';
-import { Save, Plus, Minus } from 'lucide-react';
+import { Save, Plus, Minus, X } from 'lucide-react';
 import { Icon } from '../../../../common/components/ui/Icon';
 import { SmallText } from '../../../../common/components/typography/Text';
 
@@ -51,6 +51,11 @@ export const NumberInput: FC<NumberInputProps> = ({
     onSave();
   };
 
+  const handleCancel = () => {
+    setLocalValue(value);
+    onSave();
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -96,7 +101,15 @@ export const NumberInput: FC<NumberInputProps> = ({
         </Button>
       </div>
       
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={handleCancel}
+          icon={X}
+        >
+          {t('common.cancel')}
+        </Button>
         <Button 
           variant="outline" 
           size="sm" 

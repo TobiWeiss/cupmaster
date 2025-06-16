@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Button } from '../../../../common/components/ui/Button';
 import { useTranslation } from 'react-i18next';
-import { Save, ChevronDown } from 'lucide-react';
+import { Save, X, ChevronDown } from 'lucide-react';
 import { Icon } from '../../../../common/components/ui/Icon';
 
 export interface SelectOption {
@@ -31,6 +31,11 @@ export const SelectInput: FC<SelectInputProps> = ({ value, onChange, onSave, opt
     onSave();
   };
 
+  const handleCancel = () => {
+    setLocalValue(value);
+    onSave();
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -51,10 +56,18 @@ export const SelectInput: FC<SelectInputProps> = ({ value, onChange, onSave, opt
           ))}
         </select>
         <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-          <Icon icon={ChevronDown} size="sm" className="text-custom-secondary-light dark:text-custom-secondary-dark" />
+          <Icon icon={ChevronDown} size="sm" />
         </div>
       </div>
-      <div className="flex justify-end">
+      <div className="flex justify-end gap-2">
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={handleCancel}
+          icon={X}
+        >
+          {t('common.cancel')}
+        </Button>
         <Button 
           variant="outline" 
           size="sm" 

@@ -33,13 +33,19 @@ export const useGamePlan = (tournament: ITournament | null) => {
   };
 
   useEffect(() => {
-     if (tournament?.getId()) {
+    if (tournament?.getId()) {
       loadGamePlan(tournament);
-    } 
+    }
   }, [tournament?.getId()]);
 
-  const updateGamePlan = (tournament: Tournament) => {
-    const newGamePlan = GamePlanManager.updateGamePlan(gamePlan!, tournament);
+  const createNewGamePlan = (tournament: Tournament): IGamePlan => {
+    const newGamePlan = GamePlanManager.createGamePlan(tournament);
+    setGamePlan(newGamePlan);
+    return newGamePlan;
+  }
+
+  const updateGamePlan = (tournament: Tournament): IGamePlan => {
+    const newGamePlan = GamePlanManager.updateFieldsAndDates(gamePlan!, tournament);
     setGamePlan(newGamePlan);
     return newGamePlan;
   }
@@ -50,6 +56,6 @@ export const useGamePlan = (tournament: ITournament | null) => {
     setGamePlan(newGamePlan);
     return newGamePlan;
   }
-  
-  return { gamePlan, updateGamePlan, reorderGames, loading, error };
+
+  return { gamePlan, updateGamePlan, createNewGamePlan, reorderGames, loading, error };
 };

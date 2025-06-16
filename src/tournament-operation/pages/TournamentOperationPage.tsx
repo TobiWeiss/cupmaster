@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GamePlanOverview } from '../components/game-plan/GamePlanOverview';
 import { ParticipantSettings } from '../components/participant-settings/ParticipantSettings';
@@ -11,33 +11,54 @@ import { useTournament } from '../hooks/useTournament';
 import { IParticipant } from '../types/tournament/Participant';
 import { Tournament } from '../types/tournament/Tournament';
 import { useNotify } from '../../common/hooks/useNotifications';
+import { NotificationType } from '../../common/types/NotifficationTypes';
+import { cloneDeep } from 'lodash';
 
 type ActiveView = 'game-plan' | 'participants' | 'settings';
 
 export const TournamentOperationPage: FC = () => {
   const { id } = useParams<{ id: string }>();
-  
+
   const [activeView, setActiveView] = useState<ActiveView>('game-plan');
-  const { showConfirmation } = useNotify();
+  const { showConfirmation, showNotification } = useNotify();
 
   const { tournament, setTournament, loading: tournamentLoading } = useTournament(id);
-  const { gamePlan, updateGamePlan, reorderGames, loading: gamePlanLoading } = useGamePlan(tournament);
+  const { gamePlan, updateGamePlan, createNewGamePlan, reorderGames, loading: gamePlanLoading } = useGamePlan(tournament);
 
   const onChangeParticipants = (participants: IParticipant[]) => {
-    tournament?.setParticipants(participants);
-    tournament.setNumberOfParticipants(participants.length);
+    if (!tournament) return;
+    tournament!.setParticipants(participants);
+    tournament!.setNumberOfParticipants(participants.length);
     setTournament(tournament);
     updateGamePlan(tournament!);
   }
 
-  const onChangeSettings = (tournament: Tournament) => {
-    showConfirmation("Das Ändern dieser Einstellung führt dazu, dass der Spielplan neu berechnet und die Match-Reihenfolge geändert wird. Sind sie sicher?", () => {
-      const updatedGamePlan = updateGamePlan(tournament);
-      tournament.updateEndDate(updatedGamePlan);
-      setTournament(tournament);
-    }, () => {
-      console.log("Abgebrochen");
-    });
+  const onChangeSettings = async (newTournament: Tournament): Promise<boolean> => {
+    if (!tournament) return false;
+  
+    const oldMatchesAgainstEachParticipant = tournament.getMatchesAgainstEachParticipant(tournament.getFormat());
+    const newMatchesAgainstEachParticipant = newTournament.getMatchesAgainstEachParticipant(newTournament.getFormat());
+    
+    const willCustomGameOrderBePreserverd = oldMatchesAgainstEachParticipant === newMatchesAgainstEachParticipant;
+    
+    if (willCustomGameOrderBePreserverd) {
+      const newGamePlan = updateGamePlan(newTournament);
+      newTournament.updateEndDate(newGamePlan);
+      setTournament(newTournament);
+      showNotification("Turnier erfolgreich aktualisiert. Die Reihenfolge der Spiele wurde beibehalten.", NotificationType.INFO);
+      return true;
+    } else {
+      const confirmed = await showConfirmation("Das Ändern dieser Einstellung führt dazu, dass der Spielplan neu berechnet und die Match-Reihenfolge geändert wird. Sind sie sicher?");
+      if (confirmed) {
+        const newGamePlan = createNewGamePlan(newTournament);
+        newTournament.updateEndDate(newGamePlan);
+        setTournament(newTournament);
+      } else {
+        showNotification("Der Spielplan wurde nicht aktualisiert", NotificationType.INFO);
+        return false;
+      }
+    }
+    return true;
   }
 
   const handleReorderGames = (sourceIndex: number, destinationIndex: number) => {

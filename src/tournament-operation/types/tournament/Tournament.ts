@@ -7,6 +7,8 @@ import { Tiebreaker } from "./Tiebreaker";
 import { v4 as uuidv4 } from 'uuid';
 import { Field, IField } from "./Field";
 import { IGamePlan } from "../game-plan/GamePlan";
+import { TournamentNameTooLongException, InvalidDateException, InvalidNumberException, TooFewFieldsException, ParticipantNameAlreadyExistsException } from "./exceptions";
+
 export interface ITournament {
   getId(): string;
   setId(id: string): void;
@@ -169,6 +171,9 @@ export class Tournament implements ITournament {
   }
 
   setName(name: string) {
+    if (name.length > 100) {
+      throw new TournamentNameTooLongException(100);
+    }
     this.config.name = name;
   }
 
@@ -185,6 +190,9 @@ export class Tournament implements ITournament {
   }
 
   setStartDate(startDate: Date) {
+    if (startDate < new Date()) {
+      throw new InvalidDateException('Start date must be in the future');
+    }
     this.config.startDate = startDate;
   }
 
@@ -193,6 +201,9 @@ export class Tournament implements ITournament {
   }
 
   setEndDate(endDate: Date) {
+    if (endDate < this.config.startDate) {
+      throw new InvalidDateException('End date must be after start date');
+    }
     this.config.endDate = endDate;
   }
 
@@ -220,6 +231,9 @@ export class Tournament implements ITournament {
   }
 
   setFields(fields: IField[]) {
+    if (fields.length < 1) {
+      throw new TooFewFieldsException();
+    }
     this.config.fields = fields;
   }
 
@@ -232,6 +246,9 @@ export class Tournament implements ITournament {
   }
 
   setNumberOfParticipants(numberOfParticipants: number) {
+    if (numberOfParticipants < 2) {
+      throw new InvalidNumberException('Number of participants must be at least 2');
+    }
     this.config.numberOfParticipants = numberOfParticipants;
   }
 
@@ -240,6 +257,9 @@ export class Tournament implements ITournament {
   }
 
   addParticipant(participant: Participant) {
+    if (this.participants.find(p => p.name === participant.name)) {
+      throw new ParticipantNameAlreadyExistsException(participant.name);
+    }
     this.participants.push(participant);
   }
 
@@ -260,6 +280,9 @@ export class Tournament implements ITournament {
   }
 
   setNumberOfGroups(numberOfGroups: number, type: TournamentFormat, phase?: TournamentPhase) {
+    if (numberOfGroups < 1) {
+      throw new InvalidNumberException('Number of groups must be at least 1');
+    }
     this._getConfigByType(type, phase).numberOfGroups = numberOfGroups;
   }
 
@@ -268,6 +291,9 @@ export class Tournament implements ITournament {
   }
 
   setMatchesAgainstEachParticipant(matches: number, type: TournamentFormat, phase?: TournamentPhase) {
+    if (matches < 1 || matches > 4) {
+      throw new InvalidNumberException('Matches against each participant must be between 1 and 4');
+    }
     this._getConfigByType(type, phase).matchesAgainstEachParticipant = matches;
   }
 
@@ -276,6 +302,9 @@ export class Tournament implements ITournament {
   }
 
   setMatchDuration(duration: number, type: TournamentFormat, phase?: TournamentPhase) {
+    if (duration < 5 || duration > 90) {
+      throw new InvalidNumberException('Match duration must be between 5 and 90 minutes');
+    }
     this._getConfigByType(type, phase).matchDuration = duration;
   }
 
@@ -284,6 +313,9 @@ export class Tournament implements ITournament {
   }
 
   setMatchBreakDuration(duration: number, type: TournamentFormat, phase?: TournamentPhase) {
+    if (duration < 0 || duration > 30) {
+      throw new InvalidNumberException('Match break duration must be between 0 and 30 minutes');
+    }
     this._getConfigByType(type, phase).matchBreakDuration = duration;
   }
 
@@ -292,6 +324,9 @@ export class Tournament implements ITournament {
   }
 
   setPointsForWin(points: number, type: TournamentFormat, phase?: TournamentPhase) {
+    if (points < 1 || points > 5) {
+      throw new InvalidNumberException('Points for win must be between 1 and 5');
+    }
     this._getConfigByType(type, phase).pointsForWin = points;
   }
 
@@ -300,6 +335,9 @@ export class Tournament implements ITournament {
   }
 
   setPointsForDraw(points: number, type: TournamentFormat, phase?: TournamentPhase) {
+    if (points < 0 || points > 3) {
+      throw new InvalidNumberException('Points for draw must be between 0 and 3');
+    }
     this._getConfigByType(type, phase).pointsForDraw = points;
   }
 
@@ -332,6 +370,9 @@ export class Tournament implements ITournament {
   }
 
   setQualifiedParticipants(participants: number, type: TournamentFormat, phase?: TournamentPhase) {
+    if (participants < 1) {
+      throw new InvalidNumberException('Number of qualified participants must be at least 1');
+    }
     this._getConfigByType(type, phase).qualifiedParticipants = participants;
   }
 

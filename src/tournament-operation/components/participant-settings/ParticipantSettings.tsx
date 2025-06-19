@@ -9,6 +9,7 @@ import { Plus, Edit2, Trash2, Users } from 'lucide-react';
 import { ParticipantForm } from './ParticipantForm';
 import { useTranslation } from 'react-i18next';
 import { PageInfo } from '../../../common/components/ui/PageInfo';
+import { useNotify } from '../../../common/hooks/useNotifications';
 
 interface ParticipantSettingsProps {
   tournament: Tournament;
@@ -21,7 +22,9 @@ export const ParticipantSettings: FC<ParticipantSettingsProps> = ({ tournament, 
   const [editingParticipant, setEditingParticipant] = useState<IParticipant | null>(null);
   const [participants, setParticipants] = useState<IParticipant[]>(tournament.getParticipants() || []);
 
-  const handleAddParticipant = (participant: Participant) => {
+  const {showNotification} = useNotify();
+
+  const handleAddParticipant = (participant: IParticipant) => {
     const newParticipants = [...participants, participant];
     setParticipants(newParticipants);
     setIsAddingParticipant(false);
@@ -103,15 +106,15 @@ export const ParticipantSettings: FC<ParticipantSettingsProps> = ({ tournament, 
                     <img
                       src={participant.getLogo()}
                       alt={participant.getName()}
-                      className="w-10 h-10 rounded-full object-cover"
+                      className="w-16 h-16 rounded-full object-cover"
                     />
                   ) : (
-                    <div className="w-10 h-10 rounded-full bg-custom-secondary-light dark:bg-custom-secondary-dark flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-custom-secondary-light dark:bg-custom-secondary-dark flex items-center justify-center">
                       <Users size={20} />
                     </div>
                   )}
                   <div>
-                    <SmallText className="font-bold">{participant.name}</SmallText>
+                    <SmallText className="font-bold max-w-[280px] truncate">{participant.name}</SmallText>
                     {participant.contact && (
                       <SmallText className="text-custom-secondary-light dark:text-custom-secondary-dark">
                         {participant.contact}

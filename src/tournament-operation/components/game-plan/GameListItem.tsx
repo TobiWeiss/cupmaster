@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { motion } from 'framer-motion';
 import { Card } from '../../../common/components/ui/Card';
-import { SmallText } from '../../../common/components/typography/Text';
+import { SmallestText, SmallText } from '../../../common/components/typography/Text';
 import { IGame } from '../../types/game-plan/Game';
 import { useTranslation } from 'react-i18next';
 import { formatDate } from '../../../common/utils/dateUtils';
@@ -30,17 +30,17 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
           {/* Time */}
           <div className="col-span-5 flex items-center">
             <Icon className='mr-2' size="sm" icon={Clock} />
-            <SmallText className="text-xs font-medium">
+            <SmallestText>
               {formatDate(game.getStartTime())}
-            </SmallText>
+            </SmallestText>
           </div>
 
           {/* Field */}
           <div className="col-span-5 flex items-center justify-end">
             <Icon className='mr-2' size="sm" icon={MapPin} />
-            <SmallText className="text-xs">
-              {t('tournamentOperation.gamePlan.field')} {game.getFieldName()}
-            </SmallText>
+            <SmallestText>
+              {game.getFieldName()}
+            </SmallestText>
           </div>
         </div>
 
@@ -52,23 +52,23 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
               <img
                 src={game.getFirstParticipantLogo()}
                 alt={game.getFirstParticipantName()}
-                className="w-5 h-5 rounded-full mr-2"
+                className="w-10 h-10 rounded-full mr-2"
               />
             ) : (
-              <div className="w-5 h-5 rounded-full bg-custom-secondary-light/10 dark:bg-custom-secondary-dark/10 flex items-center justify-center mr-2">
-                <SmallText className="text-xs">{game.getFirstParticipantName().charAt(0)}</SmallText>
+              <div className="w-10 h-10 rounded-full bg-custom-secondary-light/10 dark:bg-custom-secondary-dark/10 flex items-center justify-center mr-2">
+                <SmallText>{game.getFirstParticipantName().charAt(0)}</SmallText>
               </div>
             )}
-            <SmallText className="truncate">
+            <SmallText className="truncate mr-2">
               {game.getFirstParticipantName()}
             </SmallText>
           </div>
 
           {/* Score */}
           <div className="flex items-center justify-center">
-            <SmallText className="font-bold text-lg">
+            <SmallestText className="font-bold">
               {game.getStatus() === 'PLANNED' ? '-' : `${game.getFirstParticipantScore()} - ${game.getSecondParticipantScore()}`}
-            </SmallText>
+            </SmallestText>
           </div>
 
           {/* Second participant */}
@@ -80,11 +80,11 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
               <img
                 src={game.getSecondParticipantLogo()}
                 alt={game.getSecondParticipantName()}
-                className="w-5 h-5 rounded-full ml-2"
+                className="w-10 h-10 rounded-full ml-2"
               />
             ) : (
-              <div className="w-5 h-5 rounded-full bg-custom-secondary-light/10 dark:bg-custom-secondary-dark/10 flex items-center justify-center ml-2">
-                <SmallText className="text-xs">{game.getSecondParticipantName().charAt(0)}</SmallText>
+              <div className="w-10 h-10 rounded-full bg-custom-secondary-light/10 dark:bg-custom-secondary-dark/10 flex items-center justify-center ml-2">
+                <SmallestText>{game.getSecondParticipantName().charAt(0)}</SmallestText>
               </div>
             )}
           </div>

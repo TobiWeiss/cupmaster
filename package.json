@@ -9,7 +9,7 @@
     "lint": "eslint -c eslint.config.js .",
     "preview": "vite preview",
     "test": "vitest --ui",
-    "coverage": "vitest --coverage"
+    "coverage": "vitest --coverage --ui"
   },
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^1.5.2",
@@ -19,8 +19,7 @@
     "@react-spring/web": "^9.7.5",
     "i18next": "^23.10.1",
     "i18next-browser-languagedetector": "^7.2.0",
-    "jest-canvas-mock": "^2.5.2",
-    "loadash": "^1.0.0",
+    "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "lucide-react": "^0.344.0",
     "moment": "^2.30.1",
@@ -32,8 +31,9 @@
     "react-router-dom": "^6.22.2",
     "react-toastify": "^11.0.5",
     "tiny-invariant": "^1.3.3",
-    "trianglify": "^4.1.1",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest-canvas-mock": "^0.3.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.1",
@@ -45,8 +45,8 @@
     "@types/react-dom": "^18.3.0",
     "@types/uuid": "^9.0.8",
     "@vitejs/plugin-react": "^4.3.4",
-    "@vitest/coverage-istanbul": "^3.0.2",
-    "@vitest/ui": "^3.0.2",
+    "@vitest/coverage-istanbul": "^3.1.5",
+    "@vitest/ui": "^3.1.5",
     "autoprefixer": "^10.4.18",
     "eslint": "^9.9.1",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
@@ -57,8 +57,7 @@
     "tailwindcss": "^3.4.1",
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.3.0",
-    "vite": "^5.4.2",
-    "vitest": "^3.0.2",
-    "vitest-canvas-mock": "^0.3.3"
+    "vite": "^6.3.5",
+    "vitest": "^3.1.5"
   }
 }

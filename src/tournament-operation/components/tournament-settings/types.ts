@@ -2,14 +2,34 @@ import { FC } from 'react';
 import { TournamentFormat } from '../../types/tournament/TournamentFormat';
 import { Field } from '../../types/tournament/Field';
 import { TextInputProps } from './inputs/TextInput';
-import { SelectInputProps } from './inputs/SelectInput';
 import { FieldListProps } from './inputs/FieldList';
-import { DateTimeInputProps } from './inputs/DateTimeInput';
-import { NumberInputProps } from './inputs/NumberInput';
 import { TiebreakerListProps } from './inputs/TiebreakerList';
 import { Tournament } from '../../types/tournament/Tournament';
 
-export type SettingComponent = FC<TextInputProps | SelectInputProps | FieldListProps | DateTimeInputProps | NumberInputProps | TiebreakerListProps>;
+// Define interfaces locally since they're not exported from their respective files
+interface SelectInputProps {
+  id: string;
+  value: string;
+  onChange: (value: string) => void;
+  onCancel: () => void;
+  onSave: () => void;
+  options: { value: string; label: string; }[];
+}
+
+interface DateTimeInputProps {
+  id: string;
+  value: Date;
+  onSave: (value: Date) => void;
+  onCancel: () => void;
+}
+
+interface NumberInputProps {
+  id: string;
+  value: number;
+  onSave: (value: number) => void;
+  onCancel: () => void;
+  unit?: string;
+}
 
 export interface SettingOption {
   value: string | number;
@@ -21,15 +41,12 @@ export interface BaseSetting {
   label: string;
   icon?: any;
   editable: boolean;
-  component?: SettingComponent;
   getDisplayValue: (value: any) => string;
   onChange: (tournament: Tournament, value: any) => void;
 }
 
 export interface TextSetting extends BaseSetting {
   component: FC<TextInputProps>;
-  maxLength?: number;
-  minLength?: number;
 }
 
 export interface SelectSetting extends BaseSetting {
@@ -39,8 +56,6 @@ export interface SelectSetting extends BaseSetting {
 
 export interface NumberSetting extends BaseSetting {
   component: FC<NumberInputProps>;
-  min?: number;
-  max?: number;
   unit?: string;
 }
 

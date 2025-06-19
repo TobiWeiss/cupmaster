@@ -1,39 +1,36 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Save, X } from 'lucide-react';
 import { Button } from '../../../../common/components/ui/Button';
-import { InvalidDateException } from '../exceptions';
+import { easeInOut, motion, time } from 'framer-motion';
+import { parseDateFromIsoString, parseTimeFromIsoString } from '../../../../tournament-init/utils/DateUtils';
 
 interface DateTimeInputProps {
     id: string;
     value: Date;
     onSave: (value: Date) => void;
     onCancel: () => void;
-    minDate?: Date;
-    maxDate?: Date;
 }
 
-export const DateTimeInput: FC<DateTimeInputProps> = ({ id, value, onSave, onCancel, minDate, maxDate }) => {
+export const DateTimeInput: FC<DateTimeInputProps> = ({ id, value, onSave, onCancel }) => {
     const { t } = useTranslation();
     const [localValue, setLocalValue] = useState(value);
 
-    const validateDate = (newDate: Date) => {
-        if (minDate && newDate < minDate) {
-            throw new InvalidDateException(`Date must be after ${minDate.toLocaleString()}`);
-        }
-        if (maxDate && newDate > maxDate) {
-            throw new InvalidDateException(`Date must be before ${maxDate.toLocaleString()}`);
-        }
-    };
-
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const newDate = new Date(e.target.value);
-        if (isNaN(newDate.getTime())) {
-            throw new InvalidDateException('Please enter a valid date and time');
-        }
-        validateDate(newDate);
-        setLocalValue(newDate);
-    };
+    const [date, setDate] = useState<string>('');
+    const [time, setTime] = useState<string>('');
+  
+    const initialDate = parseDateFromIsoString(value.toISOString());
+    const initialTime = parseTimeFromIsoString(value.toISOString());
+  
+  
+    useEffect(() => {
+      if (date && time) {
+        const dateTime = new Date(`${date}T${time}`);
+        const utcDate = new Date(Date.UTC(dateTime.getUTCFullYear(), dateTime.getUTCMonth(), dateTime.getUTCDate(), dateTime.getUTCHours(), dateTime.getUTCMinutes()));
+        setLocalValue(utcDate);
+  
+      }
+    }, [date, time]);
 
     const handleSave = () => {
         onSave(localValue);
@@ -44,17 +41,33 @@ export const DateTimeInput: FC<DateTimeInputProps> = ({ id, value, onSave, onCan
         onCancel();
     };
 
+   
+
     return (
         <div className="space-y-2">
-            <div className="flex gap-2">
-                <input
-                    type="datetime-local"
-                    data-testid={`datetime-input-${id}`}
-                    value={localValue.toISOString().slice(0, 16)}
-                    onChange={handleChange}
-                    className="flex-1"
-                />
-            </div>
+            <motion.div initial={{ opacity: 0 }}
+      animate={{ opacity: 1, transition: { duration: 0.5, ease: easeInOut } }}
+      exit={{ opacity: 0, transition: { duration: 0.5, ease: easeInOut } }} className="relative w-full">
+      <div className="flex flex-row gap-2">
+        <input
+          type="date"
+          value={date || initialDate || ''}
+          onChange={(e) => setDate(e.target?.value)}
+          className="w-full text-base px-4 py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light text-custom-secondary-light dark:text-custom-secondary-dark dark:bg-custom-primary-dark cursor-pointer placeholder-custom-secondary-dark dark:placeholder-custom-secondary-light"
+          data-testid={`datetime-input-${id}-date`}
+        />
+
+        <input
+          type="time"
+          value={time || initialTime || ''}
+          onChange={(e) => setTime(e.target?.value)}
+          className="w-full text-base px-4 py-2 pr-10 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark placeholder-custom-secondary-dark dark:placeholder-custom-secondary-light text-custom-secondary-light dark:text-custom-secondary-dark"
+          data-testid={`datetime-input-${id}-hour`}
+        />
+
+      </div>
+    </motion.div>
+   
             <div className="flex justify-end gap-2">
                 <Button
                     variant="outline"

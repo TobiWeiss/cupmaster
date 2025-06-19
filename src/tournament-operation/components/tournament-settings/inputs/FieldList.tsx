@@ -95,7 +95,7 @@ export const FieldList: FC<FieldListProps> = ({ value, onSave, onCancel }) => {
                 variant="outline"
                 size="sm"
                 onClick={() => handleRemoveField(field.getId())}
-                data-testid={`field-remove-${field.getId()}`}
+                data-testid={`field-remove-${field.getName()}`}
                 icon={Trash2}
               />
             </div>
@@ -118,7 +118,7 @@ export const FieldList: FC<FieldListProps> = ({ value, onSave, onCancel }) => {
           size="sm"
           onClick={handleAddField}
           icon={Plus}
-          data-testid="field-add"
+          data-testid="field-list-add"
         />
       </div>
 

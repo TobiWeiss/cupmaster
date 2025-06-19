@@ -21,6 +21,8 @@ export const de = {
       fields: 'Spielfelder',
       minutes: 'Minuten',
       saveChanges: 'Änderungen speichern',
+      games: 'Spiele',
+      points: 'Punkte',
     },
     tournament: {
       name: 'Turniername',

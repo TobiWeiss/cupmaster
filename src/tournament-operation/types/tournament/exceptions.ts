@@ -32,3 +32,10 @@ export class TooFewFieldsException extends ValidationException {
         this.name = 'TooFewFieldsException';
     }
 }
+
+export class ParticipantNameAlreadyExistsException extends ValidationException {
+    constructor(name: string) {
+        super(`Participant name ${name} already exists`);
+        this.name = 'ParticipantNameAlreadyExistsException';
+    }
+}

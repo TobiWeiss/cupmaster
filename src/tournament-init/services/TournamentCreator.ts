@@ -59,7 +59,7 @@ export class TournamentCreator {
       name: tournament.getName(),
       logoUrl: tournament.getLogoUrl(),
       startDate: tournament.getStartDate().toISOString(),
-      fields: tournament.getFields(),
+      fields: tournament.getFields().length,
       multipleDays: tournament.getEndDate() ? true : false,
       endDate: tournament.getEndDate()?.toISOString(),
       numberOfParticipants: tournament.getNumberOfParticipants(),

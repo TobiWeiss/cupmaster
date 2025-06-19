@@ -251,7 +251,7 @@ export const TournamentWizard = ({ onComplete, onCancel, wizardElements }: Tourn
           animate={{ x: 0, opacity: 1, transition: { delay: (categories.length) * 0.5, ease: easeInOut } }}
           exit={{ x: 200, opacity: 0, transition: { delay: (categories.length) * 0.5, ease: easeInOut } }} className='flex flex-col flex-1'>
       <div className="flex flex-col flex-1">
-        <Card className="flex-1 min-h-135 max-h-135 justify-between">
+        <Card className="flex-1 min-h-150 max-h-150 justify-between">
           {/* Help Icon */}
           <div className="flex items-stretch justify-end gap-2">
             <Help

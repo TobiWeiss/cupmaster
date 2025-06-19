@@ -13,7 +13,7 @@ import { Setting } from './types';
 import { cloneDeep } from 'lodash';
 import { useNotify } from '../../../common/hooks/useNotifications';
 import { NotificationType } from '../../../common/types/NotifficationTypes';
-import { ValidationException } from './exceptions';
+import { ValidationException } from '../../types/tournament/exceptions';
 
 interface TournamentSettingsProps {
   tournament: Tournament;
@@ -69,8 +69,9 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
         closeEdit(field);
       }
     } catch (error) {
+      console.log('error', error);
       if (error instanceof ValidationException) {
-        showNotification(error.message, NotificationType.INFO);
+        showNotification(error.message, NotificationType.WARNING);
       } else {
         showNotification(t('common.error.unknown'), NotificationType.ERROR);
       }
@@ -184,7 +185,7 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                         >
-                          <SmallText>
+                          <SmallText dataTestId={`setting-content-${setting.id}`}>
                             {setting.getDisplayValue(getSettingValue(setting))}
                           </SmallText>
                         </motion.div>

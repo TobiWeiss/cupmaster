@@ -14,11 +14,12 @@ interface SelectInputProps {
   id: string;
   value: string;
   onChange: (value: string) => void;
+  onCancel: () => void;
   onSave: () => void;
   options: SelectOption[];
 }
 
-export const SelectInput: FC<SelectInputProps> = ({ id, value, onChange, onSave, options }) => {
+export const SelectInput: FC<SelectInputProps> = ({ id, value, onChange, onCancel, onSave, options }) => {
   const { t } = useTranslation();
   const [localValue, setLocalValue] = useState(value);
 
@@ -33,7 +34,7 @@ export const SelectInput: FC<SelectInputProps> = ({ id, value, onChange, onSave,
 
   const handleCancel = () => {
     setLocalValue(value);
-    onSave();
+    onCancel();
   };
 
   return (

@@ -125,7 +125,7 @@ export const ParticipantList = ({
           {participants.map(participant => (
             <div
               key={participant.name}
-              className="flex overflow-auto min-w-40 items-center justify-between p-3 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark "
+              className="flex overflow-auto min-w-40 max-w-40 items-center justify-between p-3 rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark "
             >
 
               <>

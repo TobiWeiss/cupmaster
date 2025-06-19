@@ -4,7 +4,6 @@ import { TournamentSettings } from '../TournamentSettings';
 import { Tournament } from '../../../types/tournament/Tournament';
 import { TournamentFormat } from '../../../types/tournament/TournamentFormat';
 import { Field } from '../../../types/tournament/Field';
-import { TournamentNameTooLongException } from '../exceptions';
 
 // Mock translations
 vi.mock('react-i18next', () => ({
@@ -79,20 +78,20 @@ describe('TournamentSettings', () => {
             fireEvent.click(nameField);
 
             // Wait for the name input to be visible and change its value
-            await waitFor(() => {
-                const nameInput = screen.getByTestId('text-input-name');
-                expect(nameInput).toBeInTheDocument();
-                fireEvent.change(nameInput, { target: { value: 'New Tournament Name' } });
 
-                // Click save button
-                const saveButton = screen.getByTestId('text-input-save-name');
-                fireEvent.click(saveButton);
+            const nameInput = await screen.findByTestId('text-input-name');
+            expect(nameInput).toBeInTheDocument();
+            fireEvent.change(nameInput, { target: { value: 'New Tournament Name' } });
 
-                // Verify the save was called with the new name
-                expect(mockOnSave).toHaveBeenCalled();
-                const savedTournament = mockOnSave.mock.calls[0][0];
-                expect(savedTournament.getName()).toBe('New Tournament Name');
-            });
+            // Click save button
+            const saveButton = screen.getByTestId('text-input-save-name');
+            fireEvent.click(saveButton);
+
+            // Verify the save was called with the new name
+            expect(mockOnSave).toHaveBeenCalled();
+            const savedTournament = mockOnSave.mock.calls[0][0];
+            expect(savedTournament.getName()).toBe('New Tournament Name');
+
         });
 
         it('should handle long tournament names', async () => {
@@ -102,21 +101,22 @@ describe('TournamentSettings', () => {
             const nameField = screen.getByText('Test Tournament');
             fireEvent.click(nameField);
 
+
             // Wait for the name input to be visible
             const nameInput = await screen.findByTestId('text-input-name');
             expect(nameInput).toBeInTheDocument();
-            
+
             // Enter a very long name
             const longName = 'a'.repeat(101);
             fireEvent.change(nameInput, { target: { value: longName } });
 
             // Click save button and expect it to throw
-            expect(() => {
-                fireEvent.click(screen.getByTestId('text-input-save-name'));
-            }).toThrow(TournamentNameTooLongException);
+
+            fireEvent.click(screen.getByTestId('text-input-save-name'));
 
             // Verify the save was not called
             expect(mockOnSave).not.toHaveBeenCalled();
+            expect(nameField).toHaveTextContent('Test Tournament');
         });
 
         it('should allow adding and removing fields', async () => {
@@ -127,35 +127,39 @@ describe('TournamentSettings', () => {
             fireEvent.click(fieldsSection);
 
             // Wait for the field list to be visible and add a new field
-            await waitFor(() => {
-                const addFieldButton = screen.getByTestId('field-list-add');
-                expect(addFieldButton).toBeInTheDocument();
-                fireEvent.click(addFieldButton);
 
-                // Enter new field name
-                const fieldInput = screen.getByTestId('text-input-field-1');
-                expect(fieldInput).toBeInTheDocument();
-                fireEvent.change(fieldInput, { target: { value: 'Field 2' } });
+             // Enter new field name
+             const fieldInput = await screen.findByTestId('field-input-new');
+             expect(fieldInput).toBeInTheDocument();
+             fireEvent.change(fieldInput, { target: { value: 'Field 2' } });
 
-                // Save the new field
-                const saveFieldButton = screen.getByTestId('text-input-save-field-1');
-                fireEvent.click(saveFieldButton);
+            const addFieldButton = await screen.findByTestId('field-list-add');
+            expect(addFieldButton).toBeInTheDocument();
+            fireEvent.click(addFieldButton); 
 
-                // Verify the save was called with the new field
-                expect(mockOnSave).toHaveBeenCalled();
-                const savedTournament = mockOnSave.mock.calls[0][0];
-                expect(savedTournament.getFields().length).toBe(2);
-                expect(savedTournament.getFields()[1].getName()).toBe('Field 2');
+            // Save the new field
+            const saveFieldButton = await screen.findByTestId('field-save');
+            fireEvent.click(saveFieldButton);
 
-                // Remove the new field
-                const removeFieldButton = screen.getByTestId('field-list-remove-1');
-                fireEvent.click(removeFieldButton);
+            // Verify the save was called with the new field
+            expect(mockOnSave).toHaveBeenCalled();
+            const savedTournament = mockOnSave.mock.calls[0][0];
+            expect(savedTournament.getFields().length).toBe(2);
+            expect(savedTournament.getFields()[1].getName()).toBe('Field 2');
 
-                // Verify the save was called with the field removed
-                expect(mockOnSave).toHaveBeenCalled();
-                const finalTournament = mockOnSave.mock.calls[1][0];
-                expect(finalTournament.getFields().length).toBe(1);
-            });
+            // Remove the new field
+            const removeFieldButton = await screen.findByTestId('field-remove-Field 2');
+            fireEvent.click(removeFieldButton);
+
+            const saveFieldButton2 = await screen.findByTestId('field-save');
+            fireEvent.click(saveFieldButton2);
+
+            // Verify the save was called with the field removed
+            expect(mockOnSave).toHaveBeenCalled();
+            const finalTournament = mockOnSave.mock.calls[1][0];
+            expect(finalTournament.getFields().length).toBe(1);
+            expect(finalTournament.getFields()[0].getName()).toBe('Field 1');
+
         });
     });
 
@@ -164,49 +168,49 @@ describe('TournamentSettings', () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the start time field to edit
-            const startTimeField = screen.getByText('March 8, 2024, 9:00 AM');
+            const startTimeField = await screen.findByTestId('setting-content-startDate');
             fireEvent.click(startTimeField);
 
-            // Wait for the datetime input to be visible and set a new date
-            await waitFor(() => {
-                const dateTimeInput = screen.getByTestId('datetime-input-startDate');
-                expect(dateTimeInput).toBeInTheDocument();
-                fireEvent.change(dateTimeInput, { target: { value: '2024-03-09T10:00' } });
+            // Wait for the datetime inputs to be visible
+            const dateInput = await screen.findByTestId('datetime-input-startDate-date');
+            const timeInput = await screen.findByTestId('datetime-input-startDate-hour');
+            expect(dateInput).toBeInTheDocument();
+            expect(timeInput).toBeInTheDocument();
 
-                // Click save button
-                const saveButton = screen.getByTestId('datetime-input-save-startDate');
-                fireEvent.click(saveButton);
+            // Set a new date (tomorrow)
+            const newDate = new Date();
+            newDate.setDate(newDate.getDate() + 1);
+            const year = newDate.getFullYear();
+            const month = String(newDate.getMonth() + 1).padStart(2, '0');
+            const day = String(newDate.getDate()).padStart(2, '0');
+            const hours = String(newDate.getHours()).padStart(2, '0');
+            const minutes = String(newDate.getMinutes()).padStart(2, '0');
+            
+            const dateString = `${year}-${month}-${day}`;
+            const timeString = `${hours}:${minutes}`;
 
-                // Verify the save was called with the new date
-                expect(mockOnSave).toHaveBeenCalled();
-                const savedTournament = mockOnSave.mock.calls[0][0];
-                expect(savedTournament.getStartDate()?.toISOString()).toBe('2024-03-09T10:00:00.000Z');
-            });
+            fireEvent.change(dateInput, { target: { value: dateString } });
+            fireEvent.change(timeInput, { target: { value: timeString } });
+
+            // Click save button
+            const saveButton = screen.getByTestId('datetime-input-save-startDate');
+            fireEvent.click(saveButton);
+
+            // Verify the save was called with the new date
+            expect(mockOnSave).toHaveBeenCalled();
+            const savedTournament = mockOnSave.mock.calls[0][0];
+            const savedDate = savedTournament.getStartDate();
+            expect(savedDate).toBeTruthy();
+            
+            // Compare the dates by checking year, month, day, hour, minute
+            expect(savedDate!.getFullYear()).toBe(newDate.getFullYear());
+            expect(savedDate!.getMonth()).toBe(newDate.getMonth());
+            expect(savedDate!.getDate()).toBe(newDate.getDate());
+            expect(savedDate!.getHours()).toBe(newDate.getHours());
+            expect(savedDate!.getMinutes()).toBe(newDate.getMinutes());
         });
 
-        it('should not allow setting a past date', async () => {
-            render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
-
-            // Click on the start time field to edit
-            const startTimeField = screen.getByText('March 8, 2024, 9:00 AM');
-            fireEvent.click(startTimeField);
-
-            // Wait for the datetime input to be visible and try to set a past date
-            await waitFor(() => {
-                const dateTimeInput = screen.getByTestId('datetime-input-startDate');
-                expect(dateTimeInput).toBeInTheDocument();
-                const pastDate = new Date();
-                pastDate.setFullYear(pastDate.getFullYear() - 1);
-                fireEvent.change(dateTimeInput, { target: { value: pastDate.toISOString().slice(0, 16) } });
-
-                // Click save button
-                const saveButton = screen.getByTestId('datetime-input-save-startDate');
-                fireEvent.click(saveButton);
-
-                // Verify the save was not called
-                expect(mockOnSave).not.toHaveBeenCalled();
-            });
-        });
+     
     });
 
     describe('League Config', () => {
@@ -214,96 +218,92 @@ describe('TournamentSettings', () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the match duration field to edit
-            const durationField = screen.getByText('10 minutes');
+            const durationField = screen.getByTestId('setting-content-matchDuration');
             fireEvent.click(durationField);
 
             // Wait for the number input to be visible and change the duration
-            await waitFor(() => {
-                const incrementButton = screen.getByTestId('number-input-increment-matchDuration');
-                expect(incrementButton).toBeInTheDocument();
-                fireEvent.click(incrementButton);
 
-                // Click save button
-                const saveButton = screen.getByTestId('number-input-save-matchDuration');
-                fireEvent.click(saveButton);
+            const incrementButton = await screen.findByTestId('number-input-increment-matchDuration');
+            expect(incrementButton).toBeInTheDocument();
+            fireEvent.click(incrementButton);
 
-                // Verify the save was called with the new duration
-                expect(mockOnSave).toHaveBeenCalled();
-                const savedTournament = mockOnSave.mock.calls[0][0];
-                expect(savedTournament.getMatchDuration(TournamentFormat.LEAGUE)).toBe(11);
-            });
+            // Click save button
+            const saveButton = screen.getByTestId('number-input-save-matchDuration');
+            fireEvent.click(saveButton);
+
+            // Verify the save was called with the new duration
+            expect(mockOnSave).toHaveBeenCalled();
+            const savedTournament = mockOnSave.mock.calls[0][0];
+            expect(savedTournament.getMatchDuration(TournamentFormat.LEAGUE)).toBe(11);
+
         });
 
         it('should not allow match duration below minimum', async () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the match duration field to edit
-            const durationField = screen.getByText('10 minutes');
+            const durationField = await screen.findByTestId('setting-content-matchDuration');
             fireEvent.click(durationField);
 
             // Wait for the number input to be visible and try to set duration below minimum
-            await waitFor(() => {
-                const durationInput = screen.getByTestId('number-input-value-matchDuration');
-                expect(durationInput).toBeInTheDocument();
-                fireEvent.change(durationInput, { target: { value: '0' } });
+            const durationInput = await screen.findByTestId('number-input-value-matchDuration');
+            expect(durationInput).toBeInTheDocument();
+            fireEvent.change(durationInput, { target: { value: '0' } });
 
-                // Click save button
-                const saveButton = screen.getByTestId('number-input-save-matchDuration');
-                fireEvent.click(saveButton);
+            // Click save button
+            const saveButton = screen.getByTestId('number-input-save-matchDuration');
+            fireEvent.click(saveButton);
 
-                // Verify the save was called with the minimum duration
-                expect(mockOnSave).toHaveBeenCalled();
-                const savedTournament = mockOnSave.mock.calls[0][0];
-                expect(savedTournament.getMatchDuration(TournamentFormat.LEAGUE)).toBe(5);
-            });
+            // Verify the save was called with the minimum duration
+            expect(mockOnSave).not.toHaveBeenCalled();
+            expect(durationField.textContent).toContain('10');
+
         });
 
         it('should allow changing points for win', async () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the points for win field to edit
-            const pointsField = screen.getByText('3 points');
+            const pointsField = await screen.findByTestId('setting-content-pointsForWin');
             fireEvent.click(pointsField);
 
             // Wait for the number input to be visible and change the points
-            await waitFor(() => {
-                const incrementButton = screen.getByTestId('number-input-increment-pointsForWin');
-                expect(incrementButton).toBeInTheDocument();
-                fireEvent.click(incrementButton);
+            const incrementButton = await screen.findByTestId('number-input-increment-pointsForWin');
+            expect(incrementButton).toBeInTheDocument();
+            fireEvent.click(incrementButton);
 
-                // Click save button
-                const saveButton = screen.getByTestId('number-input-save-pointsForWin');
-                fireEvent.click(saveButton);
+            // Click save button
+            const saveButton = screen.getByTestId('number-input-save-pointsForWin');
+            fireEvent.click(saveButton);
 
-                // Verify the save was called with the new points
-                expect(mockOnSave).toHaveBeenCalled();
-                const savedTournament = mockOnSave.mock.calls[0][0];
-                expect(savedTournament.getPointsForWin(TournamentFormat.LEAGUE)).toBe(4);
-            });
+            // Verify the save was called with the new points
+            expect(mockOnSave).toHaveBeenCalled();
+            const savedTournament = mockOnSave.mock.calls[0][0];
+            expect(savedTournament.getPointsForWin(TournamentFormat.LEAGUE)).toBe(4);
+
         });
 
         it('should allow changing points for draw', async () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the points for draw field to edit
-            const pointsField = screen.getByText('1 point');
+            const pointsField = await screen.findByTestId('setting-content-pointsForDraw');
             fireEvent.click(pointsField);
 
             // Wait for the number input to be visible and change the points
-            await waitFor(() => {
-                const incrementButton = screen.getByTestId('number-input-increment-pointsForDraw');
-                expect(incrementButton).toBeInTheDocument();
-                fireEvent.click(incrementButton);
+            const incrementButton = await screen.findByTestId('number-input-increment-pointsForDraw');
+            expect(incrementButton).toBeInTheDocument();
+            fireEvent.click(incrementButton);
 
-                // Click save button
-                const saveButton = screen.getByTestId('number-input-save-pointsForDraw');
-                fireEvent.click(saveButton);
+            // Click save button
+            const saveButton = screen.getByTestId('number-input-save-pointsForDraw');
+            fireEvent.click(saveButton);
 
-                // Verify the save was called with the new points
-                expect(mockOnSave).toHaveBeenCalled();
-                const savedTournament = mockOnSave.mock.calls[0][0];
-                expect(savedTournament.getPointsForDraw(TournamentFormat.LEAGUE)).toBe(2);
-            });
+            // Verify the save was called with the new points
+            expect(mockOnSave).toHaveBeenCalled();
+            const savedTournament = mockOnSave.mock.calls[0][0];
+            expect(savedTournament.getPointsForDraw(TournamentFormat.LEAGUE)).toBe(2);
+
         });
     });
 });

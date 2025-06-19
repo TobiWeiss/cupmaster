@@ -39,7 +39,7 @@ export default {
             fontSize: {
                 'xs': ['1.75vh', { lineHeight: '2vh' }],
                 'sm': ['2vh', { lineHeight: '2.5vh' }],
-                'base': ['2.5vh', { lineHeight: '3vh' }],
+                'base': ['2vh', { lineHeight: '2.5vh' }],
                 'lg': ['3vh', { lineHeight: '3.5vh' }],
                 'xl': ['3.5vh', { lineHeight: '4vh' }],
                 '2xl': ['4vh', { lineHeight: '4.5vh' }],

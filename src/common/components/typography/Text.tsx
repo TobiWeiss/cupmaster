@@ -33,7 +33,7 @@ export const SubHeading: FC<TextProps> = ({ children, className = '', dataTestId
 
 export const LargeText: FC<TextProps> = ({ children, className = '', dataTestId, color = 'text-custom-secondary-light dark:text-custom-secondary-dark' }) => (
   <p className={`
-    text-xl 
+    text-lg 
     font-roboto
     ${color}
     ${className}

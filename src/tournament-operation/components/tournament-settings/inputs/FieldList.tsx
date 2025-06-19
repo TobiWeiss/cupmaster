@@ -5,15 +5,17 @@ import { useTranslation } from 'react-i18next';
 import { Save, Plus, Trash2, Edit, X } from 'lucide-react';
 import { SmallText } from '../../../../common/components/typography/Text';
 import { IField, Field } from '../../../types/tournament/Field';
+import { useNotify } from '../../../../common/hooks/useNotifications';
+import { NotificationType } from '../../../../common/types/NotifficationTypes';
 
 export interface FieldListProps {
   id: string;
   value: IField[];
-  onChange: (value: IField[]) => void;
-  onSave: () => void;
+  onSave: (value: IField[]) => void;
+  onCancel: () => void;
 }
 
-export const FieldList: FC<FieldListProps> = ({ value, onChange, onSave }) => {
+export const FieldList: FC<FieldListProps> = ({ value, onSave, onCancel }) => {
   const { t } = useTranslation();
   const [fields, setFields] = useState<IField[]>(value);
   const [editingField, setEditingField] = useState<string | null>(null);
@@ -41,15 +43,14 @@ export const FieldList: FC<FieldListProps> = ({ value, onChange, onSave }) => {
   };
 
   const handleSave = () => {
-    onChange(fields);
-    onSave();
+    onSave(fields);
   };
 
   const handleCancel = () => {
     setFields(value);
     setNewFieldName('');
     setEditingField(null);
-    onSave();
+    onCancel();
   };
 
   return (
@@ -77,6 +78,7 @@ export const FieldList: FC<FieldListProps> = ({ value, onChange, onSave }) => {
                 autoFocus
                 onBlur={() => setEditingField(null)}
                 onKeyDown={(e) => e.key === 'Enter' && setEditingField(null)}
+                data-testid={`field-input-${field.getId()}`}
               />
             ) : (
               <SmallText>{field.getName()}</SmallText>
@@ -86,12 +88,14 @@ export const FieldList: FC<FieldListProps> = ({ value, onChange, onSave }) => {
                 variant="outline"
                 size="sm"
                 onClick={() => setEditingField(field.getId())}
+                data-testid={`field-edit-${field.getId()}`}
                 icon={Edit}
               />
               <Button
                 variant="outline"
                 size="sm"
                 onClick={() => handleRemoveField(field.getId())}
+                data-testid={`field-remove-${field.getId()}`}
                 icon={Trash2}
               />
             </div>
@@ -103,6 +107,7 @@ export const FieldList: FC<FieldListProps> = ({ value, onChange, onSave }) => {
         <input
           type="text"
           value={newFieldName}
+          data-testid="field-input-new"
           onChange={(e) => setNewFieldName(e.target.value)}
           placeholder={t('tournamentOperation.settings.addField')}
           className="flex-1 px-4 py-2 text-sm rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark text-custom-secondary-light dark:text-custom-secondary-dark"
@@ -113,6 +118,7 @@ export const FieldList: FC<FieldListProps> = ({ value, onChange, onSave }) => {
           size="sm"
           onClick={handleAddField}
           icon={Plus}
+          data-testid="field-add"
         />
       </div>
 
@@ -122,12 +128,14 @@ export const FieldList: FC<FieldListProps> = ({ value, onChange, onSave }) => {
           size="sm" 
           onClick={handleCancel}
           icon={X}
+          data-testid="field-cancel"
         >
           {t('common.cancel')}
         </Button>
         <Button 
           variant="outline" 
           size="sm" 
+          data-testid="field-save"
           onClick={handleSave}
           icon={Save}
         >

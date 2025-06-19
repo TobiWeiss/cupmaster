@@ -1,65 +1,80 @@
 import { FC, useState } from 'react';
-import { motion } from 'framer-motion';
-import { Button } from '../../../../common/components/ui/Button';
 import { useTranslation } from 'react-i18next';
 import { Save, X } from 'lucide-react';
+import { Button } from '../../../../common/components/ui/Button';
+import { InvalidDateException } from '../exceptions';
 
-export interface DateTimeInputProps {
-  id: string;
-  value: Date;
-  onChange: (value: Date) => void;
-  onSave: () => void;
+interface DateTimeInputProps {
+    id: string;
+    value: Date;
+    onSave: (value: Date) => void;
+    onCancel: () => void;
+    minDate?: Date;
+    maxDate?: Date;
 }
 
-export const DateTimeInput: FC<DateTimeInputProps> = ({ value, onChange, onSave }) => {
-  const { t } = useTranslation();
-  const [localValue, setLocalValue] = useState(value);
+export const DateTimeInput: FC<DateTimeInputProps> = ({ id, value, onSave, onCancel, minDate, maxDate }) => {
+    const { t } = useTranslation();
+    const [localValue, setLocalValue] = useState(value);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setLocalValue(new Date(e.target.value));
-  };
+    const validateDate = (newDate: Date) => {
+        if (minDate && newDate < minDate) {
+            throw new InvalidDateException(`Date must be after ${minDate.toLocaleString()}`);
+        }
+        if (maxDate && newDate > maxDate) {
+            throw new InvalidDateException(`Date must be before ${maxDate.toLocaleString()}`);
+        }
+    };
 
-  const handleSave = () => {
-    onChange(localValue);
-    onSave();
-  };
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newDate = new Date(e.target.value);
+        if (isNaN(newDate.getTime())) {
+            throw new InvalidDateException('Please enter a valid date and time');
+        }
+        validateDate(newDate);
+        setLocalValue(newDate);
+    };
 
-  const handleCancel = () => {
-    setLocalValue(value);
-    onSave();
-  };
+    const handleSave = () => {
+        onSave(localValue);
+    };
 
-  return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="space-y-2"
-    >
-      <input
-        type="datetime-local"
-        value={localValue.toISOString().slice(0, 16)}
-        onChange={handleChange}
-        className="w-full px-4 py-2 text-base rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark text-custom-secondary-light dark:text-custom-secondary-dark"
-      />
-      <div className="flex justify-end gap-2">
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={handleCancel}
-          icon={X}
-        >
-          {t('common.cancel')}
-        </Button>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={handleSave}
-          icon={Save}
-        >
-          {t('common.save')}
-        </Button>
-      </div>
-    </motion.div>
-  );
+    const handleCancel = () => {
+        setLocalValue(value);
+        onCancel();
+    };
+
+    return (
+        <div className="space-y-2">
+            <div className="flex gap-2">
+                <input
+                    type="datetime-local"
+                    data-testid={`datetime-input-${id}`}
+                    value={localValue.toISOString().slice(0, 16)}
+                    onChange={handleChange}
+                    className="flex-1"
+                />
+            </div>
+            <div className="flex justify-end gap-2">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleCancel}
+                    data-testid={`datetime-input-cancel-${id}`}
+                    icon={X}
+                >
+                    {t('common.cancel')}
+                </Button>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={handleSave}
+                    data-testid={`datetime-input-save-${id}`}
+                    icon={Save}
+                >
+                    {t('common.save')}
+                </Button>
+            </div>
+        </div>
+    );
 }; 

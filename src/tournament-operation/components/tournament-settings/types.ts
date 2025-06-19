@@ -28,6 +28,8 @@ export interface BaseSetting {
 
 export interface TextSetting extends BaseSetting {
   component: FC<TextInputProps>;
+  maxLength?: number;
+  minLength?: number;
 }
 
 export interface SelectSetting extends BaseSetting {

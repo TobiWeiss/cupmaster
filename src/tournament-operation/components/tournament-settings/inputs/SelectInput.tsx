@@ -18,7 +18,7 @@ interface SelectInputProps {
   options: SelectOption[];
 }
 
-export const SelectInput: FC<SelectInputProps> = ({ value, onChange, onSave, options }) => {
+export const SelectInput: FC<SelectInputProps> = ({ id, value, onChange, onSave, options }) => {
   const { t } = useTranslation();
   const [localValue, setLocalValue] = useState(value);
 
@@ -47,6 +47,7 @@ export const SelectInput: FC<SelectInputProps> = ({ value, onChange, onSave, opt
         <select
           value={localValue}
           onChange={handleChange}
+          data-testid={`select-input-${id}`}
           className="w-full px-4 py-2 text-base rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark text-custom-secondary-light dark:text-custom-secondary-dark appearance-none"
         >
           {options.map(option => (
@@ -65,6 +66,7 @@ export const SelectInput: FC<SelectInputProps> = ({ value, onChange, onSave, opt
           size="sm" 
           onClick={handleCancel}
           icon={X}
+          data-testid={`select-input-cancel-${id}`}
         >
           {t('common.cancel')}
         </Button>
@@ -73,6 +75,7 @@ export const SelectInput: FC<SelectInputProps> = ({ value, onChange, onSave, opt
           size="sm" 
           onClick={handleSave}
           icon={Save}
+          data-testid={`select-input-save-${id}`}
         >
           {t('common.save')}
         </Button>

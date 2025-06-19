@@ -11,6 +11,9 @@ import { createSettingsConfig, createLeagueFormatSettings } from './config';
 import { Map } from 'lucide-react';
 import { Setting } from './types';
 import { cloneDeep } from 'lodash';
+import { useNotify } from '../../../common/hooks/useNotifications';
+import { NotificationType } from '../../../common/types/NotifficationTypes';
+import { ValidationException } from './exceptions';
 
 interface TournamentSettingsProps {
   tournament: Tournament;
@@ -19,6 +22,7 @@ interface TournamentSettingsProps {
 
 export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, onSave }) => {
   const { t } = useTranslation();
+  const { showNotification } = useNotify();
   const [isEditing, setIsEditing] = useState<Record<string, boolean>>({});
   const [editedTournament, setEditedTournament] = useState<Tournament>(Tournament.fromObject(cloneDeep(tournament.toObject())));
 
@@ -44,16 +48,34 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
     }));
   };
 
-  const updateTournament = (onChange: (tournament: Tournament, value: any) => void, value: any) => {
-    onChange(editedTournament, value);
-    setEditedTournament(editedTournament);
-  
-    if (onSave) {
-      onSave(editedTournament).then((success: boolean) => {
-        if (!success) {
-          rollbackTournament();
-        }
-      });
+  const handleCancel = (field: string) => {
+    closeEdit(field);
+  };
+
+  const handleSave = (field: string, onChange: (tournament: Tournament, value: any) => void, value: any) => {
+    try {
+      onChange(editedTournament, value);
+      setEditedTournament(editedTournament);
+    
+      if (onSave) {
+        onSave(editedTournament).then((success: boolean) => {
+          if (!success) {
+            rollbackTournament();
+          } else {
+            closeEdit(field);
+          }
+        });
+      } else {
+        closeEdit(field);
+      }
+    } catch (error) {
+      if (error instanceof ValidationException) {
+        showNotification(error.message, NotificationType.INFO);
+      } else {
+        showNotification(t('common.error.unknown'), NotificationType.ERROR);
+      }
+      rollbackTournament();
+      closeEdit(field);
     }
   };
 
@@ -146,8 +168,8 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
                             <setting.component
                               id={setting.id}
                               value={getSettingValue(setting)}
-                              onChange={(value: any) => updateTournament(setting.onChange, value)}
-                              onSave={() => closeEdit(setting.id)}
+                              onSave={(value: any) => handleSave(setting.id, setting.onChange, value)}
+                              onCancel={() => handleCancel(setting.id)}
                               {...('options' in setting ? { options: setting.options } : {})}
                               {...('min' in setting ? { min: setting.min } : {})}
                               {...('max' in setting ? { max: setting.max } : {})}

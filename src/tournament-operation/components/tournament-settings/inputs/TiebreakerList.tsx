@@ -13,7 +13,7 @@ export interface TiebreakerListProps {
   onSave: () => void;
 }
 
-export const TiebreakerList: FC<TiebreakerListProps> = ({ value, onChange, onSave }) => {
+export const TiebreakerList: FC<TiebreakerListProps> = ({ id, value, onChange, onSave }) => {
   const { t } = useTranslation();
   const [tiebreakers, setTiebreakers] = useState<Tiebreaker[]>(value);
   const [availableTiebreakers, setAvailableTiebreakers] = useState<Tiebreaker[]>([
@@ -107,6 +107,7 @@ export const TiebreakerList: FC<TiebreakerListProps> = ({ value, onChange, onSav
                     onClick={() => handleMoveTiebreaker(index, 'up')}
                     disabled={index === 0}
                     icon={ArrowUp}
+                    data-testid={`tiebreaker-list-move-up-${id}-${index}`}
                   />
                   <Button
                     variant="outline"
@@ -114,12 +115,14 @@ export const TiebreakerList: FC<TiebreakerListProps> = ({ value, onChange, onSav
                     onClick={() => handleMoveTiebreaker(index, 'down')}
                     disabled={index === tiebreakers.length - 1}
                     icon={ArrowDown}
+                    data-testid={`tiebreaker-list-move-down-${id}-${index}`}
                   />
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={() => handleRemoveTiebreaker(tiebreaker)}
                     icon={X}
+                    data-testid={`tiebreaker-list-remove-${id}-${index}`}
                   />
                 </div>
               </motion.div>
@@ -138,6 +141,7 @@ export const TiebreakerList: FC<TiebreakerListProps> = ({ value, onChange, onSav
                 variant="outline"
                 size="sm"
                 onClick={() => handleAddTiebreaker(tiebreaker)}
+                data-testid={`tiebreaker-list-add-${id}-${tiebreaker}`}
               >
                 {getTiebreakerLabel(tiebreaker)}
               </Button>
@@ -152,6 +156,7 @@ export const TiebreakerList: FC<TiebreakerListProps> = ({ value, onChange, onSav
           size="sm" 
           onClick={handleCancel}
           icon={X}
+          data-testid={`tiebreaker-list-cancel-${id}`}
         >
           {t('common.cancel')}
         </Button>
@@ -160,6 +165,7 @@ export const TiebreakerList: FC<TiebreakerListProps> = ({ value, onChange, onSav
           size="sm" 
           onClick={handleSave}
           icon={Save}
+          data-testid={`tiebreaker-list-save-${id}`}
         >
           {t('common.save')}
         </Button>

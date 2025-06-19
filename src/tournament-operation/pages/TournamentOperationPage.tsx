@@ -12,7 +12,7 @@ import { IParticipant } from '../types/tournament/Participant';
 import { Tournament } from '../types/tournament/Tournament';
 import { useNotify } from '../../common/hooks/useNotifications';
 import { NotificationType } from '../../common/types/NotifficationTypes';
-import { cloneDeep } from 'lodash';
+
 
 type ActiveView = 'game-plan' | 'participants' | 'settings';
 

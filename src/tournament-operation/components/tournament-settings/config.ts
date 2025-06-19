@@ -10,6 +10,7 @@ import { SettingsCategory } from './types';
 import { Field } from '../../types/tournament/Field';
 import { Tournament } from '../../types/tournament/Tournament';
 import { Tiebreaker } from '../../types/tournament/Tiebreaker';
+import { TournamentNameTooLongException, InvalidDateException, InvalidNumberException, TooFewFieldsException } from './exceptions';
 
 const formatUTCDate = (date: Date) => {
   const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
@@ -34,8 +35,13 @@ export const createSettingsConfig = (t: (key: string) => string) => {
           label: t('tournamentOperation.settings.categories.basic.tournamentName'),
           editable: true,
           component: TextInput,
+          maxLength: 50,
+          minLength: 3,
           getDisplayValue: (value: string) => value,
           onChange: (tournament: Tournament, value: string) => {
+            if (value.length > 50) {
+              throw new TournamentNameTooLongException(50);
+            }
             tournament.setName(value);
           }
         },
@@ -59,6 +65,9 @@ export const createSettingsConfig = (t: (key: string) => string) => {
           component: FieldList,
           getDisplayValue: (value: Field[]) => value.map(field => field.getName()).join(', '),
           onChange: (tournament: Tournament, value: Field[]) => {
+            if (value.length < 1) {
+              throw new TooFewFieldsException();
+            }
             tournament.setFields(value);
           }
         }
@@ -76,6 +85,9 @@ export const createSettingsConfig = (t: (key: string) => string) => {
           component: DateTimeInput,
           getDisplayValue: formatUTCDate,
           onChange: (tournament: Tournament, value: Date) => {
+            if (value < new Date()) {
+              throw new InvalidDateException('Start date must be in the future');
+            }
             tournament.setStartDate(value);
           }
         },
@@ -87,6 +99,9 @@ export const createSettingsConfig = (t: (key: string) => string) => {
           editable: false,
           getDisplayValue: formatUTCDate,
           onChange: (tournament: Tournament, value: Date) => {
+            if (value < tournament.getStartDate()!) {
+              throw new InvalidDateException('End date must be after start date');
+            }
             tournament.setEndDate(value);
           }
         }
@@ -111,6 +126,9 @@ export const createLeagueFormatSettings = (t: (key: string) => string): Settings
       max: 4,
       getDisplayValue: (value: number) => value.toString(),
       onChange: (tournament: Tournament, value: number) => {
+        if (value < 1 || value > 4) {
+          throw new InvalidNumberException('Matches against each participant must be between 1 and 4');
+        }
         tournament.setMatchesAgainstEachParticipant(value, tournament.getFormat(), tournament.getPhases()[0]);
       }
     },
@@ -125,6 +143,9 @@ export const createLeagueFormatSettings = (t: (key: string) => string): Settings
       unit: t('common.minutes'),
       getDisplayValue: (value: number) => `${value} ${t('common.minutes')}`,
       onChange: (tournament: Tournament, value: number) => {
+        if (value < 5 || value > 90) {
+          throw new InvalidNumberException('Match duration must be between 5 and 90 minutes');
+        }
         tournament.setMatchDuration(value, tournament.getFormat(), tournament.getPhases()[0]);
       }
     },
@@ -139,6 +160,9 @@ export const createLeagueFormatSettings = (t: (key: string) => string): Settings
       unit: t('common.minutes'),
       getDisplayValue: (value: number) => `${value} ${t('common.minutes')}`,
       onChange: (tournament: Tournament, value: number) => {
+        if (value < 0 || value > 30) {
+          throw new InvalidNumberException('Match break duration must be between 0 and 30 minutes');
+        }
         tournament.setMatchBreakDuration(value, tournament.getFormat(), tournament.getPhases()[0]);
       }
     },
@@ -152,6 +176,9 @@ export const createLeagueFormatSettings = (t: (key: string) => string): Settings
       max: 5,
       getDisplayValue: (value: number) => value.toString(),
       onChange: (tournament: Tournament, value: number) => {
+        if (value < 1 || value > 5) {
+          throw new InvalidNumberException('Points for win must be between 1 and 5');
+        }
         tournament.setPointsForWin(value, tournament.getFormat(), tournament.getPhases()[0]);
       }
     },
@@ -165,6 +192,9 @@ export const createLeagueFormatSettings = (t: (key: string) => string): Settings
       max: 3,
       getDisplayValue: (value: number) => value.toString(),
       onChange: (tournament: Tournament, value: number) => {
+        if (value < 0 || value > 3) {
+          throw new InvalidNumberException('Points for draw must be between 0 and 3');
+        }
         tournament.setPointsForDraw(value, tournament.getFormat(), tournament.getPhases()[0]);
       }
     },

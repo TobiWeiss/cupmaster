@@ -5,55 +5,59 @@ import { useTranslation } from 'react-i18next';
 import { Save, Plus, Minus, X } from 'lucide-react';
 import { Icon } from '../../../../common/components/ui/Icon';
 import { SmallText } from '../../../../common/components/typography/Text';
+import { InvalidNumberException } from '../exceptions';
 
-export interface NumberInputProps {
+interface NumberInputProps {
   id: string;
   value: number;
-  onChange: (value: number) => void;
-  onSave: () => void;
+  onSave: (value: number) => void;
+  onCancel: () => void;
   min?: number;
   max?: number;
   unit?: string;
 }
 
-export const NumberInput: FC<NumberInputProps> = ({ 
-  value, 
-  onChange, 
-  onSave, 
-  min = 0, 
-  max = 100,
-  unit
-}) => {
+export const NumberInput: FC<NumberInputProps> = ({ id, value, onSave, onCancel, min = 0, max = 100, unit }) => {
   const { t } = useTranslation();
   const [localValue, setLocalValue] = useState(value);
 
+  const validateValue = (newValue: number) => {
+    if (min !== undefined && newValue < min) {
+      throw new InvalidNumberException(`Value must be at least ${min}`);
+    }
+    if (max !== undefined && newValue > max) {
+      throw new InvalidNumberException(`Value must be at most ${max}`);
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = parseInt(e.target.value);
-    if (!isNaN(newValue)) {
-      setLocalValue(Math.min(Math.max(newValue, min), max));
+    if (isNaN(newValue)) {
+      throw new InvalidNumberException('Please enter a valid number');
     }
+    validateValue(newValue);
+    setLocalValue(newValue);
   };
 
   const handleIncrement = () => {
-    if (localValue < max) {
-      setLocalValue(localValue + 1);
-    }
+    const newValue = localValue + 1;
+    validateValue(newValue);
+    setLocalValue(newValue);
   };
 
   const handleDecrement = () => {
-    if (localValue > min) {
-      setLocalValue(localValue - 1);
-    }
+    const newValue = localValue - 1;
+    validateValue(newValue);
+    setLocalValue(newValue);
   };
 
   const handleSave = () => {
-    onChange(localValue);
-    onSave();
+    onSave(localValue);
   };
 
   const handleCancel = () => {
     setLocalValue(value);
-    onSave();
+    onCancel();
   };
 
   return (
@@ -69,6 +73,7 @@ export const NumberInput: FC<NumberInputProps> = ({
           size="sm" 
           onClick={handleDecrement}
           disabled={localValue <= min}
+          data-testid={`number-input-decrement-${id}`}
         >
           <Icon icon={Minus} size="sm" />
         </Button>
@@ -80,6 +85,7 @@ export const NumberInput: FC<NumberInputProps> = ({
             onChange={handleChange}
             min={min}
             max={max}
+            data-testid={`number-input-value-${id}`}
             className="w-full px-4 py-2 text-base text-center rounded-md border border-custom-secondary-light dark:border-custom-secondary-dark bg-custom-primary-light dark:bg-custom-primary-dark text-custom-secondary-light dark:text-custom-secondary-dark"
           />
           {unit && (
@@ -96,6 +102,7 @@ export const NumberInput: FC<NumberInputProps> = ({
           size="sm" 
           onClick={handleIncrement}
           disabled={localValue >= max}
+          data-testid={`number-input-increment-${id}`}
         >
           <Icon icon={Plus} size="sm" />
         </Button>
@@ -106,6 +113,7 @@ export const NumberInput: FC<NumberInputProps> = ({
           variant="outline" 
           size="sm" 
           onClick={handleCancel}
+          data-testid={`number-input-cancel-${id}`}
           icon={X}
         >
           {t('common.cancel')}
@@ -114,6 +122,7 @@ export const NumberInput: FC<NumberInputProps> = ({
           variant="outline" 
           size="sm" 
           onClick={handleSave}
+          data-testid={`number-input-save-${id}`}
           icon={Save}
         >
           {t('common.save')}

@@ -73,18 +73,18 @@ describe('TournamentSettings', () => {
         it('should allow changing tournament name', async () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
-            // Click on the name field to edit
-            const nameField = screen.getByText('Test Tournament');
+            // Click edit button on name field
+            const nameField = screen.getByTestId('text-element-edit-name');
             fireEvent.click(nameField);
 
             // Wait for the name input to be visible and change its value
 
-            const nameInput = await screen.findByTestId('text-input-name');
+            const nameInput = await screen.findByTestId('text-element-input-name');
             expect(nameInput).toBeInTheDocument();
             fireEvent.change(nameInput, { target: { value: 'New Tournament Name' } });
 
             // Click save button
-            const saveButton = screen.getByTestId('text-input-save-name');
+            const saveButton = screen.getByTestId('text-element-save-name');
             fireEvent.click(saveButton);
 
             // Verify the save was called with the new name
@@ -98,12 +98,12 @@ describe('TournamentSettings', () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the name field to edit
-            const nameField = screen.getByText('Test Tournament');
-            fireEvent.click(nameField);
+            const nameEditButton = screen.getByTestId('text-element-edit-name');
+            fireEvent.click(nameEditButton);
 
 
             // Wait for the name input to be visible
-            const nameInput = await screen.findByTestId('text-input-name');
+            const nameInput = await screen.findByTestId('text-element-input-name');
             expect(nameInput).toBeInTheDocument();
 
             // Enter a very long name
@@ -112,10 +112,11 @@ describe('TournamentSettings', () => {
 
             // Click save button and expect it to throw
 
-            fireEvent.click(screen.getByTestId('text-input-save-name'));
+            fireEvent.click(screen.getByTestId('text-element-save-name'));
 
             // Verify the save was not called
             expect(mockOnSave).not.toHaveBeenCalled();
+            const nameField = await screen.findByTestId('setting-content-name');
             expect(nameField).toHaveTextContent('Test Tournament');
         });
 
@@ -123,22 +124,22 @@ describe('TournamentSettings', () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the fields section to edit
-            const fieldsSection = screen.getByText('Field 1');
+            const fieldsSection = screen.getByTestId('fieldlist-element-edit-fields');
             fireEvent.click(fieldsSection);
 
             // Wait for the field list to be visible and add a new field
 
-             // Enter new field name
-             const fieldInput = await screen.findByTestId('field-input-new');
-             expect(fieldInput).toBeInTheDocument();
-             fireEvent.change(fieldInput, { target: { value: 'Field 2' } });
+             // Add new field via add button
+             const addFieldButton = await screen.findByTestId('fieldlist-element-add-fields');
+             expect(addFieldButton).toBeInTheDocument();
+             fireEvent.click(addFieldButton);
 
-            const addFieldButton = await screen.findByTestId('field-list-add');
-            expect(addFieldButton).toBeInTheDocument();
-            fireEvent.click(addFieldButton); 
+            const fieldInput = await screen.findByTestId('fieldlist-element-field-fields-1');
+            expect(fieldInput).toBeInTheDocument();
+            fireEvent.change(fieldInput, { target: { value: 'Field 2' } });
 
             // Save the new field
-            const saveFieldButton = await screen.findByTestId('field-save');
+            const saveFieldButton = await screen.findByTestId('fieldlist-element-save-fields');
             fireEvent.click(saveFieldButton);
 
             // Verify the save was called with the new field
@@ -148,10 +149,10 @@ describe('TournamentSettings', () => {
             expect(savedTournament.getFields()[1].getName()).toBe('Field 2');
 
             // Remove the new field
-            const removeFieldButton = await screen.findByTestId('field-remove-Field 2');
+            const removeFieldButton = await screen.findByTestId('fieldlist-element-remove-fields-1');
             fireEvent.click(removeFieldButton);
 
-            const saveFieldButton2 = await screen.findByTestId('field-save');
+            const saveFieldButton2 = await screen.findByTestId('fieldlist-element-save-fields');
             fireEvent.click(saveFieldButton2);
 
             // Verify the save was called with the field removed

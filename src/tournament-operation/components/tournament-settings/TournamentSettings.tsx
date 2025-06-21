@@ -2,18 +2,18 @@ import { FC, useState, useEffect } from 'react';
 import { Tournament } from '../../types/tournament/Tournament';
 import { Card } from '../../../common/components/ui/Card';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LargeText, SmallText } from '../../../common/components/typography/Text';
+import { LargeText } from '../../../common/components/typography/Text';
 import { useTranslation } from 'react-i18next';
 import { PageInfo } from '../../../common/components/ui/PageInfo';
 import { Icon } from '../../../common/components/ui/Icon';
 import { TournamentFormat } from '../../types/tournament/TournamentFormat';
-import { createSettingsConfig, createLeagueFormatSettings } from './config';
-import { Map } from 'lucide-react';
-import { Setting } from './types';
+import { createSettingsElements, createLeagueFormatElements } from './config';
+import { ISettingsElement } from './types';
 import { cloneDeep } from 'lodash';
 import { useNotify } from '../../../common/hooks/useNotify';
 import { NotificationType } from '../../../common/types/NotifficationTypes';
 import { ValidationException } from '../../types/tournament/exceptions';
+import { ElementRenderer } from './element-renderer/ElementRenderer';
 
 interface TournamentSettingsProps {
   tournament: Tournament;
@@ -52,21 +52,29 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
     closeEdit(field);
   };
 
-  const handleSave = (field: string, onChange: (tournament: Tournament, value: any) => void, value: any) => {
+  const handleSave = async (field: string, value: any) => {
     try {
-      onChange(editedTournament, value);
-      setEditedTournament(editedTournament);
-    
-      if (onSave) {
-        onSave(editedTournament).then((success: boolean) => {
+      // Find the element and call its onChange
+      const allElements = [...createSettingsElements(t)];
+      if (editedTournament.getFormat() === TournamentFormat.LEAGUE) {
+        allElements.push(...createLeagueFormatElements(t));
+      }
+      
+      const element = allElements.find(el => el.id === field);
+      if (element) {
+        element.onChange(editedTournament, value);
+        setEditedTournament(editedTournament);
+      
+        if (onSave) {
+          const success = await onSave(editedTournament);
           if (!success) {
             rollbackTournament();
           } else {
             closeEdit(field);
           }
-        });
-      } else {
-        closeEdit(field);
+        } else {
+          closeEdit(field);
+        }
       }
     } catch (error) {
       console.log('error', error);
@@ -84,15 +92,8 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
     setEditedTournament(Tournament.fromObject(cloneDeep(tournament.toObject())));
   }
 
-  const categories = createSettingsConfig(t);
-  
-  // Only show format-specific settings for the current format
-  if (editedTournament.getFormat() === TournamentFormat.LEAGUE) {
-    categories.push(createLeagueFormatSettings(t));
-  }
-
-  const getSettingValue = (setting: Setting) => {
-    switch (setting.id) {
+  const getSettingValue = (element: ISettingsElement) => {
+    switch (element.id) {
       case 'name':
         return editedTournament.getName();
       case 'format':
@@ -114,11 +115,16 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
       case 'pointsForDraw':
         return editedTournament.getPointsForDraw(editedTournament.getFormat());
       case 'tiebreakers':
-        return editedTournament.getTiebreakers(editedTournament.getFormat());
+        return editedTournament.getTiebreakers(editedTournament.getFormat()).map((tb: any) => tb.toString());
       default:
         return null;
     }
   };
+
+  const allElements = [...createSettingsElements(t)];
+  if (editedTournament.getFormat() === TournamentFormat.LEAGUE) {
+    allElements.push(...createLeagueFormatElements(t));
+  }
 
   return (
     <motion.div
@@ -134,70 +140,97 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
       />
 
       <div className="grid gap-4 grid-cols-2">
-        {categories.map((category, categoryIndex) => (
-          <motion.div
-            className={categoryIndex === categories.length - 1 ? 'col-span-2' : 'col-span-1'}
-            key={category.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: categoryIndex * 0.1 }}
-          >
-            <Card className="p-4 h-full">
-              <div className="flex items-center gap-2 mb-4">
-                <LargeText className="font-bold">{category.title}</LargeText>
+        <Card className="p-4 h-full">
+          <div className="flex items-center gap-2 mb-4">
+            <LargeText className="font-bold">{t('tournamentOperation.settings.categories.basic.title')}</LargeText>
+          </div>
+          <div className="space-y-4">
+            {allElements.filter(el => ['name', 'format', 'fields'].includes(el.id)).map((element) => (
+              <div key={element.id} className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Icon className='mr-2' size="base" icon={element.icon} />
+                  <LargeText className="text-custom-secondary-light dark:text-custom-secondary-dark font-bold">
+                    {element.label}
+                  </LargeText>
+                </div>
+                <ElementRenderer
+                  element={element}
+                  value={getSettingValue(element)}
+                  onChange={(value) => {
+                    if (element.editable) {
+                      openEdit(element.id);
+                    }
+                  }}
+                  onSave={(value) => handleSave(element.id, value)}
+                  onCancel={() => handleCancel(element.id)}
+                  isEditing={isEditing[element.id] || false}
+                />
               </div>
-              <div className={categoryIndex === categories.length - 1 ? 'grid grid-cols-2 gap-4' : 'space-y-4'}>
-                {category.settings.map((setting) => (
-                  <div key={setting.id} className="space-y-2 cursor-pointer" onClick={() => openEdit(setting.id)}>
-                    <div className="flex justify-between items-center">
-                      <div className="flex flex-row"> 
-                        <Icon className='mr-2' size="base" icon={setting?.icon ?? Map} />
-                        <SmallText className="text-custom-secondary-light dark:text-custom-secondary-dark font-bold">
-                          {setting.label}
-                        </SmallText>
-                      </div>
-                    </div>
-                    <AnimatePresence mode="wait">
-                      {isEditing[setting.id] && setting.editable ? (
-                        <motion.div
-                          key={`edit-${setting.id}`}
-                          initial={{ opacity: 0, height: 0 }}
-                          animate={{ opacity: 1, height: 'auto' }}
-                          exit={{ opacity: 0, height: 0 }}
-                          transition={{ duration: 0.2 }}
-                        >
-                          {setting.component && (
-                            <setting.component
-                              id={setting.id}
-                              value={getSettingValue(setting)}
-                              onSave={(value: any) => handleSave(setting.id, setting.onChange, value)}
-                              onCancel={() => handleCancel(setting.id)}
-                              {...('options' in setting ? { options: setting.options } : {})}
-                              {...('min' in setting ? { min: setting.min } : {})}
-                              {...('max' in setting ? { max: setting.max } : {})}
-                              {...('unit' in setting ? { unit: setting.unit } : {})}
-                            />
-                          )}
-                        </motion.div>
-                      ) : (
-                        <motion.div
-                          key={`display-${setting.id}`}
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          exit={{ opacity: 0 }}
-                        >
-                          <SmallText dataTestId={`setting-content-${setting.id}`}>
-                            {setting.getDisplayValue(getSettingValue(setting))}
-                          </SmallText>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+            ))}
+          </div>
+        </Card>
+
+        <Card className="p-4 h-full">
+          <div className="flex items-center gap-2 mb-4">
+            <LargeText className="font-bold">{t('tournamentOperation.settings.categories.dates.title')}</LargeText>
+          </div>
+          <div className="space-y-4">
+            {allElements.filter(el => ['startDate', 'endDate'].includes(el.id)).map((element) => (
+              <div key={element.id} className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Icon className='mr-2' size="base" icon={element.icon} />
+                  <LargeText className="text-custom-secondary-light dark:text-custom-secondary-dark font-bold">
+                    {element.label}
+                  </LargeText>
+                </div>
+                <ElementRenderer
+                  element={element}
+                  value={getSettingValue(element)}
+                  onChange={(value) => {
+                    if (element.editable) {
+                      openEdit(element.id);
+                    }
+                  }}
+                  onSave={(value) => handleSave(element.id, value)}
+                  onCancel={() => handleCancel(element.id)}
+                  isEditing={isEditing[element.id] || false}
+                />
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        {editedTournament.getFormat() === TournamentFormat.LEAGUE && (
+          <Card className="p-4 col-span-2">
+            <div className="flex items-center gap-2 mb-4">
+              <LargeText className="font-bold">{t('tournamentOperation.settings.categories.format.title')}</LargeText>
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              {allElements.filter(el => ['matchesAgainstEachParticipant', 'matchDuration', 'matchBreakDuration', 'pointsForWin', 'pointsForDraw', 'tiebreakers'].includes(el.id)).map((element) => (
+                <div key={element.id} className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Icon className='mr-2' size="base" icon={element.icon} />
+                    <LargeText className="text-custom-secondary-light dark:text-custom-secondary-dark font-bold">
+                      {element.label}
+                    </LargeText>
                   </div>
-                ))}
-              </div>
-            </Card>
-          </motion.div>
-        ))}
+                  <ElementRenderer
+                    element={element}
+                    value={getSettingValue(element)}
+                    onChange={(value) => {
+                      if (element.editable) {
+                        openEdit(element.id);
+                      }
+                    }}
+                    onSave={(value) => handleSave(element.id, value)}
+                    onCancel={() => handleCancel(element.id)}
+                    isEditing={isEditing[element.id] || false}
+                  />
+                </div>
+              ))}
+            </div>
+          </Card>
+        )}
       </div>
     </motion.div>
   );

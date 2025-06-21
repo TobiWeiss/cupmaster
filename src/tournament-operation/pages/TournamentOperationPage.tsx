@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { GamePlanOverview } from '../components/game-plan/GamePlanOverview';
 import { ParticipantSettings } from '../components/participant-settings/ParticipantSettings';
-import { TournamentSettings } from '../components/tournament-settings/TournamentSettings';
+import { TournamentSettingsNew as TournamentSettings } from '../components/tournament-settings/TournamentSettingsNew';
 import { BottomNavigation } from '../components/navigation/BottomNavigation';
 import { useTournamentOperations } from '../hooks/useTournamentOperations';
 import { Tournament } from '../types/tournament/Tournament';

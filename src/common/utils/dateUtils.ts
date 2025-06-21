@@ -7,7 +7,7 @@
 export const formatDate = (date: Date): string => {
   //convert to local time
   const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
-  return new Intl.DateTimeFormat('default', {
+  return new Intl.DateTimeFormat('de-DE', {
     hour: '2-digit',
     minute: '2-digit',
     day: '2-digit',

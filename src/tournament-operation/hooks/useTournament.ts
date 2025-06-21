@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import { ITournament, Tournament } from '../../tournament-operation/types/tournament/Tournament';
-import { useTournamentService } from './useTournamentService';
 import { LocalStorage } from '../../common/services';
 import { TournamentService } from '../services/TournamentService';
 
@@ -12,25 +11,33 @@ export const useTournament = (id: string | undefined) => {
 
   useEffect(() => {
     const loadTournament = async () => {
-      console.info('Loading tournament', id);
-      if (!id) return;
+      if (!id) {
+        setLoading(false);
+        return;
+      }
       try {
+        setLoading(true);
+        
         const data = await tournamentService.getTournament(id);
+        
         setTournament(data ? Tournament.init(data) : null);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Failed to load tournament');
-      } finally {
-        setLoading(false);
       }
     };
 
     loadTournament();
-  }, []);
+  }, [id, tournamentService]);
 
   useEffect(() => {
-    console.info('Updating tournament', tournament);
     if (tournament) {
-      tournamentService.updateTournament(tournament as ITournament);
+      try {
+        tournamentService.updateTournament(tournament as ITournament);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to update tournament');
+      } finally {
+        setLoading(false);
+      }
     }
   }, [tournament]);
   

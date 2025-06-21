@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import { NotificationPosition, NotificationType } from "../types/NotifficationTypes";
 import { Warning } from "../components/ui/notifications/Warning";
 

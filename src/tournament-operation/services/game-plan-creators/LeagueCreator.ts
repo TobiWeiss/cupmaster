@@ -85,7 +85,7 @@ export class LeagueCreator implements IGamePlanCreator {
 
             // If no suitable game is found, try to fit it in the existing games
             if (nextSuitableGameIndex === -1) {
-                console.info('No suitable game found, trying to fit it in the existing games');
+                
                 orderedGames = this._sortWithinExistingGames(orderedGames, game);
                 teamsLastPlayed = this._updateTeamsLastPlayed(game.getFirstParticipant().getId()!, game.getSecondParticipant().getId()!);
                 continue;
@@ -170,22 +170,22 @@ export class LeagueCreator implements IGamePlanCreator {
             const g = orderedGames[index];
 
             if (index === 0 && !this._doTeamsBetweenGamesOverlap([game, g])) {
-                console.info('Replacing first game');
+                
                 orderedGames.splice(index, 0, game);
                 return orderedGames;
             }
 
             if (firstSuitableGameFound == true && !this._doTeamsBetweenGamesOverlap([game, g])) {
-                console.info('Place found!');
+                
                 const removed = orderedGames.splice(index, 0, game);
-                console.info('Removed', removed);
+                
                 secondSuitableGameFound = true;
                 return orderedGames;
             }
 
             if (!this._doTeamsBetweenGamesOverlap([game, g])) {
                 firstSuitableGameFound = true;
-                console.info('First Suitable game found');
+                
             } else {
                 firstSuitableGameFound = false;
             }

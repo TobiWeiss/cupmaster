@@ -23,8 +23,8 @@ export class GameTime implements IGameTime {
 
   static init(data: Record<string, any>): GameTime {
     const gameTime = new GameTime();
-    gameTime.startTime = data.startTime;
-    gameTime.endTime = data.endTime;
+    gameTime.startTime = new Date(data.startTime);
+    gameTime.endTime = data.endTime ? new Date(data.endTime) : undefined;
     gameTime.duration = data.duration;
     return gameTime;
   }
@@ -47,9 +47,10 @@ export class GameTime implements IGameTime {
 
   static fromObject(object: Record<string, any>): GameTime {
     const gameTime = new GameTime();
-    gameTime.startTime = object.startTime;
-    gameTime.endTime = object.endTime;
+    gameTime.startTime = new Date(object.startTime);
+    gameTime.endTime = object.endTime ? new Date(object.endTime) : undefined;
     gameTime.duration = object.duration;
+
     return gameTime;
   }
 

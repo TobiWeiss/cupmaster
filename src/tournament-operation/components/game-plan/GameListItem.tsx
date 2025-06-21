@@ -15,7 +15,6 @@ interface GameListItemProps {
 }
 
 export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
-  const { t } = useTranslation();
 
   return (
     <motion.div
@@ -30,7 +29,7 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
           {/* Time */}
           <div className="col-span-5 flex items-center">
             <Icon className='mr-2' size="sm" icon={Clock} />
-            <SmallestText>
+            <SmallestText dataTestId={`game-time-${game.getId()}`}>
               {formatDate(game.getStartTime())}
             </SmallestText>
           </div>
@@ -38,7 +37,7 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
           {/* Field */}
           <div className="col-span-5 flex items-center justify-end">
             <Icon className='mr-2' size="sm" icon={MapPin} />
-            <SmallestText>
+            <SmallestText dataTestId={`field-name-${game.getId()}`}>
               {game.getFieldName()}
             </SmallestText>
           </div>
@@ -53,13 +52,14 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
                 src={game.getFirstParticipantLogo()}
                 alt={game.getFirstParticipantName()}
                 className="w-10 h-10 rounded-full mr-2"
+                data-testid={`first-participant-logo-${game.getId()}`}
               />
             ) : (
               <div className="w-10 h-10 rounded-full bg-custom-secondary-light/10 dark:bg-custom-secondary-dark/10 flex items-center justify-center mr-2">
                 <SmallText>{game.getFirstParticipantName().charAt(0)}</SmallText>
               </div>
             )}
-            <SmallText className="truncate mr-2">
+            <SmallText dataTestId={`first-participant-name-${game.getId()}`} className="truncate mr-2">
               {game.getFirstParticipantName()}
             </SmallText>
           </div>
@@ -73,7 +73,7 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
 
           {/* Second participant */}
           <div className="col-span-4 flex items-center justify-center min-w-0">
-            <SmallText className="truncate">
+            <SmallText dataTestId={`second-participant-name-${game.getId()}`} className="truncate">
               {game.getSecondParticipantName()}
             </SmallText>
             {game.getSecondParticipantLogo() ? (
@@ -81,6 +81,7 @@ export const GameListItem: FC<GameListItemProps> = ({ game, index }) => {
                 src={game.getSecondParticipantLogo()}
                 alt={game.getSecondParticipantName()}
                 className="w-10 h-10 rounded-full ml-2"
+                data-testid={`second-participant-logo-${game.getId()}`}
               />
             ) : (
               <div className="w-10 h-10 rounded-full bg-custom-secondary-light/10 dark:bg-custom-secondary-dark/10 flex items-center justify-center ml-2">

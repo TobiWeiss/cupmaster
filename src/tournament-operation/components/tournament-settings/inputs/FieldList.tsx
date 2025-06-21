@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Save, Plus, Trash2, Edit, X } from 'lucide-react';
 import { SmallText } from '../../../../common/components/typography/Text';
 import { IField, Field } from '../../../types/tournament/Field';
-import { useNotify } from '../../../../common/hooks/useNotifications';
+import { useNotify } from '../../../../common/hooks/useNotify';
 import { NotificationType } from '../../../../common/types/NotifficationTypes';
 
 export interface FieldListProps {

@@ -127,9 +127,6 @@ export class Game implements IGame {
     game.status = object.status;
     game.winnerPlays = object.winnerPlays;
     game.loserPlays = object.loserPlays;
-    game.setStartTime(object.startTime);
-    game.setEndTime(object.endTime);
-    game.setDuration(object.duration);
 
     return game;
   }

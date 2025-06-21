@@ -1,5 +1,0 @@
-export enum Tiebreaker {
-  GOAL_DIFFERENCE = 'GOAL_DIFFERENCE',
-  HEAD_TO_HEAD = 'HEAD_TO_HEAD',
-  GOALS_SCORED = 'GOALS_SCORED'
-} 

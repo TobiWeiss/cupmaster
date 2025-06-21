@@ -31,7 +31,7 @@ export const Help = ({ title, explanation, size = 'base' }: HelpProps) => {
           layer.ef.forEach((effect: any) => {
             if (effect.nm === 'Primary' && effect.ef) {
               effect.ef.forEach((prop: any) => {
-                console.info("Updating layer colors", prop)
+                
                 if (prop.nm === 'Color') {
                   prop.v.k = isDarkMode 
                     ? [204, 204, 204, 1] // Light color for dark mode

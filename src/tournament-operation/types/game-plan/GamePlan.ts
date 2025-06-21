@@ -49,7 +49,7 @@ export class GamePlan implements IGamePlan {
     }
     const gamePlan = new GamePlan(data.tournamentId);
     gamePlan.setId(data.id!);
-    gamePlan.setGames(data.games);
+    gamePlan.setGames(data.games.map((game: Record<string, any>) => Game.fromObject(game)));
     gamePlan.setMetadata(data.metadata);
     return gamePlan;
   }
@@ -57,8 +57,10 @@ export class GamePlan implements IGamePlan {
   static fromObject(data: Record<string, any>) {
     const gamePlan = new GamePlan(data.tournamentId);
     gamePlan.setId(data.id!);
-    gamePlan.setGames(data.games);
+    gamePlan.setGames(data.games.map((game: Record<string, any>) => Game.fromObject(game)));
     gamePlan.setMetadata(data.metadata);
+
+    
     return gamePlan;
   }
 
@@ -66,7 +68,7 @@ export class GamePlan implements IGamePlan {
     return {
       id: this.id,
       tournamentId: this.tournamentId,
-      games: this.games,
+      games: this.games.map((game: IGame) => game.toObject()),
       metadata: this.metadata,
     };
   }
@@ -102,7 +104,7 @@ export class GamePlan implements IGamePlan {
     }
     // sort by date before returning the last game
     const sortedGames = this.games.sort((a, b) => a.getTime().getStartTime().getTime() - b.getTime().getStartTime().getTime());
-    console.info("sortedGames", sortedGames);
+    
     return sortedGames[sortedGames.length - 1];
   }
 

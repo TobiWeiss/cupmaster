@@ -11,7 +11,7 @@ import { createSettingsConfig, createLeagueFormatSettings } from './config';
 import { Map } from 'lucide-react';
 import { Setting } from './types';
 import { cloneDeep } from 'lodash';
-import { useNotify } from '../../../common/hooks/useNotifications';
+import { useNotify } from '../../../common/hooks/useNotify';
 import { NotificationType } from '../../../common/types/NotifficationTypes';
 import { ValidationException } from '../../types/tournament/exceptions';
 
@@ -122,6 +122,7 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
 
   return (
     <motion.div
+      data-testid="tournament-settings"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="space-y-6"

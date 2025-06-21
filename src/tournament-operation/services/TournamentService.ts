@@ -16,17 +16,19 @@ export class TournamentService {
   }
 
   async getTournament(id: string): Promise<Tournament | null> {
+    
     const data = await this.storage.getTournament(id);
+    
     return data ? Tournament.init(data) : null;
   }
 
   async getAllTournaments(): Promise<Tournament[]> {
     const data  = await this.storage.getTournaments();
-    return data.map((tournament: ITournament) => Tournament.init(tournament));
+    return data.map((tournament: Record<string, any>) => Tournament.fromObject(tournament));
   }
 
   async updateTournament(tournament: ITournament): Promise<Tournament> {
-    this.storage.saveTournament(tournament);
+    await this.storage.saveTournament(tournament);
 
     return Tournament.init(tournament);
   }

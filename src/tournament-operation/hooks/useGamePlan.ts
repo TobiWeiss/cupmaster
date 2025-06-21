@@ -1,61 +1,120 @@
 import { useEffect, useState, useMemo } from "react";
-import { IGamePlan } from "../types/game-plan/GamePlan";
-import { GamePlanManager } from "../services/GamePlanManager";
+import { GamePlan, IGamePlan } from "../types/game-plan/GamePlan";
 import { GamePlanService } from "../services/GamePlanService";
 import { ITournament, Tournament } from "../types/tournament/Tournament";
+import { LocalStorage } from "../../common/services";
 
 export const useGamePlan = (tournament: ITournament | null) => {
-  const [gamePlan, setGamePlan] = useState<IGamePlan | null>(null);
+  const [gamePlan, setGamePlan] = useState<GamePlan | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const gamePlanService = useMemo(() => new GamePlanService(new LocalStorage()), []);
 
-  // Memoize the service instance so it doesn't change on every render
-  const gamePlanService = useMemo(() => new GamePlanService(), []);
-  const tournamentMemo = useMemo(() => tournament, [tournament]);
+  useEffect(() => {
+    const loadGamePlan = async () => {
+      
+      if (!tournament?.getId()) return;
+      try {
+        setLoading(true);
 
-  const loadGamePlan = async (tournament: ITournament) => {
-    if (!tournament.getId()) return;
-    try {
-      const data = await gamePlanService.getGamePlan(tournament.getId()!);
-
-      if (!data) {
-        const gamePlan = GamePlanManager.createGamePlan(tournament);
-        setGamePlan(gamePlan);
-      } else {
-        setGamePlan(data);
+        const data = await gamePlanService.getGamePlan(tournament.getId()!);
+        
+        if (!data) {
+          // Create new game plan if none exists
+          
+          const newGamePlan = await gamePlanService.createGamePlan(tournament as Tournament);
+          setGamePlan(newGamePlan);
+        } else {
+ 
+          setGamePlan(data);
+        }
+      } catch (err) {
+        console.error('Error loading game plan', err);
+        setError(err instanceof Error ? err.message : 'Failed to load game plan');
+      } finally {
+        setLoading(false);
       }
+    };
+
+    loadGamePlan();
+  }, [tournament?.getId(), gamePlanService]);
+
+  // Auto-save game plan when it changes
+  useEffect(() => {
+    if (gamePlan) {
+      try {
+        gamePlanService.updateGamePlan(gamePlan);
+      } catch (err) {
+        console.error('Error saving game plan', err);
+        setError(err instanceof Error ? err.message : 'Failed to save game plan');
+      } finally {
+        setLoading(false);
+      }
+    }
+  }, [gamePlan, gamePlanService]);
+
+  const createNewGamePlan = async (tournament: Tournament): Promise<GamePlan> => {
+    try {
+      setLoading(true);
+      const newGamePlan = await gamePlanService.createGamePlan(tournament);
+      setGamePlan(newGamePlan);
+      return newGamePlan;
     } catch (err) {
-      console.error('Error loading game plan', err);
-      setError(err instanceof Error ? err.message : 'Failed to load tournament');
-    } finally {
-      setLoading(false);
+      console.error('Error creating game plan', err);
+      setError(err instanceof Error ? err.message : 'Failed to create game plan');
+      throw err;
     }
   };
 
-  useEffect(() => {
-    if (tournament?.getId()) {
-      loadGamePlan(tournament);
+  const updateGamePlan = async (tournament: Tournament): Promise<GamePlan> => {
+    if (!gamePlan) {
+      throw new Error('No game plan to update');
     }
-  }, [tournament?.getId()]);
+    try {
+      const updatedGamePlan = await gamePlanService.updateGamePlanFieldsAndDates(gamePlan, tournament);
+      setGamePlan(updatedGamePlan);
+      return updatedGamePlan;
+    } catch (err) {
+      console.error('Error updating game plan', err);
+      setError(err instanceof Error ? err.message : 'Failed to update game plan');
+      throw err;
+    }
+  };
 
-  const createNewGamePlan = (tournament: Tournament): IGamePlan => {
-    const newGamePlan = GamePlanManager.createGamePlan(tournament);
-    setGamePlan(newGamePlan);
-    return newGamePlan;
-  }
+  const reorderGames = async (sourceIndex: number, destinationIndex: number): Promise<GamePlan | null> => {
+    if (!gamePlan || !tournament) return null;
+    try {
+      const reorderedGamePlan = await gamePlanService.reorderGames(gamePlan, tournament as Tournament, sourceIndex, destinationIndex);
+      setGamePlan(reorderedGamePlan);
+      return reorderedGamePlan;
+    } catch (err) {
+      console.error('Error reordering games', err);
+      setError(err instanceof Error ? err.message : 'Failed to reorder games');
+      throw err;
+    }
+  };
 
-  const updateGamePlan = (tournament: Tournament): IGamePlan => {
-    const newGamePlan = GamePlanManager.updateFieldsAndDates(gamePlan!, tournament);
-    setGamePlan(newGamePlan);
-    return newGamePlan;
-  }
+  const deleteGamePlan = async (id: string): Promise<void> => {
+    try {
+      await gamePlanService.deleteGamePlan(id);
+      if (gamePlan?.getId() === id) {
+        setGamePlan(null);
+      }
+    } catch (err) {
+      console.error('Error deleting game plan', err);
+      setError(err instanceof Error ? err.message : 'Failed to delete game plan');
+      throw err;
+    }
+  };
 
-  const reorderGames = (sourceIndex: number, destinationIndex: number) => {
-    if (!gamePlan) return;
-    const newGamePlan = GamePlanManager.reorderGames(gamePlan, tournamentMemo!, sourceIndex, destinationIndex);
-    setGamePlan(newGamePlan);
-    return newGamePlan;
-  }
-
-  return { gamePlan, updateGamePlan, createNewGamePlan, reorderGames, loading, error };
+  return { 
+    gamePlan, 
+    setGamePlan,
+    updateGamePlan, 
+    createNewGamePlan, 
+    reorderGames, 
+    deleteGamePlan,
+    loading, 
+    error 
+  };
 };

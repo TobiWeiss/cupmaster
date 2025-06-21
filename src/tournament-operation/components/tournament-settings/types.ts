@@ -1,6 +1,4 @@
 import { FC } from 'react';
-import { TournamentFormat } from '../../types/tournament/TournamentFormat';
-import { Field } from '../../types/tournament/Field';
 import { TextInputProps } from './inputs/TextInput';
 import { FieldListProps } from './inputs/FieldList';
 import { TiebreakerListProps } from './inputs/TiebreakerList';

@@ -53,6 +53,7 @@ export const BottomNavigation: FC<BottomNavigationProps> = ({
           {navigationItems.map((item) => (
             <div key={item.id} className="relative">
               <motion.button
+                data-testid={`bottom-navigation-${item.id}`}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={() => onViewChange(item.id as any)}

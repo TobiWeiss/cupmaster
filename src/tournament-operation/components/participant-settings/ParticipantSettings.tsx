@@ -9,7 +9,7 @@ import { Plus, Edit2, Trash2, Users } from 'lucide-react';
 import { ParticipantForm } from './ParticipantForm';
 import { useTranslation } from 'react-i18next';
 import { PageInfo } from '../../../common/components/ui/PageInfo';
-import { useNotify } from '../../../common/hooks/useNotifications';
+import { useNotify } from '../../../common/hooks/useNotify';
 
 interface ParticipantSettingsProps {
   tournament: Tournament;
@@ -51,6 +51,7 @@ export const ParticipantSettings: FC<ParticipantSettingsProps> = ({ tournament, 
 
   return (
     <motion.div
+      data-testid="participant-settings"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="space-y-6"

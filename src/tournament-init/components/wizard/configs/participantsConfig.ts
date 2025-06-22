@@ -3,17 +3,6 @@ import { IWizardElement } from '../WizardConfig';
 
 export const participantElements: IWizardElement[] = [
   {
-    type: 'number',
-    name: 'numberOfParticipants',
-    category: 'participants',
-    question: 'tournamentInit.creation.questions.numberOfParticipants.question',
-    required: true,
-    validation: {
-      fun: (value: number) => value >= 2 && value <= 64,
-      message: 'tournamentInit.creation.questions.numberOfParticipants.validation'
-    }
-  },
-  {
     type: 'list',
     name: 'participants',
     category: 'participants',

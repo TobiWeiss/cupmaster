@@ -9,7 +9,6 @@
         "startDate": "2024-06-01T09:00:00.000Z",
         "multipleDays": true,
         "endDate": "2024-08-31T00:00:00.000Z",
-        "numberOfParticipants": 4,
         "participants": [
           { "name": "Participant 1", "logo": "" },
           { "name": "Participant 2", "logo": "" },
@@ -64,12 +63,6 @@
           "category": "tournamentDates"
         },
         {
-          "fieldName": "numberOfParticipants",
-          "value": 4,
-          "type": "number",
-          "category": "participants"
-        },
-        {
           "fieldName": "participants",
           "value": "",
           "values": [
@@ -110,7 +103,6 @@
         "startDate": "2024-07-01T09:00:00.000Z",
         "multipleDays": true,
         "endDate": "2024-07-15T00:00:00.000Z",
-        "numberOfParticipants": 8,
         "participants": [
           { "name": "Participant A", "logo": "" },
           { "name": "Participant B", "logo": "" },
@@ -170,12 +162,6 @@
           "category": "tournamentDates"
         },
         {
-          "fieldName": "numberOfParticipants",
-          "value": 8,
-          "type": "number",
-          "category": "participants"
-        },
-        {
           "fieldName": "participants",
           "value": "",
           "values": [
@@ -226,7 +212,6 @@
         "fields": 1,
         "startDate": "2024-09-01T09:00:00.000Z",
         "multipleDays": false,
-        "numberOfParticipants": 16, 
         "participants": [
           { "name": "Group A Participant 1", "logo": "" },
           { "name": "Group A Participant 2", "logo": "" },
@@ -296,12 +281,6 @@
           "value": null,
           "type": "date",
           "category": "tournamentDates"
-        },
-        {
-          "fieldName": "numberOfTeams",
-          "value": 16,
-          "type": "number",
-          "category": "teams"
         },
         {
           "fieldName": "participants",

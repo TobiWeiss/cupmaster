@@ -101,12 +101,7 @@ describe('TournamentWizard Scenarios', () => {
         }
     };
 
-    const fillParticipantInformation = async (numberOfParticipants: number, participants: Array<{ name: string }>) => {
-        // Number of Participants
-        const numberOfParticipantsInput = screen.getByTestId('wizard-input-numberOfParticipants');
-        fireEvent.change(numberOfParticipantsInput, { target: { value: numberOfParticipants } });
-        fireEvent.click(screen.getByTestId('wizard-next-button'));
-
+    const fillParticipantInformation = async (participants: Array<{ name: string }>) => {
         // Team List
        
         for (const participant of participants) {
@@ -213,8 +208,7 @@ describe('TournamentWizard Scenarios', () => {
 
                 // Fill team information - now with await
                 await fillParticipantInformation(
-                    scenario.steps[7].value as number,
-                    scenario.steps[8].values!
+                    scenario.steps[7].values!
                 );
                 await verifyCompletionStatus('participants');
 
@@ -222,33 +216,33 @@ describe('TournamentWizard Scenarios', () => {
                 switch (scenario.expectedData.format) {
                     case TournamentFormat.LEAGUE:
                         fillLeagueConfiguration(
+                            scenario.steps[8].value as number,
                             scenario.steps[9].value as number,
-                            scenario.steps[10].value as number,
-                            scenario.steps[11].value as number
+                            scenario.steps[10].value as number
                         );
                         break;
 
                     case TournamentFormat.KNOCKOUT:
                         fillKnockoutConfiguration(
-                            scenario.steps[9].value as string,
+                            scenario.steps[8].value as string,
+                            scenario.steps[9].value as number,
                             scenario.steps[10].value as number,
-                            scenario.steps[11].value as number,
-                            scenario.steps[12].value as boolean
+                            scenario.steps[11].value as boolean
                         );
                         break;
 
                     case TournamentFormat.GROUP_KNOCKOUT:
                         fillGroupConfiguration(
+                            scenario.steps[8].value as number,
                             scenario.steps[9].value as number,
                             scenario.steps[10].value as number,
-                            scenario.steps[11].value as number,
-                            scenario.steps[12].value as number
+                            scenario.steps[11].value as number
                         );
                         fillKnockoutConfiguration(
-                            scenario.steps[13].value as string,
+                            scenario.steps[12].value as string,
+                            scenario.steps[13].value as number,
                             scenario.steps[14].value as number,
-                            scenario.steps[15].value as number,
-                            scenario.steps[16].value as boolean
+                            scenario.steps[15].value as boolean
                         );
                         break;
                 }

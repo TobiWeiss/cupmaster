@@ -17,7 +17,6 @@ export const useTournamentOperations = (tournamentId: string | undefined) => {
     
     const updatedTournament = Tournament.fromObject(tournament.toObject());
     updatedTournament.setParticipants(participants);
-    updatedTournament.setNumberOfParticipants(participants.length);
     
     setTournament(updatedTournament); // this automatically saves the tournament
     await createNewGamePlan(updatedTournament);

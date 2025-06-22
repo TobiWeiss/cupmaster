@@ -9,7 +9,6 @@
       "startDate": "2030-06-01T09:00:00.000Z",
       "multipleDays": true,
       "endDate": "2030-08-31T00:00:00.000Z",
-      "numberOfParticipants": 4,
       "participants": [
         { "name": "Participant 1", "logo": "" },
         { "name": "Participant 2", "logo": "" },
@@ -37,7 +36,6 @@
       "startDate": "2030-07-01T09:00:00.000Z",
       "multipleDays": true,
       "endDate": "2030-07-15T00:00:00.000Z",
-      "numberOfParticipants": 8,
       "participants": [
         { "name": "Participant A", "logo": "" },
         { "name": "Participant B", "logo": "" },
@@ -62,8 +60,7 @@
       "logoUrl": "data:image/png;base64,dGVzdA==",
       "fields": 1,
       "startDate": "2030-09-01T09:00:00.000Z",
-      "multipleDays": false,
-      "numberOfParticipants": 16,
+      "multipleDays": false,  
       "participants": [
         { "name": "Group A Participant 1", "logo": "" },
         { "name": "Group A Participant 2", "logo": "" },

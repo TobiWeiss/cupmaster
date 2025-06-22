@@ -19,7 +19,6 @@ export class TournamentCreator {
     tournament.setLogoUrl(formData.logoUrl);
     tournament.setStartDate(new Date(formData.startDate));
     tournament.setFields(formData.fields || 1);
-    tournament.setNumberOfParticipants(formData.numberOfParticipants || 0);
     
     if (formData.multipleDays && formData.endDate) {
       tournament.setEndDate(new Date(formData.endDate));

@@ -14,7 +14,6 @@ describe('TournamentCreator Scenarios', () => {
             expect(tournament.getName()).toBe(input.name);
             expect(tournament.getLogoUrl()).toBe(input.logoUrl || undefined);
             expect(tournament.getStartDate()).toEqual(new Date(input.startDate));
-            expect(tournament.getNumberOfParticipants()).toBe(input.numberOfParticipants);
             expect(tournament.getParticipants()).toHaveLength(input.participants.length);
 
             // Validate participants

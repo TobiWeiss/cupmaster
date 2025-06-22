@@ -19,7 +19,6 @@ export interface ITournament {
   getParticipants(): IParticipant[];
   setParticipants(participants: IParticipant[]): void;
   getNumberOfParticipants(): number;
-  setNumberOfParticipants(numberOfParticipants: number): void;
   addParticipant(participant: IParticipant): void;
   removeParticipant(participant: IParticipant): void;
   getLogoUrl(): string | undefined;
@@ -66,7 +65,6 @@ export class Tournament implements ITournament {
     this.config = {
       name: '',
       startDate: new Date(),
-      numberOfParticipants: 0,
       type: {
         format: TournamentFormat.LEAGUE,
         phases: [],
@@ -245,15 +243,8 @@ export class Tournament implements ITournament {
     this.config.fields.push(field);
   }
 
-  setNumberOfParticipants(numberOfParticipants: number) {
-    if (numberOfParticipants < 2) {
-      throw new InvalidNumberException('Number of participants must be at least 2');
-    }
-    this.config.numberOfParticipants = numberOfParticipants;
-  }
-
   getNumberOfParticipants() {
-    return this.config.numberOfParticipants;
+    return this.participants.length;
   }
 
   addParticipant(participant: Participant) {

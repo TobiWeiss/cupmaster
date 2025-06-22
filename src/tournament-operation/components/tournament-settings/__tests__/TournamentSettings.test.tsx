@@ -124,7 +124,7 @@ describe('TournamentSettings', () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the fields section to edit
-            const fieldsSection = screen.getByTestId('fieldlist-element-edit-fields');
+            let fieldsSection = screen.getByTestId('fieldlist-element-edit-fields');
             fireEvent.click(fieldsSection);
 
             // Wait for the field list to be visible and add a new field
@@ -148,6 +148,11 @@ describe('TournamentSettings', () => {
             expect(savedTournament.getFields().length).toBe(2);
             expect(savedTournament.getFields()[1].getName()).toBe('Field 2');
 
+            expect(await screen.findByTestId('setting-content-fields')).toHaveTextContent('Field 1, Field 2');
+
+            fieldsSection = screen.getByTestId('fieldlist-element-edit-fields');
+            fireEvent.click(fieldsSection);
+
             // Remove the new field
             const removeFieldButton = await screen.findByTestId('fieldlist-element-remove-fields-1');
             fireEvent.click(removeFieldButton);
@@ -169,12 +174,12 @@ describe('TournamentSettings', () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the start time field to edit
-            const startTimeField = await screen.findByTestId('setting-content-startDate');
+            const startTimeField = await screen.findByTestId('datetime-element-edit-startDate');
             fireEvent.click(startTimeField);
 
             // Wait for the datetime inputs to be visible
-            const dateInput = await screen.findByTestId('datetime-input-startDate-date');
-            const timeInput = await screen.findByTestId('datetime-input-startDate-hour');
+            const dateInput = await screen.findByTestId('datetime-element-date-startDate');
+            const timeInput = await screen.findByTestId('datetime-element-time-startDate');
             expect(dateInput).toBeInTheDocument();
             expect(timeInput).toBeInTheDocument();
 
@@ -194,7 +199,7 @@ describe('TournamentSettings', () => {
             fireEvent.change(timeInput, { target: { value: timeString } });
 
             // Click save button
-            const saveButton = screen.getByTestId('datetime-input-save-startDate');
+            const saveButton = screen.getByTestId('datetime-element-save-startDate');
             fireEvent.click(saveButton);
 
             // Verify the save was called with the new date
@@ -219,17 +224,17 @@ describe('TournamentSettings', () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the match duration field to edit
-            const durationField = screen.getByTestId('setting-content-matchDuration');
+            const durationField = screen.getByTestId('number-element-edit-matchDuration');
             fireEvent.click(durationField);
 
             // Wait for the number input to be visible and change the duration
 
-            const incrementButton = await screen.findByTestId('number-input-increment-matchDuration');
+            const incrementButton = await screen.findByTestId('number-element-increment-matchDuration');
             expect(incrementButton).toBeInTheDocument();
             fireEvent.click(incrementButton);
 
             // Click save button
-            const saveButton = screen.getByTestId('number-input-save-matchDuration');
+            const saveButton = screen.getByTestId('number-element-save-matchDuration');
             fireEvent.click(saveButton);
 
             // Verify the save was called with the new duration
@@ -243,21 +248,21 @@ describe('TournamentSettings', () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the match duration field to edit
-            const durationField = await screen.findByTestId('setting-content-matchDuration');
+            const durationField = await screen.findByTestId('number-element-edit-matchDuration');
             fireEvent.click(durationField);
 
             // Wait for the number input to be visible and try to set duration below minimum
-            const durationInput = await screen.findByTestId('number-input-value-matchDuration');
+            const durationInput = await screen.findByTestId('number-element-input-matchDuration');
             expect(durationInput).toBeInTheDocument();
             fireEvent.change(durationInput, { target: { value: '0' } });
 
             // Click save button
-            const saveButton = screen.getByTestId('number-input-save-matchDuration');
+            const saveButton = screen.getByTestId('number-element-save-matchDuration');
             fireEvent.click(saveButton);
 
             // Verify the save was called with the minimum duration
             expect(mockOnSave).not.toHaveBeenCalled();
-            expect(durationField.textContent).toContain('10');
+            expect(await screen.findByTestId('setting-content-matchDuration')).toHaveTextContent('10');
 
         });
 
@@ -265,16 +270,16 @@ describe('TournamentSettings', () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the points for win field to edit
-            const pointsField = await screen.findByTestId('setting-content-pointsForWin');
+            const pointsField = await screen.findByTestId('number-element-edit-pointsForWin');
             fireEvent.click(pointsField);
 
             // Wait for the number input to be visible and change the points
-            const incrementButton = await screen.findByTestId('number-input-increment-pointsForWin');
+            const incrementButton = await screen.findByTestId('number-element-increment-pointsForWin');
             expect(incrementButton).toBeInTheDocument();
             fireEvent.click(incrementButton);
 
             // Click save button
-            const saveButton = screen.getByTestId('number-input-save-pointsForWin');
+            const saveButton = screen.getByTestId('number-element-save-pointsForWin');
             fireEvent.click(saveButton);
 
             // Verify the save was called with the new points
@@ -288,16 +293,16 @@ describe('TournamentSettings', () => {
             render(<TournamentSettings tournament={tournament} onSave={mockOnSave} />);
 
             // Click on the points for draw field to edit
-            const pointsField = await screen.findByTestId('setting-content-pointsForDraw');
+            const pointsField = await screen.findByTestId('number-element-edit-pointsForDraw');
             fireEvent.click(pointsField);
 
             // Wait for the number input to be visible and change the points
-            const incrementButton = await screen.findByTestId('number-input-increment-pointsForDraw');
+            const incrementButton = await screen.findByTestId('number-element-increment-pointsForDraw');
             expect(incrementButton).toBeInTheDocument();
             fireEvent.click(incrementButton);
 
             // Click save button
-            const saveButton = screen.getByTestId('number-input-save-pointsForDraw');
+            const saveButton = screen.getByTestId('number-element-save-pointsForDraw');
             fireEvent.click(saveButton);
 
             // Verify the save was called with the new points

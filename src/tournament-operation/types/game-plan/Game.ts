@@ -43,10 +43,6 @@ export interface IGame extends IBaseClass {
   setFieldName(fieldName: string): void;
   getStatus(): GameStatus;
   setStatus(status: GameStatus): void;
-  getWinnerPlays(): IGame | null;
-  setWinnerPlays(game: IGame): void;
-  getLoserPlays(): IGame | null;
-  setLoserPlays(game: IGame): void;
   getWinner(): IGameParticipant;
   getLoser(): IGameParticipant;
 }
@@ -59,8 +55,6 @@ export class Game implements IGame {
   time: IGameTime;
   field: IGameField;
   status: GameStatus;
-  winnerPlays: IGame | null; 
-  loserPlays: IGame | null;
 
   constructor() {
     this.id = uuidv4();
@@ -70,8 +64,6 @@ export class Game implements IGame {
     this.time = new GameTime();
     this.field = new GameField();
     this.status = GameStatus.PENDING;
-    this.winnerPlays = null;
-    this.loserPlays = null;
   }
 
   static init(data: Record<string, any>): Game {
@@ -82,8 +74,6 @@ export class Game implements IGame {
     game.time = GameTime.init(data.time);
     game.field = GameField.init(data.field);
     game.status = data.status;
-    game.winnerPlays = data.winnerPlays;
-    game.loserPlays = data.loserPlays;
     return game;
   }
   
@@ -96,8 +86,6 @@ export class Game implements IGame {
     newGame.time = GameTime.fromObject(this.time);
     newGame.field = GameField.fromObject(this.field);
     newGame.status = this.status;
-    newGame.winnerPlays = this.winnerPlays;
-    newGame.loserPlays = this.loserPlays;
     
     return newGame;
   }
@@ -111,8 +99,6 @@ export class Game implements IGame {
       time: this.time,
       field: this.field,
       status: this.status,
-      winnerPlays: this.winnerPlays,
-      loserPlays: this.loserPlays,
     };
   }
 
@@ -125,8 +111,6 @@ export class Game implements IGame {
     game.time = GameTime.fromObject(object.time);
     game.field = GameField.fromObject(object.field);
     game.status = object.status;
-    game.winnerPlays = object.winnerPlays;
-    game.loserPlays = object.loserPlays;
 
     return game;
   }
@@ -278,24 +262,6 @@ export class Game implements IGame {
   getStatus() {
     return this.status;
   }
-
-
-  setWinnerPlays(game: IGame) {
-    this.winnerPlays = game;
-  }
-
-  
-  getWinnerPlays() {
-    return this.winnerPlays;
-  }
-
-  setLoserPlays(game: IGame) {
-    this.loserPlays = game;
-  }
-
-  getLoserPlays() {
-    return this.loserPlays;
-  } 
 
   getWinner() {
     return this.score.getFirstParticipantsScore() > this.score.getSecondParticipantsScore() ? this.firstParticipant : this.secondParticipant;

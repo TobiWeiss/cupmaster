@@ -1,5 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
-import { GamePlan, IGamePlan } from "../types/game-plan/GamePlan";
+import { GamePlan } from "../types/game-plan/GamePlan";
 import { GamePlanService } from "../services/GamePlanService";
 import { ITournament, Tournament } from "../types/tournament/Tournament";
 import { LocalStorage } from "../../common/services";

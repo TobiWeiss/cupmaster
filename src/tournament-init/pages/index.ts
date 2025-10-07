@@ -1,2 +1,2 @@
-export * from './InitTournamentPage';
+export * from './TournamentWizardPage';
 export * from './HomePage';

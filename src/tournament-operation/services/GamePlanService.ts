@@ -1,8 +1,7 @@
 import { StorageInterface } from '../../common/services/storage/StorageInterface';
-import { GamePlan, IGamePlan } from '../types/game-plan/GamePlan';
+import { GamePlan } from '../types/game-plan/GamePlan';
 import { Tournament } from '../types/tournament/Tournament';
 import { GamePlanManager } from './GamePlanManager';
-import { v4 as uuidv4 } from 'uuid';
 
 export class GamePlanService {
 
@@ -21,12 +20,7 @@ export class GamePlanService {
     
     return data ? GamePlan.fromObject(data) : null;
   }
-
-  async getAllGamePlans(): Promise<GamePlan[]> {
-    const data = await this.storage.getGamePlans();
-    return data.map((gamePlan: Record<string, any>) => GamePlan.fromObject(gamePlan));
-  }
-
+  
   async updateGamePlan(gamePlan: GamePlan): Promise<GamePlan> {
     await this.storage.saveGamePlan(gamePlan.toObject());
     return gamePlan;

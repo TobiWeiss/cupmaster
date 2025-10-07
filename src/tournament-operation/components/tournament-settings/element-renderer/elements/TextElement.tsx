@@ -4,7 +4,7 @@ import { Save, X, Edit2 } from 'lucide-react';
 import { Button } from '../../../../../common/components/ui/Button';
 import { SmallText } from '../../../../../common/components/typography/Text';
 import { SettingsElementProps } from '../ElementRenderer';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 export const TextElement: FC<SettingsElementProps> = ({ 
   element, 

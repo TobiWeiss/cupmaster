@@ -4,12 +4,13 @@ import { Link } from 'react-router-dom';
 
 interface CardProps {
   to?: string;
+  click?: () => void;
   disabled?: boolean;
   children: ReactNode;
   className?: string;
 }
 
-export const Card: FC<CardProps> = React.forwardRef(({ to, disabled = false, children, className = '' }, ref) => {
+export const Card: FC<CardProps> = React.forwardRef(({ to, click, disabled = false, children, className = '' }, ref) => {
   const baseStyles = `
     p-8 
     bg-custom-primary-light dark:bg-custom-primary-dark
@@ -24,23 +25,25 @@ export const Card: FC<CardProps> = React.forwardRef(({ to, disabled = false, chi
       hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] 
       dark:hover:shadow-[0_8px_30px_rgba(0,0,0,0.3)]
     `}
+
+    ${click ? 'cursor-pointer' : ''}
     shadow-[0_4px_20px_rgb(0,0,0,0.08)]
     dark:shadow-[0_4px_20px_rgba(0,0,0,0.2)]
     
     ${className}
   `;
 
-  if (to && !disabled) {
-    return (
+  return (
+    to ? (
       <Link to={to} className={baseStyles}>
         {children}
       </Link>
-    );
-  }
-
-  return (
-    <div className={baseStyles} ref={ref as React.RefObject<HTMLDivElement>}>
-      {children}
-    </div>
+    ) : (
+      <div className={baseStyles} ref={ref as React.RefObject<HTMLDivElement>} onClick={click}>
+        {children}
+      </div>
+    )
   );
 });
+
+Card.displayName = 'Card';

@@ -3,6 +3,7 @@ export const de = {
     common: {
       create: 'Erstellen',
       edit: 'Bearbeiten',
+      delete: 'Löschen',
       save: 'Speichern',
       cancel: 'Abbrechen',
       loading: 'Lädt...',
@@ -64,8 +65,12 @@ export const de = {
         title: 'Turnier-Planer',
         subtitle: 'Erstelle und verwalte deine Turniere',
         createTournament: {
-          title: 'Turnier erstellen',
-          description: 'Erstelle ein neues Turnier mit benutzerdefinierten Einstellungen',
+          title: 'Leeres Turnier erstellen',
+          description: 'Erstelle ein neues Turnier. Dabei kannst du alle Einstellungen für das Turnier selbstständig vornehmen.',
+        },
+        createTournamentWithWizard: {
+          title: 'Turnier mit Assistenten erstellen',
+          description: 'Erstelle ein neues Turnier mit Hilfe des Assistenten. Der Assistent sammelt alle wichtigen Informationen für das Turnier und erleichtert dir den Start.',
         },
         editTournament: {
           title: 'Turnier bearbeiten',
@@ -91,7 +96,10 @@ export const de = {
             participants: 'Teilnehmer',
             status: 'Status',
             createdAt: 'Erstellt am',
-          }
+          },
+          deleteConfirmation: 'Möchten Sie dieses Turnier wirklich löschen? Diese Aktion kann nicht rückgängig gemacht werden.',
+          deleteSuccess: 'Turnier wurde erfolgreich gelöscht.',
+          deleteError: 'Fehler beim Löschen des Turniers.'
         },
       },
       creation: {

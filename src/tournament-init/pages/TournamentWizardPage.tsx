@@ -6,7 +6,7 @@ import { PageInfo } from '../../common/components/ui/PageInfo';
 import { Tournament } from '../../tournament-operation/types/tournament/Tournament';
 import { useTournamentService } from '../hooks/useTournamentService';
 
-export const InitTournamentPage = () => {
+export const TournamentWizardPage = () => {
   const navigate = useNavigate();
   const tournamentService = useTournamentService();
 

@@ -63,7 +63,7 @@ export class Tournament implements ITournament {
     this.id = uuidv4();
     this.status = TournamentStatus.INITIALIZED;
     this.config = {
-      name: '',
+      name: '-',
       startDate: new Date(),
       type: {
         format: TournamentFormat.LEAGUE,

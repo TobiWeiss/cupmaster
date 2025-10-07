@@ -9,7 +9,6 @@ export interface TournamentConfig {
   startDate: Date;
   endDate?: Date;
   fields: IField[];
-  numberOfParticipants: number;
   type: {
     format: TournamentFormat;
     phases: TournamentPhase[];

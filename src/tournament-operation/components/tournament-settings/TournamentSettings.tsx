@@ -1,7 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import { Tournament } from '../../types/tournament/Tournament';
 import { Card } from '../../../common/components/ui/Card';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { LargeText } from '../../../common/components/typography/Text';
 import { useTranslation } from 'react-i18next';
 import { PageInfo } from '../../../common/components/ui/PageInfo';
@@ -21,7 +21,7 @@ interface TournamentSettingsProps {
 }
 
 export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, onSave }) => {
-  const { t } = useTranslation();
+  const { t: translate } = useTranslation();
   const { showNotification } = useNotify();
   const [isEditing, setIsEditing] = useState<Record<string, boolean>>({});
   const [editedTournament, setEditedTournament] = useState<Tournament>(Tournament.fromObject(cloneDeep(tournament.toObject())));
@@ -55,9 +55,9 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
   const handleSave = async (field: string, value: any) => {
     try {
       // Find the element and call its onChange
-      const allElements = [...createSettingsElements(t)];
+      const allElements = [...createSettingsElements(translate)];
       if (editedTournament.getFormat() === TournamentFormat.LEAGUE) {
-        allElements.push(...createLeagueFormatElements(t));
+        allElements.push(...createLeagueFormatElements(translate));
       }
       
       const element = allElements.find(el => el.id === field);
@@ -81,7 +81,7 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
       if (error instanceof ValidationException) {
         showNotification(error.message, NotificationType.WARNING);
       } else {
-        showNotification(t('common.error.unknown'), NotificationType.ERROR);
+        showNotification(translate('common.error.unknown'), NotificationType.ERROR);
       }
       rollbackTournament();
       closeEdit(field);
@@ -121,9 +121,9 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
     }
   };
 
-  const allElements = [...createSettingsElements(t)];
+  const allElements = [...createSettingsElements(translate)];
   if (editedTournament.getFormat() === TournamentFormat.LEAGUE) {
-    allElements.push(...createLeagueFormatElements(t));
+    allElements.push(...createLeagueFormatElements(translate));
   }
 
   return (
@@ -134,15 +134,15 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
       className="space-y-6"
     >
       <PageInfo
-        title={t('tournamentOperation.settings.title')}
-        description={t('tournamentOperation.settings.description')}
+        title={translate('tournamentOperation.settings.title')}
+        description={translate('tournamentOperation.settings.description')}
         className="my-10"
       />
 
       <div className="grid gap-4 grid-cols-2">
         <Card className="p-4 h-full">
           <div className="flex items-center gap-2 mb-4">
-            <LargeText className="font-bold">{t('tournamentOperation.settings.categories.basic.title')}</LargeText>
+            <LargeText className="font-bold">{translate('tournamentOperation.settings.categories.basic.title')}</LargeText>
           </div>
           <div className="space-y-4">
             {allElements.filter(el => ['name', 'format', 'fields'].includes(el.id)).map((element) => (
@@ -172,7 +172,7 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
 
         <Card className="p-4 h-full">
           <div className="flex items-center gap-2 mb-4">
-            <LargeText className="font-bold">{t('tournamentOperation.settings.categories.dates.title')}</LargeText>
+            <LargeText className="font-bold">{translate('tournamentOperation.settings.categories.dates.title')}</LargeText>
           </div>
           <div className="space-y-4">
             {allElements.filter(el => ['startDate', 'endDate'].includes(el.id)).map((element) => (
@@ -203,7 +203,7 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
         {editedTournament.getFormat() === TournamentFormat.LEAGUE && (
           <Card className="p-4 col-span-2">
             <div className="flex items-center gap-2 mb-4">
-              <LargeText className="font-bold">{t('tournamentOperation.settings.categories.format.title')}</LargeText>
+              <LargeText className="font-bold">{translate('tournamentOperation.settings.categories.format.title')}</LargeText>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {allElements.filter(el => ['matchesAgainstEachParticipant', 'matchDuration', 'matchBreakDuration', 'pointsForWin', 'pointsForDraw', 'tiebreakers'].includes(el.id)).map((element) => (

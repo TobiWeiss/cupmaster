@@ -8,6 +8,8 @@ export interface IGroup {
     setName(name: string): void;
     getParticipants(): IGroupParticipant[];
     setParticipants(participants: IGroupParticipant[]): void;
+    addParticipant(participant: IGroupParticipant): void;
+    removeParticipant(participant: IGroupParticipant): void;
 }
 
 export class Group implements IGroup {
@@ -72,5 +74,13 @@ export class Group implements IGroup {
     
     setParticipants(participants: IGroupParticipant[]): void {
         this.participants = participants;
+    }
+
+    addParticipant(participant: IGroupParticipant): void {
+        this.participants.push(participant);
+    }
+
+    removeParticipant(participant: IGroupParticipant): void {
+        this.participants = this.participants.filter(p => p.getId() !== participant.getId());
     }
 }

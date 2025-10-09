@@ -4,24 +4,23 @@ import { GameParticipant } from "../../types/game-plan/GameParticipant";
 import { GamePlan, IGamePlan } from "../../types/game-plan/GamePlan";
 import { ITournament } from "../../types/tournament/Tournament";
 import { TournamentFormat } from "../../types/tournament/TournamentFormat";
-import { IGamePlanCreator } from "./IGamePlanCreator";
 import { Group, IGroup } from "../../types/game-plan/Group";
 
-export class GroupKnockoutCreator implements IGamePlanCreator {
+export class GroupKnockoutCreator {
 
     constructor() {
     }
 
-    createGamePlan(tournament: ITournament): IGamePlan {
+    createGamePlan(tournament: ITournament, groups: IGroup[]): IGamePlan {
         const gamePlan = new GamePlan(tournament.getId()!);
 
-        let games = this._createGames(tournament);
-        games = this._orderGames(games);
-        games = this._addMatchesAgainstEachOther(games, tournament);
-        games = this._assignFields(games, tournament);
-        games = this._setGameDates(games, tournament);
+        let groupGames = this._createGroupGames(tournament, groups);
+        groupGames = this._orderGames(groupGames);
+        groupGames = this._addMatchesAgainstEachOther(groupGames, tournament);
+        groupGames = this._assignFields(groupGames, tournament);
+        groupGames = this._setGameDates(groupGames, tournament);
 
-        gamePlan.setGames(games);
+        gamePlan.setGames(groupGames);
 
         return gamePlan;
     }
@@ -43,30 +42,38 @@ export class GroupKnockoutCreator implements IGamePlanCreator {
         return gamePlan;
     }
 
-    _createGames(tournament: ITournament): IGame[] {
+    _createGroupGames(tournament: ITournament, groups: IGroup[]): IGame[] {
         let games: IGame[] = [];
-        const participants = tournament.getParticipants();
 
-        const gamesOfEachParticipant: IGame[][] = [];
+        const gamesOfEachGroup: IGame[][] = [];
 
-        for (let i = 0; i < participants.length; i++) {
-            gamesOfEachParticipant[i] = [];
-            const gameParticipant1 = GameParticipant.fromObject(participants[i]);
-            for (let j = i + 1; j < participants.length; j++) {
-                if (participants[i].getId() === participants[j].getId()) continue;
-                const game: Game = new Game();
-                const gameParticipant2 = GameParticipant.fromObject(participants[j]);
-                game.setFirstParticipant(gameParticipant1);
-                game.setSecondParticipant(gameParticipant2);    
-                gamesOfEachParticipant[i].push(game);
+        for (let i = 0; i < groups.length; i++) {
+            const group = groups[i];
+            const groupParticipants = group.getParticipants();
+            for (let j = 0; j < groupParticipants.length; j++) {
+                const gameParticipant1 = GameParticipant.fromObject(groupParticipants[j]);
+                for (let k = j + 1; k < groupParticipants.length; k++) {
+                    const gameParticipant2 = GameParticipant.fromObject(groupParticipants[k]);
+                    const game = new Game();
+                    game.setFirstParticipant(gameParticipant1);
+                    game.setSecondParticipant(gameParticipant2);
+                    gamesOfEachGroup[i].push(game);
+                }
+                gamesOfEachGroup[i].push(...gamesOfEachGroup[i]);
             }
         }
+        
 
-        games = gamesOfEachParticipant.flatMap(games => games)
+        games = gamesOfEachGroup.flatMap(games => games)
 
         return games;
     }
 
+    /**
+     * Games are ordered to avoid a team playing multiple times in a row.
+     * @param games the games to order
+     * @returns 
+     */
     _orderGames(games: IGame[]): IGame[] {
         let orderedGames: Array<IGame> = [];
         let teamsLastPlayed: string[] = [];

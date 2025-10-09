@@ -1,4 +1,5 @@
 import { IGamePlan } from "../types/game-plan/GamePlan";
+import { IGroup } from "../types/game-plan/Group";
 import { ITournament } from "../types/tournament/Tournament";
 import { TournamentFormat } from "../types/tournament/TournamentFormat";
 import { GroupKnockoutCreator } from "./game-plan-creators/GroupKnockoutCreator";
@@ -20,8 +21,11 @@ const gamePlanSorters = {
 
 
 export class GamePlanManager {
-  static createGamePlan(tournament: ITournament): IGamePlan {
+  static createGamePlan(tournament: ITournament, groups: IGroup[]): IGamePlan {
     const factory = new gamePlanCreators[tournament.getFormat()];
+    if(factory instanceof GroupKnockoutCreator) {
+      return factory.createGamePlan(tournament, groups);
+    }
     return factory.createGamePlan(tournament);
   }
 

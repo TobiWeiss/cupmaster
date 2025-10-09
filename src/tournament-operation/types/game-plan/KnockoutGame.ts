@@ -16,22 +16,77 @@ export enum KnockoutGameRuleType {
 
 export interface KnockoutGameRule {
     getType(): KnockoutGameRuleType;
-    setType(type: KnockoutGameRuleType): void;
 }
 
-export interface PlacementInGroupRule extends KnockoutGameRule {
-    getGroupId(): string;
-    setGroupId(group: string): void;
+export class PlacementInGroupRule implements KnockoutGameRule {
+    groupId: string;
+    place: number;
+
+    constructor(groupId: string, place: number) {
+        this.groupId = groupId;
+        this.place = place;
+    }
+
+    getGroupId(): string {
+        return this.groupId;
+    }
+
+    setGroupId(group: string): void {
+        this.groupId = group;
+    }
+
+    getType(): KnockoutGameRuleType {
+        return KnockoutGameRuleType.PLACEMENT_IN_GROUP;
+    }
+
+    getPlace(): number {
+        return this.place;
+    }
+
+    setPlace(place: number): void {
+        this.place = place;
+    }
+
 }
 
-export interface WinnerOfGameRule extends KnockoutGameRule {
-    getGameId(): string;
-    setGameId(game: string): void;
+export class WinnerOfGameRule implements KnockoutGameRule {
+    gameId: string;
+
+    constructor(gameId: string) {
+        this.gameId = gameId;
+    }
+
+    getGameId(): string {
+        return this.gameId;
+    }
+
+    setGameId(game: string): void {
+        this.gameId = game;
+    }
+
+    getType(): KnockoutGameRuleType {
+        return KnockoutGameRuleType.WINNER_OF_GAME;
+    }
 }
 
-export interface LoserOfGameRule extends KnockoutGameRule {
-    getGameId(): string;
-    setGameId(game: string): void;
+export class LoserOfGameRule implements KnockoutGameRule {
+    gameId: string;
+
+    constructor(gameId: string) {
+        this.gameId = gameId;
+    }
+
+    getGameId(): string {
+        return this.gameId;
+    }
+
+    setGameId(game: string): void {
+        this.gameId = game;
+    }
+
+    getType(): KnockoutGameRuleType {
+        return KnockoutGameRuleType.LOSER_OF_GAME;
+    }
 }
 
 export interface IKnockoutGame extends IBaseClass, IGame {
@@ -39,25 +94,29 @@ export interface IKnockoutGame extends IBaseClass, IGame {
     setRule(rule: KnockoutGameRule): void;
     getGame(): IGame;
     setGame(game: IGame): void;
+    setRound(round: string): void;
+    getRound(): string;
 }
 
 export class KnockoutGame implements IKnockoutGame {
     id: string;
     rule: KnockoutGameRule;
     game: IGame;
+    round: string;
 
-    constructor(rule: KnockoutGameRule, game: IGame) {
+    constructor(rule: KnockoutGameRule, game: IGame, round: string) {
         this.id = uuidv4();
         this.rule = rule;
         this.game = game;
+        this.round = round;
     }
 
-    static init(rule: KnockoutGameRule, game: IGame): KnockoutGame {
-        return new KnockoutGame(rule, game);
+    static init(rule: KnockoutGameRule, game: IGame, round: string): KnockoutGame {
+        return new KnockoutGame(rule, game, '');
     }
 
     static fromObject(object: Record<string, any>): KnockoutGame {
-        return new KnockoutGame(object.rule, object.game);
+        return new KnockoutGame(object.rule, object.game, object.round);
     }
     
     toObject(): Record<string, any> {
@@ -69,7 +128,7 @@ export class KnockoutGame implements IKnockoutGame {
     }
     
     clone(): KnockoutGame {
-        return new KnockoutGame(this.rule, this.game);
+        return new KnockoutGame(this.rule, this.game, this.round);
     }
 
     getRule(): KnockoutGameRule {
@@ -86,6 +145,17 @@ export class KnockoutGame implements IKnockoutGame {
     
     setGame(game: IGame): void {
         this.game = game;
+    }
+
+    /**
+     * @returns the round of the game, e.g "Quarter-finals", "Semi-finals", "Final"
+     */
+    getRound(): string {
+        return this.round;
+    }
+
+    setRound(round: string): void {
+        this.round = round;
     }
 
     getId(): string {

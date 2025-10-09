@@ -4,9 +4,8 @@ import { GameParticipant } from "../../types/game-plan/GameParticipant";
 import { GamePlan, IGamePlan } from "../../types/game-plan/GamePlan";
 import { ITournament } from "../../types/tournament/Tournament";
 import { TournamentFormat } from "../../types/tournament/TournamentFormat";
-import { IGamePlanCreator } from "./IGamePlanCreator";
 
-export class LeagueCreator implements IGamePlanCreator {
+export class LeagueCreator {
 
     constructor() {
     }

@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { IBaseClass } from '../../../common/types/BaseClass';
+import { IParticipant } from '../tournament/Participant';
 
 export interface IGroupParticipant extends IBaseClass {
   getId(): string;
@@ -52,6 +53,14 @@ export class GroupParticipant implements IGroupParticipant {
     return groupParticipant;
   }
 
+  static fromParticipant(participant: IParticipant): GroupParticipant {
+    const groupParticipant = new GroupParticipant();
+    groupParticipant.setId(participant.getId());
+    groupParticipant.setName(participant.getName());
+    groupParticipant.setLogo(participant.getLogo());
+    return groupParticipant;
+  }
+
   setId(id: string) {
     this.id = id;
   }
@@ -60,7 +69,7 @@ export class GroupParticipant implements IGroupParticipant {
     this.name = name;
   } 
 
-  setLogo(logo: string) {
+  setLogo(logo?: string) {
     this.logo = logo;
   }
 

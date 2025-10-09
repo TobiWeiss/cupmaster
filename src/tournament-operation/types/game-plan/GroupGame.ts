@@ -9,49 +9,49 @@ import { IGameField } from "./GameField";
 import { GameStatus } from "./GameStatus";
 
 export interface IGroupGame extends IBaseClass, IGame {
-    getGroup(): IGroup;
-    setGroup(group: IGroup): void;
+    getGroupId(): string;
+    setGroupId(groupId: string): void;
     getGame(): IGame;
     setGame(game: IGame): void;
 }
 
 export class GroupGame implements IGroupGame {
     id: string;
-    group: IGroup;
+    groupId: string;
     game: IGame;
 
-    constructor(group: IGroup, game: IGame) {
+    constructor(groupId: string, game: IGame) {
         this.id = uuidv4();
-        this.group = group;
+        this.groupId = groupId;
         this.game = game;
     }
     
-    static init(group: IGroup, game: IGame): GroupGame {
-        return new GroupGame(group, game);
+    static init(groupId: string, game: IGame): GroupGame {
+        return new GroupGame(groupId, game);
     }
     
     static fromObject(object: Record<string, any>): GroupGame {
-        return new GroupGame(object.group, object.game);
+        return new GroupGame(object.groupId, object.game);
     }
     
     toObject(): Record<string, any> {
         return {
             id: this.id,
-            group: this.group,
+            groupId: this.groupId,
             game: this.game,
         };
     }
 
     clone(): GroupGame {
-        return new GroupGame(this.group, this.game);
+        return new GroupGame(this.groupId, this.game.clone());
     }
 
-    getGroup(): IGroup {
-        return this.group;
+    getGroupId(): string {
+        return this.groupId;
     }
 
-    setGroup(group: IGroup): void {
-        this.group = group;
+    setGroupId(groupId: string): void {
+        this.groupId = groupId;
     }
 
     getId(): string {

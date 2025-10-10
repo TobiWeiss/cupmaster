@@ -5,7 +5,6 @@ import { ParticipantSettings } from '../components/participant-settings/Particip
 import { TournamentSettings as TournamentSettings } from '../components/tournament-settings/TournamentSettings';
 import { BottomNavigation } from '../components/navigation/BottomNavigation';
 import { useTournamentOperations } from '../hooks/useTournamentOperations';
-import { Tournament } from '../types/tournament/Tournament';
 
 type TabType = 'game-plan' | 'participants' | 'settings';
 

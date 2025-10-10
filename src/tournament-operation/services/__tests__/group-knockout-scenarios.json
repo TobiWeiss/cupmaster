@@ -1,0 +1,448 @@
+[
+    {
+        "expectedData": {
+            "numberOfMatches": 12,
+            "matchesAgainstEachParticipant": 2,
+            "expectedFirstGameStartTime": "2030-03-08T09:00:00.000Z",
+            "expectedLastGameStartTime":"2030-03-08T11:48:00.000Z",
+            "expectedSixtGameStartTime": "2030-03-08T10:00:00.000Z"
+        },
+        "initialData": {
+            "id": "d6f04f7d-bea8-4e93-8f62-d7fa692372b8",
+            "status": "INITIALIZED",
+            "config": {
+                "name": "Tübinger Stadtpokal",
+                "startDate": "2030-03-08T09:00:00.000Z",
+                "numberOfParticipants": 6,
+                "type": {
+                    "format": "GROUP_KNOCKOUT",
+                    "phases": []
+                },
+                "groupConfig": {
+                    "numberOfGroups": 2,
+                    "matchesAgainstEachParticipant": 2,
+                    "matchDuration": 10,
+                    "matchBreakDuration": 2,
+                    "pointsForWin": 3,
+                    "pointsForDraw": 1,
+                    "tiebreakers": [
+                        "GOAL_DIFFERENCE",
+                        "HEAD_TO_HEAD",
+                        "GOALS_SCORED"
+                    ],
+                    "qualifiedParticipants": 2
+                },
+                "knockoutConfig": {
+                    "matchesAgainstEachParticipant": 1,
+                    "matchDuration": 15,
+                    "matchBreakDuration": 5,
+                    "hasThirdPlaceMatch": false
+                },
+                "leagueConfig": {
+                    "matchesAgainstEachParticipant": 0,
+                    "matchDuration": 0,
+                    "matchBreakDuration": 0,
+                    "pointsForWin": 0,
+                    "pointsForDraw": 0,
+                    "tiebreakers": []
+                },
+                "fields": [
+                    {
+                        "id": "d7f04f7d-bea8-4e93-8f62-d7fa692372b8",
+                        "name": "Feld 1"
+
+                    }
+                ],
+                "logoUrl": ""
+            },
+            "participants": [
+                {
+                    "id": "team999",
+                    "name": "TSV Derendeningen",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team1",
+                    "name": "TSV Lustnau",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team55",
+                    "name": "TSG Tübingen2",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team67",
+                    "name": "SV Wurmlingen",
+                    "logo": ""
+                },
+                {
+                    "id": "team88",
+                    "name": "SV Wendelsheim",
+                    "logo": ""
+                },
+                {
+                    "id": "fd86e5b3-f232-46c1-af5a-e65893cd03ca",
+                    "name": "Bayern",
+                    "contact": "",
+                    "logo": ""
+                }
+            ]
+        }
+    },
+    {
+        "expectedData": {
+            "numberOfMatches": 48,
+            "matchesAgainstEachParticipant": 2,
+            "expectedFirstGameStartTime": "2030-03-08T09:00:00.000Z",
+            "expectedLastGameStartTime":"2030-03-08T11:48:00.000Z",
+            "expectedSixtGameStartTime": "2030-03-08T09:24:00.000Z"
+        },
+        "initialData": {
+            "id": "d6f04f7d-bea8-4e93-8f62-d7fa692372b8",
+            "status": "INITIALIZED",
+            "config": {
+                "name": "Tübinger Stadtpokal",
+                "startDate": "2030-03-08T09:00:00.000Z",
+                "numberOfParticipants": 16,
+                "type": {
+                    "format": "GROUP_KNOCKOUT",
+                    "phases": []
+                },
+                "groupConfig": {
+                    "numberOfGroups": 4,
+                    "matchesAgainstEachParticipant": 2,
+                    "matchDuration": 10,
+                    "matchBreakDuration": 2,
+                    "pointsForWin": 3,
+                    "pointsForDraw": 1,
+                    "tiebreakers": [
+                        "GOAL_DIFFERENCE",
+                        "HEAD_TO_HEAD",
+                        "GOALS_SCORED"
+                    ],
+                    "qualifiedParticipants": 2
+                },
+                "knockoutConfig": {
+                    "matchesAgainstEachParticipant": 1,
+                    "matchDuration": 15,
+                    "matchBreakDuration": 5,
+                    "hasThirdPlaceMatch": false
+                },
+                "leagueConfig": {
+                    "matchesAgainstEachParticipant": 0,
+                    "matchDuration": 0,
+                    "matchBreakDuration": 0,
+                    "pointsForWin": 0,
+                    "pointsForDraw": 0,
+                    "tiebreakers": [
+                       
+                    ]
+                },
+                "fields": [
+                    {
+                        "id": "d7f04f7d-bea8-4e93-8f62-d7fa692372b8",
+                        "name": "Feld 1"
+
+                    },
+                    {
+                        "id": "d8f04f7d-bea8-4e93-8f62-d7fa692372b8",
+                        "name": "Feld 2"
+
+                    }
+                ],
+                "logoUrl": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBxMTEBUSEhIWFRUVFxgZGRgYGB8YHRohGBcYGx8dHxgbHiggGR8lHRkgITEhJSkrLi8yGh8zODctNygtLisBCgoKDg0OGhAQGy0lICUuLzM3MDgwKzArLzIwLi0uLzcvLS4tMTE3MTAuLjctLTAyLiswLzc1LS0wMCsrMDctK//AABEIAPAA0gMBIgACEQEDEQH/xAAcAAEAAgIDAQAAAAAAAAAAAAAABgcEBQIDCAH/xABNEAACAQMCAwUEBQgGCAQHAAABAgMABBESIQUGMQcTIkFRMmFxgRQjQlKRYnKCkqGisbIzU4OTwdMVFyQ0Q3PC0VRjs+E1RHSjtNLx/8QAGgEBAAIDAQAAAAAAAAAAAAAAAAMFAgQGAf/EADQRAAIBAgQDBgQFBQEAAAAAAAABAgMRBBIhMQVB8BNRYXGBkVKhscEUIiPR4SQyQnLxFf/aAAwDAQACEQMRAD8AvGlKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKUpQClKUApSlAKVxkkCgsxAA3JJwB8TWni5usGfu1vrYuTgATJufQb7mgN1SvhYAZPSo1zBzrb20TyANMU6iPHrjOpiBgdds0BJqVSl/21XBz3NpEnoZHaT8Quj8M1qJe1riR6NCv5sX/7MaA9BUrzm3afxQ//ADIHwij/AMUrnH2pcUHWdW+MSf4KKA9E0qg7ftg4ipGpbdx55jYH8VkwPwqQcM7a1zi4s2A+9E4b9xwuP1jQFuUrQ8u84Wd7tbzAvjJjbwOP0G3I94yK219fRQoZJpUiQdWdgo/EnFAZFK1XDeZLO4bRBdQyt91JFY/qg5ra0ApSlAKUpQClKUApSlAKUpQClKUArjI4UFiQAASSegA865VFe1K8MXCLph1ZBH8pXWM/sY0BTfOPNVxxW6EUWswl9MEC7avR2Hmx677KPTBJ28vY5eC3MnexNIFz3Iyc/khzgavljPn51ndg3Claa4umGTGqxp7i+Sx+OFUfpH1qy+cuYxY2xl7p5XY6Y0RSdTEHGSAdI2yT7tsnagKF4NzjcxrFbyTMbZCRoPkGx59SEIyF8tx6YnEiB1KndWBB94I/7VA+McqXkVqt9cRlFlkIIIwyltwzJ9gMcgA7jb1Fb/kviPeQd2x8UWB8VPs/hgj5Ch6iC3duY5GjPVGK/gcZrprf87W2m6LeUiq3zHhP8B+NaRYWKlgrFV6kAkDcDc9BuQN/Mj1oeHXSvmoetNY9R/8A2gPtKZpQHJHKkMpKspyGUkEEeYI3B94qVW0d5xu9SMvkpEo1OfDGqKqs+APadt9hklsdBtFUQkhVBJJAAG5JJwAB5knarG4BFd8Buy9xavNDLGAzQjVjo2zdNSnK6WIznIO1Aazm3s2urGPv9SzRJgs6Aq0e/tFT0AP2gTjqcdanXZBztJchrO5cvKi6o3PV0GAQx82XI36kHfcEmxo2SaEEqSkqey6lThx0ZGAI2OCCK87cvxmy49FECR3V2YRvnKu5iGfXKuDQHpGlKUApSlAKUpQClKUApSlAKUpQCoj2sW5fg9yB9kRv8klRj+wGpdWFxqwFxbTQN0ljeM+7WpXP7aArfsCcfR7pfMSofkUwP5TVq1RnYhxHuLy4hmPd6ostqIAVoGOoE9BgO2T+SalXM/a9bQ5S0X6S/wB/2Yh+l1f9EYP3hQE647YRT20sM2BHIhDEnGBj2s+RB3B8sV5y4Er2nEDBJswdoX9CQcAj3FgCPca48a5ivuJSd3K7y6ukMYIQf2Y649WyR61lc62ssVxayyrplktoHk3B+sizETkEjJESk49axzxzZb693M9tzNxzJZwPNbfSXkSJnMZaMLqGsrgnXsFGCScHbyNbng3A4dUloY3CpeT2jq8rOAk1uHil07LkyRpjCg5I6kA1oO0Bc26f80D8UetFNzheGZ5lnMTyoiSGLw6xGulSevix9oYPpisgyxUsFNjYuYlVov8ARjkmJFUOtyI5Qsq+JpGONSnIwBjqa5XdtD9AvFOkTZ4t3ZONka80P8MHQap97hyoVnYqvRSxIHwBOB8q6qHhdXFuARNdwpLDEtrDNK28ehlhgtF1KSF+sjMhD6sk5OPKovZ8oQXFm92+IFZ5ijwse4RIUK6ys57xleVSAAQfEvQbVDbLjlzEweO4lVgCo8ZIAOnIw2Rg6V2xjwj0FZtzzXcSW0ltKVdJEiTOkKVEUxmBAXC5Zj4iRvhfTcCRdjHBllvfpEuAsGNAY41SuG0gZ9oqqs2PzT5Vf1eb73gVweFWbRRMyFpp5NG51M4jQ6R4to4uoG2o1k8sdp17a4R2+kxDbTKTqHwl3P6wb5VjGcZNqLvb5HrTR6Hrz5dxibmfC7/7ch/umUn+Q1a3LnaJY3anTIYpArMYpPC2FUsSp9l8AE7HOBuBVZdkVsbrjD3bL7AlnPueZiAPwd/1ayPC+qUpQClKUApSlAKUpQClKxuJXRiieQRtJoUtoTGpgNyFBIBbHQZGaAya0HJ/Mq3sTHGiaFzHPH5o6kg49VOCQfiOoNZvAOOwXkIntpA6H5FT1wyndTv0PqD0NVVzrdPwnjq3kee6uVDSKOjgYWUY9R4XHvb3mgLhu7qOJDJK6xooyWchVHxJ2FVrzP2wQR5SyTv36d4+VjHwHtSfug+Rquu0m/lk4hOskzSxowaIE+EI6B00qNvZcDOMnzNb/l/s0yA93Jsd+7jP80n+Cj51q4rGUcLHNVdvqzOFOU3ZGkvuILFf2/Ego7q5HeyKBtlsxXUYHUnJc/2i1vOF9l2JCbifMYY6BHuXXPhYuRhdS4OAD16it3zXwG2ezFlAI45kYyQRr1ZtJ1IfPLqMAsd2C1H+B8xzycNEUb6ZLTCvt4jCThGB8tB+rbAyAUOetaVTE1cXhe0wryu+t97dam1Qw160ac+e3d1yJkHsuHx6FCR/kqMu3vP2m+LGoTz9ei6fh7hSocSKATk4Fxp3x8DWqZiSSSST1J3J+J862k9vqvrOPygs0kYejSNJL+P1q/hUPC8EqVV1G3KTWrfoWnFMHTw+HjbVt/Z8jr5/f6iMesmfwVv+9QWpfz4+ZUh80R2I+e/7qMajMkH1CyY6ySIf0VjYfzH8KvTnmY1K2EdrmZ18u6mk+Qt3lH+FYrLiIN6uw/UVD/1/soDppWbd2emYxnYqqlvcViDOPxBFYoiOkt5AhfmQT/h+0UBb/BOZY4LayhkUhTaRMHG+Ms4OV69V6jPWszivLVlfL3mBqP8AxYiA3z8m+DA1BdWqwsn8wk0J/s5mYfuyivvCZJhMq27MJHIVQp6k9MjoR8dhua5rF4GXbyq0ZOMr+/XSOoocPp18JCadtOe2n0OzivLh4ZBcStKshnT6NCQCDiQ5lJXyxEunIJ/pPKnLvM0nCYITHGjyXWZpVfIPdDwQgMOhbDvnB2Ybb1y41cf6T4gsRk/2W0Q95KowCq4M0gA6GR/AgGfsEedTjinArK/TXpQ7BVeIgMoUYC5HXSNtLA/CrCtj/wAHSp/iLuT3aRz6oOd5Q2RuOV+0qyvMIX7iY7d3KQMn8l/Zb4bH3VMq81c3clvZr3neLJCWCgnwsCc4BXodh1B+Qre8ic2z2nD7yZ5WdE7qK2RzqHev3hOM7hVUBioOMA4rfoV6deGem7ohlFxdmWy3MqNxJeHxDW6xtLM3lGBpCr+cxYHHkPjW/qtuxHhjC2mvZSWkupD4m3JWMkZPvMhf44FS7i3M8ENxFa7yXExAWJNyBvl3PREABOTuQpwDipjE3dKUoBSlKAUpXzPlQFKX80nA+NNIFb6HcksVHQqTlgB01RuSQPusB9rbo7X+brW8WCK2bvDGxdpNJUDUoGkagCc5yfTSB1zi3+Y+Aw3sDQTrlTuCNmRh0ZT5Ef8AcHIJrzbw7gZfiCWMjFSbjuXZRuMOVYjPwJFAd3MtqwisZW/4too+PdSOg/8At93Vl2l68nBklRyriAZYdcx7Nv79J/Guntv4OkdnZtGulIGMKgeStHkf+kB86x+y6US8PkhP2HdPlIob+LNVHx2H6MKnwyXt1Y28FPLVTZEA51agTqznVnfIOc565zvms29Zw/8ApO1Ud6mTdw48LBtml0jrFIDhx9ljq6HIwShBwdiNj8RsazeFzmOUEP3bD2X8lJG2ryKMDg5yMHO+N5qNVwfgdfxDBxxNO2zWz65GwsuDRzsJYmxaPu7MwBttgSrk/EBT9oMPPNZHD2LPd3cq93rkZgGGCkUfgAI8sBRt+STWs4hwZZ0kit1NvcnaS0zpjlCtrKxknAw41rG3QltJIO274bdd/wANjunGvwNFOvm5QFcn/mRjf3lqsKMYK7hzOWx9bEScYV94r38fUh3F51kntr0jEVxlHB3x3Td04+cJRv0zWNBZt9BvY39q1nt2PzM8Dj9Yp+FbKDhWqz4hZZ1tbFLyE/fj0hZG28mhaN8euKyba4jL3neyRoL3holUswAMw7s6cn7RmWQ+u1TFcYHCrXNzJkdeGu4+fDgP5ia19pw3vVsof/EXEi7ejtBHn5aW/CtzwLjNtHOjyyaV/wBGvAx0M2JCXQLhVJ9jBz03605Lv4FuuHtLKqLbRTu5bYa2knKrk7E4aNtvh1oDU8VkDTX8+dmnZF/tZnf/ANOJh864X1iR9Fttgxj76Qn7Jnw+4PQLAkbH9Kthy5wn6V9BtSc/SJpZ5vyUQiPc+W0U2M/1grp4reGZ7q8AybqZoYABuV8JbAxviMxRbde+YeVAbHlAi4huLcDGJElgUkDU5jdO6yTuzRoCB59y1d16sluotYVL31z9WVXrCjDdAfKRh7TfYXO43Iw5OFSC4hsIJAjWv11xNqwschKa31eYiGiNcb6g33jW3RoYkl+jBtGNEk7ZDy53EKZ3RW3Zz7TeJm6hTr1ckZZ3uW2DeJrUXh4aRvq/t693PyMCVEt4fokLB9w08q9JXXoqn+qjyQv3jlvSufAWcXMQjYqWdQcHGRnfPqMZ61gkHGem/wAPwFbzki31Xin7is37NP8A1VUYur+nOcu5nTqjTw2GcIrRJ+r8Tt7YbvwW8PqzyH9EBR/OfwqJcTtWj4XZNvonmu5D6ak7mJf2K2Piaz+1S81X5XO0USLj0Jy5/Yw/CrL4/wAqo3LscT5ElrbCZSPvpEWYfBssD8c9QK3uE0uzwdNd6v76nD13eozW8udpVnb8IjTf6RBEsYh0ka2UYDasadJI1E5yM+uAeXY1wiWSSfitzlpJyVjZhuRnLuPRSQqr6BCBtioF2Z8tpfX4jlBMMaGRwDjVggBc9Rkt+CmvR0UaqoVQFVQAABgADYAAdBViRHOlfAc9K+0ApSlAKrXtI7Ou/LX1mXF2viI1n6zH3GJzGwHTBA8ts5FlUoCluTO1h4fqOIq7hcgShfrFI20yIcEkdM+16g7mtLybL9L5iWZFIV55psHqF0yMM+/JUfE1aHaFyTb3cEswixdJGxR18JYqpIVsbODjG4yM7Yqq+x3iiQ8UQMBidGiDfdLaWG/vKafiRQFsdrNj3vCLjHWMLKP7N1Zv3Aw+dVj2QXeJ54s+2iuB+Y2D/OPwq8+KWYmglhb2ZY3Q/B1Kn+Neb+zy4aLiUIYYLao2HoSp2/XArR4nS7TCVI+F/bX7ElJ2mmb3jlsq3k0bHTlywY5wNeG3x9nxdRuPf0rFMGD3M3gYeyx6DO4BI2MbdQw2Gc9Ca3/PUSi5UuMB0HiA3BUkHb7QwRt19D5HXWrppW3uz9U2TDOvi7vffB+3Hn2ozgqTnANVuEl2lGMvBHcU6rdKMvD181910++0gknGFyl9aYKg+1IkZBAx5yR42+8uBvjNcrXmS3tDMxGqC9VpO5QgtFKCNa4J8K68OjHbDMNyuK1/MF5JZMiv/vMWhreZCGV498En7SjGFPXGVIxjEYurR+6+mXJJa4ZjEp2aXfLSt92ME4GPaJ2woJq2w8JLVnO8Wr052hHVrXTlfdeT0a7tUIb6eRl7txDpi7jV3giAjLEhGkJGrAOnA3KoBg4rZ8M4Hw0f71xTfzS3t5X390rR4b5LUWra8s8OlmuohFE8gWWMvoUtpUOCSSOmwP8AhW0Upb1j2TWRHijmA/8AMly3zWIBR+sfhXZe9jliw+rkniPkdQcfMMuT+IqeWnEI5CQreIdVIKsPipwR+FZVAUBx7s1v7ImW3czLgjVCWjkwRuDGDkgjbCs2fSo/y/x8W88UksXefRY5FhT2QshZmDMPtYdjnz2X7oFenJU1Aj1queb+Rre7lVyTFKxKs6AeIhSRqU9caSM7H30BCuXOHd5AIo5VeW6+vu5s5WJEJYKx6ZDEyONvFpXyr7fSJKfBlLSDwJ95idyffLJjUfJQBnoAdZxvhF1wpyhkLW9xpDMnhWTSdWkg50uNyBncZ6jUK3cCwyQrdy+G1XUlvAreOQg+IEj2d93kO5Ow+zWjiIO9+uvqdLwrE08igtGuXNt7td7ey5RW7NZ3RZe9fwR50qB9rH2Uz1xndj0zvknBk/Z1BlppMfdUftJ/wqPXrs5Es+Fyo7uJRp8I9kKv/Dj9CdzuRnJapby5P3PDZLg4GBLJgbAaAQAP1f21S8Tf6OVbyaRY46o44d356eHf67asra7T6ZxYpjImugn6PeBP5BmvSnFLXvIJYvvxun6ykf415+7ILHveLQk790skp+S6B+84Nehb26WKN5ZDhI1Z2PoFBJP4CumhBQiorkrHFN3dzz12Wc0xcPnle4V9MkWnwjJDKwOCPfuM+RA+Iz+M813/ABm4Fraq0cTH+jU48Od3mcfZA+z08vEcVGeD2n0/iaR6dAuZ2Yqv2VYtIwHXcIDj4V6P4BwC3s4+6tohGp3J6sx9WY7sfiayPDXck8mQcNhKRFmd8GRySAxHmEzpX3YGcdSaklKUApSlAKUqNc68lW3EYtMq6ZFH1cg3Kn3r0Ye4/LB3oCS15g5ssGsOJSqgx3Moli+GRImPhsvxU1I7S64xwWQoY3kgHkQ0sJA81Zf6Lby294OKkl6I7kd7e8PlZ2UZYosh6Z0qY2LqAScDAxmsJzUSSnTc9ixE4/AceLYgeLB0jPq3TA8z0G+TXnjmyP6JxicjP1Vz3o+DMswA+TYqyeVOKtcwK5wpQ6HXGCCu2CPL5f8AtUE7ULPReKw9mSJf3SVwPcBp28qwU8zcJEk6KjBTiT7nWVVijdollj1YYHYgMNmWQeKM5GM9N9wajLQpHBJPA4nthhpoJSFkToAcDqd8CVPUDBGRUjsJHuOEwukojfu0+sZtABjwram8gdJBztvvtVf88RPFojmgWKQ+MuhGmRegOlSUGTvldI26VRcIg8jpP/GTReQxSp4VyT17u/u0+6d15HbyFy43EbzMiloYsM4JOCMnRHq8h64HQHzIqYdpHZzdTSG7gkExCqph0hCqoNhEM4Kjc6DvudyTipj2YcDFpw2IEYklHfSeuqQAgH81dK/o1Jb+XTFIw6qjH8ATXRpWOclJybb3ZS/Z92YG4Vbm91LGd0iHhZh6seqj3dfX0q5uH2EUEYjhjWNB0VQAP2Vzs4gsaKOiqo/AAV3UPDourRJANag46HoR8GG6/KtZxbin0GFpp2LwJjLAZdckKAQPbBJAyMEZGc7kbqob2vvjg1x7zCPxnjFARbiPbYoOLezZh6yyBP3VDfxrD4T2pia6QXMKwxkka1YkKzYALZHs9QT5as9BVU0oD0txfhkdzC8Ey6kcYPqPRgfIg7g1SFtaS2V+1q6I7lgkbP7OXI0SAN4TkH7WQCd86asTsp5gNxamCQ5kt8Lk9WQ+wfeRgr8h61ru2bhAaGK7UeKM925/JfJU/Jtv06xlFSVmSUasqU1OO6NXdLDC5BYXt0x36tErH964f9344xW853uGi4QQ5zI6xIfLdiC23lsG28q0nL1pLPBE69zbwyYQtrw8xU6XUHJkbJB8I0rv7s13dsN14LeH1Z3P6ICj+c/hXPYiDni6NLxb9tS+4jXjKinF3uuttF5L11MjsItgr3dy+AqIkYY7AaizNv8AorUm7VOYU/0VMkZYNIY03UjKs41dfVQRg779Kj/ZhbFbDJ6SSvJj3riPPvxo29MmsjjfEx9IjspI++SRGeQIhdgARpyo6AsCM+W3rmrx1fzWRTRofkzSe5q+wnhGu6mumHhhTu19NUm5+aquP7Sruqo7vj8vD4SbKwZFZsEMqhMsNm7qN9ZbwgdBkdTsK0vB+T+IcXuBNxEypBnUTINJP5MUJ9gY+1px5+I1LGWZXIZwyOxe1KwuEcKhtoVhgQJGowAMn8SdyfeazayMBSlKAUpSgOLuB1IHxqB8ZtjGTmWSDxMVK6XXSCcbMrgDGPQ/wrWc+9ljXTm4guGeUndLhyy/oNgmP83GPhUa4PyrxuxVu4tkZWIyuuNhtncDWpHXyNR1IZkS0qmSWp28gTql7eW6y96uQ4Y4BY58RwPe3l6e+vna1a5igl+67J+uuf8Ao/bWpvObbgX0Buolha3ZlkXBBxIFDZzk4AwwxnPvzVgdofL7twuaTWh7sLKAuWyFYEkNt9nPlUWSWdSsT9pDs3C/l9TSdmEgl4dJA24V5EI90gDfLdjVe8QjjkvEiAdYy0cZV2DFQzDUMgKMeI+QqU9j93iaeLPtIrgfmMQf5x+FRbnKMw39yF2Kyal92QHX+Iqtwcez4hXh3pS99/mzKVX+ly+K+SZ6kAxtWLxb/d5f+W/8prts7kSRq69GGfh6g+hB2I8sVUPa9zySzcPtmwo2ncef/lg+n3vw9auzRLjXpX2vN/KnaFeWWED99CP+HIeg/Ifcr8NxtsBVv8t9otpdjCkrL/VNgMfzRnx/BcmgJjUJ7VonuOHSwW6NNJqjZkQaiArqxz79vZ6nyFSVYpZfbJiT7inxH4sPZ+W/vFZsMKooVVCgeQ2oDyOykEgggg4IIwQR5EHofdXyvTfNXJVpfjM0emTGBMnhcemT9oD7rAiqjbstnF2sXeqYG1N3o2bSpUEd2c+M6hjcjz8sUB3dj/CJjNJdK2iNVMYyMiQkqSMZGy4G/qR7xUq7UL3TwyVHTDO0aqfaU/WKxwcbHCk7ge7NSvh9lHBEkMS6UQYUf+/mT1J8yajnajBq4XN6oY2HylQH9hNAQLsvRGnAKEuhZg2rAUBQPZ05J1N11Y36Vi9ql3qv9GdookXHoTlz+xlrb9j1vvcSemhR88k/wFRa/T6ZxVk8p7oR7fd7wR5/UGapKMc/FJy+GKXq9f3N6vVzUILw/ctnlu07qzgjPVYkz8SMn9pNQvh1ysvF7tzdGB1xEmnQSwB0EAOrDYop6dT8asDm8NY2clwZEbSMKMFSWbZQBvnffy2BqsuSeK8RMTW9jbLOVYuzny1/eJdVySDjJz+FWMactW1uJ1oPKk9EW7yzENfeElkAI1uRs23QbYJUnyHljrUpBqh+Kdn3F72YSXEUKnSFyXUKoBJ6JqPmfWrM5E5JXhyYFxLIzDxLqxFn8mLoPj1/hWxCOVWNSpLNK5LaUpWRgKUpQClKUArX8f4vHaW0lzLnRGMkKMk5IAABwMkkDcgb1sKxeKcPjuIZIJV1RyKVYZxsfQjcHzB8qA87dofM0PELhJ4oXiITQ+rGWwxKnwnyyR+HpWjtrm4kkSNJJXdgIUXUTlWGjuwCfZxtp6YqzOa+yER2+qwMs0ofJSR0yUwdlwqjIODv5Z+Fb7sk5Mls1kmuo1WaTSEHhZo1AOfEMgFidwCfZHwAFWdn1wYuJRA7atcbZ8sqdv1lFZvatalL4SAAiSJW36EoSpB+QX8a1/M0f0XjE2k7RXXeDHoXEoHyDYrYdoPM1ved2IVfMZbxsoUEMBsN9XUZ3Aqrq0ZrHwqxWji0/DmiaLTpuLZfNmUniS4hYp3qK4ZceIMoIyCCG2wM4ztjIry9xS3eOeWOXJkSR1cnzYMcn5nf51LeXOfOJxWyWlpGJFjyARC8rgFiQPCcYGcDw9MVrJOC8Rv72VWhZ7nCvKGCQkAqoUkHSB4ce8/jVoQkbqUdl/8A8Zs8/fk//HmrG4BylPdXE1upjieAMZO9YqF0NpbdVOcH5e+sy/5DkilgSW5thDc69FwHzCNClsMxAxnGB5GgPRjXcY6uv6wr6twh6Op+BFeeOOdnH0UR6ru1Z5WiVI19phLIEDgHcqM5JHkDTj/Zq9vFPKtxbTG2AMyJs8YYZBKnONt98bA4zQHoO8lwuB1NaS42li9+sfLTn+IFUzb9nPEhCJkCKSneCJZSsunGfYAxn3avd1rV2s/EliiuY5bjupJO6iYSltTnPgVNROTpPlg4oD0HUR7U74R8NkXzlKIP1gx/YKrs898UtnKTSHUvVJ4lBG2d/CrdN+ta7mfm6e+WMShF0ZPgyASRgHBJxjfz+0fdQE37Pf8AZ+Ey3B8zLL8o10j9qH8arXhEU+png1a4Y2kLL7SqMKzA9dtfUbjr5VMLvm23PCPokQdZe7SPBXY+JdZDAkbjJ3x1rd9gdjmW6nI9lI4wfzizN/KtVfDqU1UrVJqzlL5Lb6k9Zr8sU9kVc93IyBDI7IG1hSxKhsEagpOM4JGeu9WT2Y8+WtnClpJDIGklJeVdJGXYKpIzqwFCg9elfOf+ze7a+eWzgV4ZipCoUj7s6QGyrEDBYFsjPtHz6yvgHZLawvBNI8kkkYRmTUO6MigHUBp1Y1DIBb4+lWhAWJSlKAUpSgFKUoBSlKAUpWn5p4+tjbm4eGWVFI190FJUH7RDMvhHmR0znpkgDbmvNnNXN/EZpZIbi4ZdDsjRxZjTKMVIwPEwyPtE1Y/+uuy/8Nd/qxf51VVznxWG6vZbmBJESXSxWQKCG0gN7LMMHGevUmgNIBVodm3DIZbF3gt7We+WUgrdE4VceFlXS3w2AydW+wqr62/LV1Zxylr22e4UDwKjlMNnqSGGRj4/CgLB5F4re2nFU4bchYo5Gmbu0VdIaUNKCjbnRlSAM7ZwdxXXyKZA3GJLm6KPF3cX0iXMmkpJKuSMgnGldsjqKiPMXOUtzfx3qIIWhVFjAOvARnYEkgaidZztjG3vOqueOXD98GmbFw+uVRhQ7dclVAHXyoC5LThyNxlrqAh4OIcPlIYZALhoAevTK4O/mWqF85WD2nALGyudIuVnkfuwwYqp749R5eNR86gf0l8Aa3wvsjUcDPoM7fKuvBJ8yT86Asrnd1bifCMMCNFkCc9P9oGc+mxrs5+5xiSe+tIrRFM7RpPcd4WMiqq5+r04HhJXZvfiqy+jn7h/VNcCQux2/ZQHoKawkTjcnE3AFpHY4EupcHcNgDOcY1Nnp0rA5LRE4dw+IRhrkwXN3AG9jXkdfPOLjA9wbzAqkhduY+77x+7+5rOj19nOOvurNtOP3UTxSJcSBoFKxEnV3akaSqhsgLjbGMbD0oCyOyqwnZJ+KMhmmnlWJS2AdLSr38m5xsMgDy7sgdaxZODQf6Q43PPCskdrGWVCMDXIutcYxhvDj9P31DpucLtzb6nGLZ9aKg7sEl1Y6tGAc4x08z61IrTny2lF6l9ayd3eyRu3cONS6EjXGWK5GYw3X7RGD5gV8K7rS6kiYPFI8bDoyMUP4qQa5cQ7rvn7jX3Wo6NeNWnO2rAxmsegLt7HuY7+7eVbiQSQxKPEygPqY7KGXAICgk5BO671aFUhyF2h2XD7MQG3uXkLM8joseGZthjMoOAoVdwOlSSPtntGYKtpeFmIAASIkknAAAm3JO2KAsulddvIWRWKlCQCVbGVyOh0kjI9xIrsoBSlKAUpSgFKUoBXF0BBBAIIwQdwQfIiuVKA899p3I5sZe+hUm1kO3n3TH7B/JP2T8jvjMGq3e2DngENw63IPlO/XGDnu19/3j5dOucVFQCtxyxwBr2YxJIqFV1Etk7AgbAdTkjzFaOWPzHUVteAcZktZxPFpJAKkN0IOMjbcdOvuqGuqjpy7L+62nmZRtfXY395yaIZ+6d5NAXU0hUKCBuzKAT+aBnJJHTNZvDuH20UE909uhDExW8cmZAGPiZzqzq7tcb9CWxtUu4JzLacQTumAVyN4X6nHmp+1jrkbj0FY/GeXnVonjAeG3Q6Yt9WRl/fr1vjUeuPXFUNLic1PssTeM/k+vY6HC/hJxUcq/e2u75t6eV7EOn5NVmlEcnd/RrcSTF/EuvYmNcbj2tPnujetYPDouJWxxbtKuYu+xG2saD9spuPxGdxW/aRlsSvWW8nyfVlhO2feZmJ/QNbCK5CjiTr0WFLZPzWZYRj4rHqq2hiJLr1+hlX4XSndrTW2m26jt/s37Gig5/4sMDJfbI1QDJHTPhUZG3WuJ5v4vcEJHrywJAjgXcDOSCVJwMHfPkaknA7nTcKfu8MYfjGZf8Aqrp5Zu+7n4axO2ZYT8HlcAfjKDUixO2nWhqy4RZO0tl3eEn9vmRHhvLt1ezxCSQKbgOUeRs6tGoEALnBypGDj9ozncK4LaoIZLhGkjZ2inBYqY2G4KlCCPCQcHOSkg+GYkrRRrpJ7y0ufD+mP4aoP3/fWdf2/eXU0cKlkulWePA6Fh3qk/dwzPESems1BPEyte9uv4N+nwyhTk7q6s9+vhaa8UaC/wCVESaaDU3eJvHjBWRQNXpnLIQy4ONivUjHDh/IlxPF3sTL1wA4KahgYKnBDDy8ulWPw3l5QsL3OGkhXSCD4QqksufvFMkA9MY9Aa0XM3aLHHmOzAkcbd4f6Nfzfvn9nx6VW/8Ap160+zwizeL2XX/LlfjFhFGyjr3rT2Xc9/Aq6aMqzKeqkg+e4ODv51wrhLuMdSa+xrgV0ZSnImrt7JuQu5C310n1zDMSMP6IEe0R5Ow/VBx1JApWGVkZXU4ZSGU7HBU5BwdtiPOvRvZ5zmnEIPFhbiMASoPP0dfyT+w7ehIEtpSlAKUpQClKUApSlAK03NsN49s0dg0STPtrlZl0A9SulGy3kM7DOfLB3NKAoU9jnEv6y0/vZf8AIr5/qb4l/WWf97J/kVfdKAoT/U3xL+ss/wC9k/yKyOGdjN536G4ltxDn6zupHL4wfZDQhc5x1q86UB5x5x7P7qwJkGZYAciZAQUx01r1Qj7wyPeOlZvLHaLJHiO7zKnQSD21+I+2Pf1/Or0ARVbc6dlEM+qWy0wS7kx9InPwH9Gfeox7vOtbE4SliYZaqv8AVeTMoTlB3Rymsbe8EdzE4YqQUdTkeFtWll/OOSNiMmofxHh0lrbNFIN5Jk8QOQyxI+N/zpOh32NRVXveGXJUh4JB1VhlXA93syL+UDt5EGrF5f51trxe4uFWORttLbo/5rHz/JO/pmqGphsVgdY/np/Nde3kXWD4m42jLbTTy109TQ2k2meT/wCkkT8LLH/TWA05WKIjqkkjL8QISP2ipZxflBg5ktznUGBRjjGtGXZj1G/Q7/HpWZwrlyG2j725ZGKeIs2yJ79+vQbn06CvJcTo5M0XdvlzLp4yhGKne+i08k19zXQcuSTXFwx8EErswbzIaUSAqPhtk+vnW34nxi04dEqMfEFwkY8UjDJPn0GSTk4G5x6VFeZ+0gnMdkMeRmYfyKf4t+HnUe5Y5QvOJSF0BCEnXcS5K56HB6yN7h6YJFSUuHYjGPPiXlj8K39er+Rz2K4jKayr+O46+Yua7m+bu91jY4WGPJ1HyBxvIfdjHoKlfLXZFPLE0t0wiYo3dxZ3LFTpMjAHQueqgE/DpVlcocj2tguY11zEYaZ92OeoXyRfcPnnrUmq/pUadGOSmrIq5ScndlBJ2M8RH/EtCfXvZP8AIrl/qb4l/WWf97J/kVfdKlPChP8AU3xL+ss/72T/ACKzeC9mHF7WdLiCa0WRDt9bLgjzVh3O6kdR/AgGrupQHXbliilwFfA1BSWAONwGIBIz5kD4CuylKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgNdx3gdveRGK5iWRfLOxU+qsN1PvFUnzp2W3Frqkts3MG+QBmRB71H9IPeoz7ts1ftKA83ct8+3Fsuh/r48eEM2GX0w+Dt7jn3YrX8T4td8RmVMNIxPghjBwPeF88ebN033Aq7Obuza0vW70ZgmJyzxgYf11Idicfa2PTORtW75Z5XtrGPRbx4J9p23d/zm/wGAPICtaGDoQqOrGCUnzM3Uk1ZvQgPJnZGq4m4gQ7dRApyg/PYe2fyR4evtCrVhiVVCqoVVGAAMAAeQA6CudK2TAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoBSlKAUpSgFKUoD//2Q=="
+            },
+            "participants": [
+                {
+                    "id": "team999",
+                    "name": "TSV Derendeningen",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team1",
+                    "name": "TSV Lustnau",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team55",
+                    "name": "TSG Tübingen2",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team67",
+                    "name": "SV Wurmlingen",
+                    "logo": ""
+                },
+                {
+                    "id": "team88",
+                    "name": "SV Wendelsheim",
+                    "logo": ""
+                },
+                {
+                    "id": "fd86e5b3-f232-46c1-af5a-e65893cd03ca",
+                    "name": "Bayern",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team9999",
+                    "name": "TSV Crailsheim",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10000",
+                    "name": "TSV Überlingen",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10001",
+                    "name": "TSV Unterlingen",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10003",
+                    "name": "TV Neuenstein",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10004",
+                    "name": "TSV Sondelfingen",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10005",
+                    "name": "SV Ingersheim",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10006",
+                    "name": "SV Tiefenbach",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10099",
+                    "name": "SV Saurach",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10007",
+                    "name": "SV Onolzheim",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10008",
+                    "name": "ESV Crailsheim",
+                    "contact": "",
+                    "logo": ""
+                }
+            ]
+        }
+    },
+    {
+        "expectedData": {
+            "numberOfMatches": 54,
+            "matchesAgainstEachParticipant": 2,
+            "expectedFirstGameStartTime": "2030-03-08T09:00:00.000Z",
+            "expectedLastGameStartTime":"2030-03-08T10:24:00.000Z",
+            "expectedSixtGameStartTime": "2030-03-08T09:12:00.000Z"
+        },
+        "initialData": {
+            "id": "d6f04f7d-bea8-4e93-8f62-d7fa692372b8",
+            "status": "INITIALIZED",
+            "config": {
+                "name": "Tübinger Stadtpokal",
+                "startDate": "2030-03-08T09:00:00.000Z",
+                "numberOfParticipants": 19,
+                "type": {
+                    "format": "GROUP_KNOCKOUT",
+                    "phases": []
+                },
+                "groupConfig": {
+                    "numberOfGroups": 5,
+                    "matchesAgainstEachParticipant": 2,
+                    "matchDuration": 12,
+                    "matchBreakDuration": 3,
+                    "pointsForWin": 3,
+                    "pointsForDraw": 1,
+                    "tiebreakers": [
+                        "GOAL_DIFFERENCE",
+                        "HEAD_TO_HEAD",
+                        "GOALS_SCORED"
+                    ],
+                    "qualifiedParticipants": 0
+                },
+                "knockoutConfig": {
+                    "matchesAgainstEachParticipant": 2,
+                    "matchDuration": 10,
+                    "matchBreakDuration": 2,
+                    "hasThirdPlaceMatch": false
+                },
+                "leagueConfig": {
+                    "matchesAgainstEachParticipant": 2,
+                    "matchDuration": 10,
+                    "matchBreakDuration": 2,
+                    "pointsForWin": 3,
+                    "pointsForDraw": 1,
+                    "tiebreakers": [
+                        "GOAL_DIFFERENCE",
+                        "HEAD_TO_HEAD",
+                        "GOALS_SCORED"
+                    ]
+                },
+                "fields": [
+                    {
+                        "id": "d7f04f7d-bea8-4e93-8f62-d7fa692372b8",
+                        "name": "Feld 1"
+
+                    },
+                    {
+                        "id": "d8f04f7d-bea8-4e93-8f62-d7fa692372b8",
+                        "name": "Feld 2"
+
+                    },
+                    {
+                        "id": "d9f04f7d-bea8-4e93-8f62-d7fa692372b8",
+                        "name": "Feld 3"
+
+                    },
+                    {
+                        "id": "d10f04f7d-bea8-4e93-8f62-d7fa692372b8",
+                        "name": "Feld 4"
+
+                    }
+                ],
+                "logoUrl": ""
+            },
+            "participants": [
+                {
+                    "id": "team999",
+                    "name": "TSV Derendeningen",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team1",
+                    "name": "TSV Lustnau",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team55",
+                    "name": "TSG Tübingen2",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team67",
+                    "name": "SV Wurmlingen",
+                    "logo": ""
+                },
+                {
+                    "id": "team88",
+                    "name": "SV Wendelsheim",
+                    "logo": ""
+                },
+                {
+                    "id": "fd86e5b3-f232-46c1-af5a-e65893cd03ca",
+                    "name": "Bayern",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team9999",
+                    "name": "TSV Crailsheim",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10000",
+                    "name": "TSV Überlingen",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10001",
+                    "name": "TSV Unterlingen",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10003",
+                    "name": "TV Neuenstein",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10004",
+                    "name": "TSV Sondelfingen",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10005",
+                    "name": "SV Ingersheim",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10006",
+                    "name": "SV Tiefenbach",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10007",
+                    "name": "SV Saurach",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10099",
+                    "name": "SV Onolzheim",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10008",
+                    "name": "ESV Crailsheim",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10009",
+                    "name": "SV Tübingen",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10010",
+                    "name": "SV Holzgerlingen",
+                    "contact": "",
+                    "logo": ""
+                },
+                {
+                    "id": "team10011",
+                    "name": "TSV Berkenheim",
+                    "contact": "",
+                    "logo": ""
+                }
+            ]
+        }
+    }
+]

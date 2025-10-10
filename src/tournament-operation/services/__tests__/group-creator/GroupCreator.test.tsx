@@ -1,12 +1,12 @@
-import { GroupCreator } from "../../group-creator/GroupCreator";
+import { GroupInitializer } from "../../group-initializer/GroupInitializer";
 import { describe, expect, it } from "vitest";
 import { Participant } from "../../../types/tournament/Participant";
 
 describe('GroupCreator', () => {
     it('should create groups if participants can be equally distributed on groups', () => {
-        const groupCreator = new GroupCreator();
+        const groupCreator = new GroupInitializer();
         const twentyParticipants = Array.from({ length: 20 }, (_, index) => new Participant(`Participant ${index + 1}`, `https://example.com/logo${index + 1}.png`));
-        const groups = groupCreator.createGroups("test", twentyParticipants, 5);
+        const groups = groupCreator.initGroups("test", twentyParticipants, 5);
         expect(groups.length).toBe(5);
         expect(groups[0].getParticipants().length).toBe(4);
         expect(groups[1].getParticipants().length).toBe(4);
@@ -24,9 +24,9 @@ describe('GroupCreator', () => {
     });
 
     it('should create groups if participants cannot be equally distributed on groups', () => {
-        const groupCreator = new GroupCreator();
+        const groupCreator = new GroupInitializer();
         const fifteenParticipants = Array.from({ length: 15 }, (_, index) => new Participant(`Participant ${index + 1}`, `https://example.com/logo${index + 1}.png`));
-        const groups = groupCreator.createGroups("test", fifteenParticipants, 2);
+        const groups = groupCreator.initGroups("test", fifteenParticipants, 2);
         expect(groups.length).toBe(2);
         expect(groups[0].getParticipants().length).toBe(8);
         expect(groups[1].getParticipants().length).toBe(7);
@@ -35,22 +35,22 @@ describe('GroupCreator', () => {
     });
 
     it('should create groups if number of participants is lower than numberOfGroups', () => {
-        const groupCreator = new GroupCreator();
-        const groups = groupCreator.createGroups("test", [new Participant('Participant 1', 'https://example.com/logo1.png')], 2);
+        const groupCreator = new GroupInitializer();
+        const groups = groupCreator.initGroups("test", [new Participant('Participant 1', 'https://example.com/logo1.png')], 2);
         expect(groups.length).toBe(2);
         expect(groups[0].getParticipants().length).toBe(1);
         expect(groups[1].getParticipants().length).toBe(0);
     });
 
     it('should return an empty array if no participants are provided', () => {
-        const groupCreator = new GroupCreator();
-        const groups = groupCreator.createGroups("test", [], 2);
+        const groupCreator = new GroupInitializer();
+        const groups = groupCreator.initGroups("test", [], 2);
         expect(groups.length).toBe(0);
     });
 
     it('should return an empty array if numberOfGroups is 0', () => {
-        const groupCreator = new GroupCreator();
-        const groups = groupCreator.createGroups("test", [new Participant('Participant 1', 'https://example.com/logo1.png'), new Participant('Participant 2', 'https://example.com/logo2.png')], 0);
+        const groupCreator = new GroupInitializer();
+        const groups = groupCreator.initGroups("test", [new Participant('Participant 1', 'https://example.com/logo1.png'), new Participant('Participant 2', 'https://example.com/logo2.png')], 0);
         expect(groups.length).toBe(0);
     });
 }); 

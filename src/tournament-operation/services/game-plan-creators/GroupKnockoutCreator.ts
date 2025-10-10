@@ -4,7 +4,7 @@ import { GameParticipant } from "../../types/game-plan/GameParticipant";
 import { GamePlan, IGamePlan } from "../../types/game-plan/GamePlan";
 import { ITournament } from "../../types/tournament/Tournament";
 import { TournamentFormat } from "../../types/tournament/TournamentFormat";
-import { Group, IGroup } from "../../types/game-plan/Group";
+import { IGroup } from "../../types/game-plan/Group";
 
 export class GroupKnockoutCreator {
 

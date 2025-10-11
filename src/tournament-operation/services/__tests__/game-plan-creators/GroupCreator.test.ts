@@ -32,6 +32,55 @@ describe('GroupCreator', () => {
                 assertGroupParticipantsHaveCorrectAmountOfGames(gamePlan, groups, tournament.getMatchesAgainstEachParticipant(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE));
             });
         });
+
+        it('should distribute the games over the fields', () => {
+            const tournaments = scenarios.map((scenario) => {
+                const tournament = Tournament.init(scenario.initialData);
+                return tournament;
+            });
+
+            tournaments.forEach((tournament) => {
+                const groups = groupInitializer.initGroups(tournament.getId(), tournament.getParticipants(), tournament.getNumberOfGroups(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE));
+                const gamePlan = groupCreator.createGamePlan(tournament, groups);
+                const fields = tournament.getFields();
+                let fieldIndex = 0;
+                gamePlan.getGames().forEach((game) => {
+                    expect(game.getField()).toBeDefined();
+                    expect(game.getField().getName()).toBe(fields[fieldIndex].getName());
+                    fieldIndex++;
+                    if (fieldIndex >= fields.length) {
+                        fieldIndex = 0;
+                    }
+                });
+            });
+        });
+
+        it('should set the correct time for each game while respecting that matches can be played in parallel', () => {
+            const tournaments = scenarios.map((scenario) => {
+                const tournament = Tournament.init(scenario.initialData);
+                return tournament;
+            });
+
+            tournaments.forEach((tournament, index) => {
+                const groups = groupInitializer.initGroups(tournament.getId(), tournament.getParticipants(), tournament.getNumberOfGroups(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE));
+                const gamePlan = groupCreator.createGamePlan(tournament, groups);
+                const expectedData = scenarios[index].expectedData;
+
+                gamePlan.getGames().forEach((game, indexGame) => {
+                    if (indexGame == 0) {
+                        expect(game.getStartTime()).toEqual(new Date(expectedData.expectedFirstGameStartTime));
+                    }
+
+                    if (indexGame == 5) {
+                        expect(game.getStartTime()).toEqual(new Date(expectedData.expectedSixtGameStartTime));
+                    }
+
+                    if (indexGame == gamePlan.getGames().length - 1) {
+                        expect(game.getStartTime()).toEqual(new Date(expectedData.expectedLastGameStartTime));
+                    }
+                });
+            });
+        });
     });
 });
 

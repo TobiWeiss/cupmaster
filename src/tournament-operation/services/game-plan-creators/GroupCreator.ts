@@ -131,7 +131,9 @@ export class GroupCreator {
         let currentCycleStartTime = new Date(tournament.getStartDate()!.getTime());
         games.forEach((game, index) => {
             game.setStartTime(new Date(currentCycleStartTime));
-            game.setEndTime(new Date(currentCycleStartTime.getTime() + tournament.getMatchDuration(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE)));
+            const matchDurationInMinutes = tournament.getMatchDuration(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
+            
+            game.setEndTime(new Date(currentCycleStartTime.getTime() + matchDurationInMinutes * 60000));
 
             if ((index + 1) % numberOfFields == 0) {
                 currentCycleStartTime = new Date(currentCycleStartTime.setMinutes(currentCycleStartTime.getMinutes()

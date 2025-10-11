@@ -4,7 +4,7 @@
             "numberOfMatches": 12,
             "matchesAgainstEachParticipant": 2,
             "expectedFirstGameStartTime": "2030-03-08T09:00:00.000Z",
-            "expectedLastGameStartTime":"2030-03-08T11:48:00.000Z",
+            "expectedLastGameStartTime":"2030-03-08T11:12:00.000Z",
             "expectedSixtGameStartTime": "2030-03-08T10:00:00.000Z"
         },
         "initialData": {
@@ -98,7 +98,7 @@
             "numberOfMatches": 48,
             "matchesAgainstEachParticipant": 2,
             "expectedFirstGameStartTime": "2030-03-08T09:00:00.000Z",
-            "expectedLastGameStartTime":"2030-03-08T11:48:00.000Z",
+            "expectedLastGameStartTime":"2030-03-08T13:36:00.000Z",
             "expectedSixtGameStartTime": "2030-03-08T09:24:00.000Z"
         },
         "initialData": {
@@ -260,7 +260,7 @@
             "matchesAgainstEachParticipant": 2,
             "expectedFirstGameStartTime": "2030-03-08T09:00:00.000Z",
             "expectedLastGameStartTime":"2030-03-08T10:24:00.000Z",
-            "expectedSixtGameStartTime": "2030-03-08T09:12:00.000Z"
+            "expectedSixtGameStartTime": "2030-03-08T09:15:00.000Z"
         },
         "initialData": {
             "id": "d6f04f7d-bea8-4e93-8f62-d7fa692372b8",

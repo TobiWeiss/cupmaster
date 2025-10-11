@@ -90,8 +90,10 @@ export class LoserOfGameRule implements KnockoutGameRule {
 }
 
 export interface IKnockoutGame extends IBaseClass, IGame {
-    getRule(): KnockoutGameRule;
-    setRule(rule: KnockoutGameRule): void;
+    getRuleForFirstParticipant(): KnockoutGameRule;
+    getRuleForSecondParticipant(): KnockoutGameRule;
+    setRuleForFirstParticipant(rule: KnockoutGameRule): void;
+    setRuleForSecondParticipant(rule: KnockoutGameRule): void;
     getGame(): IGame;
     setGame(game: IGame): void;
     setRound(round: string): void;
@@ -100,43 +102,54 @@ export interface IKnockoutGame extends IBaseClass, IGame {
 
 export class KnockoutGame implements IKnockoutGame {
     id: string;
-    rule: KnockoutGameRule;
+    ruleForFirstParticipant: KnockoutGameRule;
+    ruleForSecondParticipant: KnockoutGameRule;
     game: IGame;
     round: string;
 
-    constructor(rule: KnockoutGameRule, game: IGame, round: string) {
+    constructor(ruleForFirstParticipant: KnockoutGameRule, ruleForSecondParticipant: KnockoutGameRule, game: IGame, round: string) {
         this.id = uuidv4();
-        this.rule = rule;
+        this.ruleForFirstParticipant = ruleForFirstParticipant;
+        this.ruleForSecondParticipant = ruleForSecondParticipant;
         this.game = game;
         this.round = round;
     }
 
-    static init(rule: KnockoutGameRule, game: IGame, round: string): KnockoutGame {
-        return new KnockoutGame(rule, game, '');
+    static init(ruleForFirstParticipant: KnockoutGameRule, ruleForSecondParticipant: KnockoutGameRule, game: IGame, round: string): KnockoutGame {
+        return new KnockoutGame(ruleForFirstParticipant, ruleForSecondParticipant, game, round);
     }
 
     static fromObject(object: Record<string, any>): KnockoutGame {
-        return new KnockoutGame(object.rule, object.game, object.round);
+        return new KnockoutGame(object.ruleForFirstParticipant, object.ruleForSecondParticipant, object.game, object.round);
     }
     
     toObject(): Record<string, any> {
         return {
             id: this.id,
-            rule: this.rule,
+            ruleForFirstParticipant: this.ruleForFirstParticipant,
+            ruleForSecondParticipant: this.ruleForSecondParticipant,
             game: this.game,
         };
     }
     
     clone(): KnockoutGame {
-        return new KnockoutGame(this.rule, this.game, this.round);
+        return new KnockoutGame(this.ruleForFirstParticipant, this.ruleForSecondParticipant, this.game, this.round);
     }
 
-    getRule(): KnockoutGameRule {
-        return this.rule;
+    getRuleForFirstParticipant(): KnockoutGameRule {
+        return this.ruleForFirstParticipant;
     }
     
-    setRule(rule: KnockoutGameRule): void {
-        this.rule = rule;
+    setRuleForFirstParticipant(rule: KnockoutGameRule): void {
+        this.ruleForFirstParticipant = rule;
+    }
+
+    getRuleForSecondParticipant(): KnockoutGameRule {
+        return this.ruleForSecondParticipant;
+    }
+    
+    setRuleForSecondParticipant(rule: KnockoutGameRule): void {
+        this.ruleForSecondParticipant = rule;
     }
 
     getGame(): IGame {

@@ -33,8 +33,10 @@ export class KnockoutCreator {
         groups.forEach(group => {
             for (let i = 0; i < qualifiedTeamsPerGroup; i++) {
                 const game = new Game();
-                const rule = new PlacementInGroupRule(group.getId(), i + 1);
-                const knockOutGame = new KnockoutGame(rule, game, this._getRound(qualifiedTeamsPerGroup));
+                //TODO: this has to work for more or less than two qualified teams per group
+                const ruleForFirstParticipant = new PlacementInGroupRule(group.getId(), i + 1);
+                const ruleForSecondParticipant = new PlacementInGroupRule(group.getId(), qualifiedTeamsPerGroup - i);
+                const knockOutGame = new KnockoutGame(ruleForFirstParticipant, ruleForSecondParticipant, game, this._getRound(qualifiedTeamsPerGroup));
                 gamesOfFirstKnockoutRound.push(knockOutGame);
             }
         });
@@ -45,6 +47,7 @@ export class KnockoutCreator {
         const games = [];
         let numberOfGamesInLastRound = gamesOfFirstKnockoutRound.length;
         let previousRound = "1";
+        let gamesOfPreviousRound = gamesOfFirstKnockoutRound;
 
         while (numberOfGamesInLastRound > 1) {
             const gamesOfCurrentRound = [];
@@ -52,14 +55,16 @@ export class KnockoutCreator {
             for (let i = 0; i < numberOfGamesInLastRound / 2; i++) {
                 currentRound = this._getRound(numberOfGamesInLastRound, previousRound);
                 const game = new Game();
-                const rule = new WinnerOfGameRule(gamesOfFirstKnockoutRound[i].getId());
-                const knockOutGame = new KnockoutGame(rule, game, currentRound);
+                const [prerequisiteGame1, prerequisiteGame2] = this._findPrerequisiteGames(gamesOfPreviousRound, i);
+                const ruleForFirstParticipant = new WinnerOfGameRule(prerequisiteGame1.getId());
+                const ruleForSecondParticipant = new WinnerOfGameRule(prerequisiteGame2.getId());
+                const knockOutGame = new KnockoutGame(ruleForFirstParticipant, ruleForSecondParticipant, game, currentRound);
                 gamesOfCurrentRound.push(knockOutGame);
             }
             numberOfGamesInLastRound = gamesOfCurrentRound.length;
             games.push(...gamesOfCurrentRound);
             previousRound = currentRound!;
-          
+            gamesOfPreviousRound = gamesOfCurrentRound;
         }
         return games;
     }
@@ -70,6 +75,26 @@ export class KnockoutCreator {
            return previousRound || "1";
         }
         return explicitRound;
+    }
+
+    /**
+     * Find the prerequisite games for a given game.
+     * The prerequisite games are the games that are required to be played before the given game.
+     * For example, if we have the following rounds:
+     * 1. Game 1, Game 2, Game 3, Game 4
+     * 2. Game 5, Game 6
+     * 
+     * The prerequisite games for Game 5 are Game 1 and Game 2.
+     * The prerequisite games for Game 6 are Game 3 and Game 4.
+     * @param gamesOfPreviousRound the games of the previous round
+     * @param indexOfCorrespondingGame 
+     * @returns the prerequisite games
+     */
+    _findPrerequisiteGames(gamesOfPreviousRound: KnockoutGame[], indexOfCorrespondingGame: number): KnockoutGame[] {
+            const game1 = gamesOfPreviousRound[indexOfCorrespondingGame * 2];
+            const game2 = gamesOfPreviousRound[indexOfCorrespondingGame * 2 + 1];
+    
+        return [game1, game2];
     }
 
     updateFieldsAndDates(gamePlan: IGamePlan, tournament: ITournament): IGamePlan {

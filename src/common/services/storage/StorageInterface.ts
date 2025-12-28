@@ -7,4 +7,7 @@ export interface StorageInterface {
   getGamePlan(id: string): Promise<Record<string, any> | null>;
   saveGamePlan(gamePlan: Record<string, any>): Promise<void>;
   deleteGamePlan(id: string): Promise<void>;
+  getGroups(tournamentId: string): Promise<Record<string, any>[]>;
+  createGroups(groups: Record<string, any>[]): Promise<void>;
+  updateGroups(groups: Record<string, any>[]): Promise<void>;
 }

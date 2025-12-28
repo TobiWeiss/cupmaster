@@ -1,13 +1,14 @@
 import tournamentData from "../../__tests__/tournament.json";
 import gamePlanData from "../../__tests__/game-plan.json";
 import { useTournamentOperations } from "../useTournamentOperations";
-import { describe, beforeEach, afterEach, it, expect, vi, vi } from "vitest";
+import { describe, beforeEach, afterEach, it, expect, vi } from "vitest";
 import { LocalStorage } from "../../../common/services";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { Tournament } from "../../types/tournament/Tournament";
 import { Participant } from "../../types/tournament/Participant";
 import { TournamentFormat } from "../../types/tournament/TournamentFormat";
 import { cloneDeep } from "lodash";
+import { Group } from "../../types/game-plan/Group";
 
 vi.mock('../../../common/hooks/useNotify', () => {
     return {
@@ -21,9 +22,9 @@ vi.mock('../../../common/hooks/useNotify', () => {
 describe('useTournamentOperations', () => {
 
     function TestComponent({changedParticipants, changedMatchesAgainstEachParticipant, changedStartTime}: any) {
-        const { tournament, gamePlan, handleParticipantChange, handleSettingsChange, handleGameReorder, gamePlanLoading, tournamentLoading } = useTournamentOperations(tournamentData[0].id);        
+        const { tournament, gamePlan, groups, handleParticipantChange, handleSettingsChange, handleGameReorder, gamePlanLoading, tournamentLoading, groupsLoading } = useTournamentOperations(tournamentData[0].id);        
 
-        if (gamePlanLoading || tournamentLoading) {
+        if (gamePlanLoading || tournamentLoading || groupsLoading) {
             return <div data-testid="loading">Loading...</div>
         }
 
@@ -56,6 +57,10 @@ describe('useTournamentOperations', () => {
             <div data-testid="penultimate-game">{gamePlan?.getGames()[gamePlan?.getGames().length - 2].getId()}</div>
             <div data-testid="first-game">{gamePlan?.getGames()[0].getId()}</div>
             <div data-testid="last-game">{gamePlan?.getGames()[gamePlan?.getGames().length - 1].getId()}</div>
+            <div data-testid="groups-count">{groups?.length ?? 0}</div>
+            {groups && groups.length > 0 && (
+                <div data-testid="first-group-id">{groups[0].getId()}</div>
+            )}
 
             <button data-testid="change-participants" onClick={() => handleParticipantChange(changedParticipants)}>Change Participants</button>
             <button data-testid="change-matches-against-each-participant" onClick={() => handleChangeMatchesAgainstEachParticipant()}>Change Matches Against Each Participant</button>
@@ -190,6 +195,63 @@ describe('useTournamentOperations', () => {
             expect(lastGame.textContent).toBe(gamePlanData[0].games[0].id);
             expect(penultimateGame.textContent).toBe(gamePlanData[0].games[gamePlanData[0].games.length - 2].id);
         });
+    });
 
+    it('should load groups when they exist in storage', async () => {
+        const tournament = Tournament.fromObject(tournamentData[0]);
+        const mockGroups = [
+            new Group(tournament.getId()!),
+            new Group(tournament.getId()!),
+        ];
+        mockGroups[0].setName('Group A');
+        mockGroups[1].setName('Group B');
+        
+        const groupsData = mockGroups.map(g => g.toObject());
+        localStorage.setItem(LocalStorage.GROUPS_STORAGE_KEY, JSON.stringify(groupsData));
+
+        render(<TestComponent />);
+
+        await waitFor(() => {
+            expect(screen.getByTestId('groups-count')).toBeInTheDocument();
+        });
+
+        await waitFor(() => {
+            const groupsCount = screen.getByTestId('groups-count');
+            expect(groupsCount.textContent).toBe('2');
+            expect(screen.getByTestId('first-group-id')).toBeInTheDocument();
+        });
+    });
+
+    it('should create groups when they do not exist in storage', async () => {
+        localStorage.removeItem(LocalStorage.GROUPS_STORAGE_KEY);
+        
+        render(<TestComponent />);
+
+        await waitFor(() => {
+            expect(screen.getByTestId('loading')).toBeInTheDocument();
+        });
+
+        await waitFor(() => {
+            const groupsCount = screen.getByTestId('groups-count');
+            expect(groupsCount).toBeInTheDocument();
+            
+        });
+    });
+
+    it('should show loading state while groups are being loaded', async () => {
+        localStorage.removeItem(LocalStorage.GROUPS_STORAGE_KEY);
+        
+        render(<TestComponent />);
+
+        // Should show loading initially
+        await waitFor(() => {
+            expect(screen.getByTestId('loading')).toBeInTheDocument();
+        });
+
+        // Should eventually load groups
+        await waitFor(() => {
+            expect(screen.queryByTestId('loading')).not.toBeInTheDocument();
+            expect(screen.getByTestId('groups-count')).toBeInTheDocument();
+        }, { timeout: 3000 });
     });
 }); 

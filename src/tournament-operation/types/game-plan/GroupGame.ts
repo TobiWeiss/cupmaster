@@ -43,7 +43,7 @@ export class GroupGame implements IGroupGame {
     }
 
     clone(): GroupGame {
-        return new GroupGame(this.groupId, this.game.clone());
+        return new GroupGame(this.groupId, this.game.clone() as IGame);
     }
 
     getGroupId(): string {

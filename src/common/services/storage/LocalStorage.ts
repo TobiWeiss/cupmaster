@@ -1,10 +1,10 @@
-import { CouldNotDeleteGamePlanException, CouldNotDeleteTournamentException, CouldNotFindGamePlanException, CouldNotFindGamePlansException, CouldNotFindTournamentException, CouldNotFindTournamentsException, CouldNotSaveGamePlanException, CouldNotSaveTournamentException } from './exceptions';
+import { CouldNotDeleteGamePlanException, CouldNotDeleteTournamentException, CouldNotFindGamePlanException, CouldNotFindGamePlansException, CouldNotFindGroupsException, CouldNotFindTournamentException, CouldNotFindTournamentsException, CouldNotSaveGamePlanException, CouldNotSaveGroupsException, CouldNotSaveTournamentException } from './exceptions';
 import { StorageInterface } from './StorageInterface';
 
 export class LocalStorage implements StorageInterface {
   public static readonly TOURNAMENT_STORAGE_KEY = 'tournaments';
   public static readonly GAME_PLAN_STORAGE_KEY = 'gamePlans';
-
+  public static readonly GROUPS_STORAGE_KEY = 'groups';
   private async getAll(): Promise<Record<string, any>[]> {
     const data = localStorage.getItem(LocalStorage.TOURNAMENT_STORAGE_KEY);
     return data ? JSON.parse(data) : [];
@@ -114,6 +114,56 @@ export class LocalStorage implements StorageInterface {
     } catch (error) {
       console.error('Error getting game plans in LocalStorage', error);
       throw new CouldNotFindGamePlansException('Could not find game plans in LocalStorage');
+    }
+  }
+
+  async getGroups(tournamentId: string): Promise<Record<string, any>[]> {
+    try {
+      const allGroups = await this.getAllGroups();
+      console.info('allGroups', allGroups);
+      return allGroups.filter((g: Record<string, any>) => g.tournamentId === tournamentId);
+    } catch (error) {
+      console.error('Error getting groups in LocalStorage', error);
+      throw new CouldNotFindGroupsException('Could not find groups for tournament in LocalStorage');
+    }
+  }
+  
+  private async getAllGroups(): Promise<Record<string, any>[]> {
+    try {
+      const data = localStorage.getItem(LocalStorage.GROUPS_STORAGE_KEY);
+      return data ? JSON.parse(data) : [];
+    } catch (error) {
+      console.error('Error getting groups in LocalStorage', error);
+      throw new CouldNotFindGroupsException('Could not find groups in LocalStorage');
+    }
+  }
+
+  async createGroups(groups: Record<string, any>[]): Promise<void> {
+    try {
+      const allGroups = await this.getAllGroups();
+      groups.forEach((g: Record<string, any>) => {
+        allGroups.push(g);
+      });
+      localStorage.setItem(LocalStorage.GROUPS_STORAGE_KEY, JSON.stringify(allGroups));
+    } catch (error) {
+      console.error('Error creating groups in LocalStorage', error);
+      throw new CouldNotSaveGroupsException('Could not save groups in LocalStorage');
+    }
+  }
+
+  async updateGroups(groups: Record<string, any>[]): Promise<void> {
+    try {
+      const allGroups = await this.getAllGroups();
+      groups.forEach((g: Record<string, any>) => {
+        const index = allGroups.findIndex((group: Record<string, any>) => group.id === g.id);
+        if (index >= 0) {
+          allGroups[index] = g;
+        }
+      });
+      localStorage.setItem(LocalStorage.GROUPS_STORAGE_KEY, JSON.stringify(allGroups));
+    } catch (error) {
+      console.error('Error updating groups in LocalStorage', error);
+      throw new CouldNotSaveGroupsException('Could not save groups in LocalStorage');
     }
   }
 }

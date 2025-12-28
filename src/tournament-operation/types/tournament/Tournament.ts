@@ -51,6 +51,7 @@ export interface ITournament {
   setLegs(legs: MatchFormat, type: TournamentFormat, phase?: TournamentPhase): void;
   getQualifiedParticipants(type: TournamentFormat, phase?: TournamentPhase): number;
   setQualifiedParticipants(participants: number, type: TournamentFormat, phase?: TournamentPhase): void;
+  hasGroups(): boolean;
 }
 
 export class Tournament implements ITournament {
@@ -267,51 +268,52 @@ export class Tournament implements ITournament {
   }
 
   getNumberOfGroups(type: TournamentFormat, phase?: TournamentPhase) {
-    return this._getConfigByType(type, phase).numberOfGroups;
+    return this._getConfigByType(type, phase)?.numberOfGroups ?? 0;
   }
 
   setNumberOfGroups(numberOfGroups: number, type: TournamentFormat, phase?: TournamentPhase) {
     if (numberOfGroups < 1) {
       throw new InvalidNumberException('Number of groups must be at least 1');
     }
-    this._getConfigByType(type, phase).numberOfGroups = numberOfGroups;
+    this._getConfigByType(type, phase)!.numberOfGroups = numberOfGroups;
   }
 
   getMatchesAgainstEachParticipant(type: TournamentFormat, phase?: TournamentPhase) {
-    return this._getConfigByType(type, phase).matchesAgainstEachParticipant;
+    console.log('getMatchesAgainstEachParticipant', type, phase);
+    return this._getConfigByType(type, phase)?.matchesAgainstEachParticipant ?? 0;
   }
 
   setMatchesAgainstEachParticipant(matches: number, type: TournamentFormat, phase?: TournamentPhase) {
     if (matches < 1 || matches > 4) {
       throw new InvalidNumberException('Matches against each participant must be between 1 and 4');
     }
-    this._getConfigByType(type, phase).matchesAgainstEachParticipant = matches;
+    this._getConfigByType(type, phase)!.matchesAgainstEachParticipant = matches;
   }
 
   getMatchDuration(type: TournamentFormat, phase?: TournamentPhase) {
-    return this._getConfigByType(type, phase).matchDuration;
+    return this._getConfigByType(type, phase)!.matchDuration;
   }
 
   setMatchDuration(duration: number, type: TournamentFormat, phase?: TournamentPhase) {
     if (duration < 5 || duration > 90) {
       throw new InvalidNumberException('Match duration must be between 5 and 90 minutes');
     }
-    this._getConfigByType(type, phase).matchDuration = duration;
+    this._getConfigByType(type, phase)!.matchDuration = duration;
   }
 
   getMatchBreakDuration(type: TournamentFormat, phase?: TournamentPhase) {
-    return this._getConfigByType(type, phase).matchBreakDuration;
+    return this._getConfigByType(type, phase)!.matchBreakDuration;
   }
 
   setMatchBreakDuration(duration: number, type: TournamentFormat, phase?: TournamentPhase) {
     if (duration < 0 || duration > 30) {
       throw new InvalidNumberException('Match break duration must be between 0 and 30 minutes');
     }
-    this._getConfigByType(type, phase).matchBreakDuration = duration;
+    this._getConfigByType(type, phase)!.matchBreakDuration = duration;
   }
 
   getPointsForWin(type: TournamentFormat, phase?: TournamentPhase) {
-    return this._getConfigByType(type, phase).pointsForWin;
+    return this._getConfigByType(type, phase)!.pointsForWin;
   }
 
   setPointsForWin(points: number, type: TournamentFormat, phase?: TournamentPhase) {
@@ -377,5 +379,9 @@ export class Tournament implements ITournament {
 
   static fromFormData(formData: Record<string, any>) {
     return TournamentCreator.fromFormData(formData);
+  }
+
+    hasGroups() {
+      return this.getPhases().includes(TournamentPhase.GROUP_STAGE);
   }
 }

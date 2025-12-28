@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:debug": "NODE_OPTIONS='--inspect' vite",
     "build": "tsc && vite build",
     "lint": "eslint -c eslint.config.js .",
     "preview": "vite preview",

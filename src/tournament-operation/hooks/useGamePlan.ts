@@ -3,9 +3,8 @@ import { GamePlan } from "../types/game-plan/GamePlan";
 import { GamePlanService } from "../services/GamePlanService";
 import { ITournament, Tournament } from "../types/tournament/Tournament";
 import { LocalStorage } from "../../common/services";
-import { IGroup } from "../types/game-plan/Group";
 
-export const useGamePlan = (tournament: ITournament | null, groups: IGroup[] | null) => {
+export const useGamePlan = (tournament: ITournament | null) => {
   const [gamePlan, setGamePlan] = useState<GamePlan | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -22,8 +21,7 @@ export const useGamePlan = (tournament: ITournament | null, groups: IGroup[] | n
         
         if (!data) {
           // Create new game plan if none exists
-          
-          const newGamePlan = await gamePlanService.createGamePlan(tournament as Tournament, groups);
+          const newGamePlan = await gamePlanService.createGamePlan(tournament as Tournament);
           setGamePlan(newGamePlan);
         } else {
  

@@ -74,6 +74,64 @@ export const en = {
         mode: 'Tournament Mode',
         rules: 'Rules'
       },
+    },
+    tournamentOperation: {
+      gamePlan: {
+        title: 'Game Plan Overview',
+        description: 'Here you can view the game plan of your tournament.',
+        noMatches: 'No games scheduled',
+        groups: {
+          title: 'Groups',
+          defaultName: 'Group {{number}}',
+          noParticipants: 'No participants in this group'
+        }
+      },
+      settings: {
+        title: 'Tournament Settings',
+        description: 'Here you can edit your tournament settings. Click on the desired setting to edit it.',
+        categories: {
+          basic: {
+            title: 'Basic Information',
+            tournamentName: 'Tournament Name',
+            format: 'Format',
+            formats: {
+              league: 'League',
+              groupKnockout: 'Group Stage & Knockout System',
+              knockout: 'Knockout System'
+            },
+            numberOfFields: 'Fields'
+          },
+          dates: {
+            title: 'Tournament Times',
+            startDate: 'Start Time',
+            endDate: 'End Time',
+            singleDay: 'Single Day'
+          },
+          format: {
+            title: 'Tournament Format',
+            matchesAgainstEachParticipant: 'Matches Against Each Participant',
+            matchDuration: 'Match Duration',
+            matchBreakDuration: 'Break Duration',
+            pointsForWin: 'Points for Win',
+            pointsForDraw: 'Points for Draw',
+            tiebreakers: 'Tiebreakers',
+            groupStage: {
+              title: 'Group Stage Configuration'
+            },
+            knockoutStage: {
+              title: 'Knockout Stage Configuration'
+            }
+          }
+        },
+        tiebreakers: {
+          current: 'Current Tiebreaker Rules',
+          available: 'Available Rules',
+          none: 'No tiebreaker rules set',
+          GOAL_DIFFERENCE: 'Goal Difference',
+          HEAD_TO_HEAD: 'Head to Head',
+          GOALS_SCORED: 'Goals Scored',
+        }
+      }
     }
   },
 };

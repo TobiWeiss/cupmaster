@@ -267,7 +267,12 @@ export const de = {
         field: 'Spielfeld',
         allMatches: 'Alle Spiele',
         hideAllMatches: 'Alle Spiele ausblenden',
-        showAllMatches: 'Alle Spiele anzeigen'
+        showAllMatches: 'Alle Spiele anzeigen',
+        groups: {
+          title: 'Gruppen',
+          defaultName: 'Gruppe {{number}}',
+          noParticipants: 'Keine Teilnehmer in dieser Gruppe'
+        }
       },
       participants: {
         title: 'Teilnehmerverwaltung',
@@ -316,7 +321,13 @@ export const de = {
             matchBreakDuration: 'Pausendauer',
             pointsForWin: 'Punkte für Sieg',
             pointsForDraw: 'Punkte für Unentschieden',
-            tiebreakers: 'Punktgleicheit'
+            tiebreakers: 'Punktgleicheit',
+            groupStage: {
+              title: 'Gruppenphase-Konfiguration'
+            },
+            knockoutStage: {
+              title: 'K.O.-Runden Konfiguration'
+            }
           }
         },
         tiebreakers: {

@@ -3,18 +3,18 @@ import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { PageInfo } from '../../../common/components/ui/PageInfo';
 import { GameList } from './GameList';
+import { GroupOverview } from './GroupOverview';
 import { IGamePlan } from '../../types/game-plan/GamePlan';
-import { useTournament } from '../../hooks/useTournament';
-import { useGamePlan } from '../../hooks/useGamePlan';
-import { ITournament } from '../../types/tournament/Tournament';
+import { IGroup } from '../../types/game-plan/Group';
 import { SmallText } from '../../../common/components/typography/Text';
 
 interface GamePlanOverviewProps {
   gamePlan: IGamePlan | null;
+  groups: IGroup[] | null;
   onReorderGames: (sourceIndex: number, destinationIndex: number) => void;
 }
 
-export const GamePlanOverview: FC<GamePlanOverviewProps> = ({ gamePlan, onReorderGames }) => {
+export const GamePlanOverview: FC<GamePlanOverviewProps> = ({ gamePlan, groups, onReorderGames }) => {
   const { t } = useTranslation();
 
   function doesGamePlanHaveGames() {
@@ -22,12 +22,11 @@ export const GamePlanOverview: FC<GamePlanOverviewProps> = ({ gamePlan, onReorde
   }
 
   return (
-    <div  data-testid="game-plan-overview">
+    <div data-testid="game-plan-overview">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="space-y-8"
-       
       >
         <PageInfo
           title={t('tournamentOperation.gamePlan.title')}
@@ -35,6 +34,10 @@ export const GamePlanOverview: FC<GamePlanOverviewProps> = ({ gamePlan, onReorde
           className="my-10"
         />
       </motion.div>
+      
+      {/* Groups section */}
+      <GroupOverview groups={groups} />
+
       {/* All matches section */}
       {doesGamePlanHaveGames() ? (
         <GameList
@@ -49,6 +52,4 @@ export const GamePlanOverview: FC<GamePlanOverviewProps> = ({ gamePlan, onReorde
       )}
     </div>
   );
-
-
 }; 

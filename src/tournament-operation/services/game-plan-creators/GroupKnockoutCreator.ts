@@ -5,15 +5,19 @@ import { GamePlan, IGamePlan } from "../../types/game-plan/GamePlan";
 import { ITournament } from "../../types/tournament/Tournament";
 import { TournamentFormat } from "../../types/tournament/TournamentFormat";
 import { IGroup } from "../../types/game-plan/Group";
+import { GroupInitializer } from "../group-initializer/GroupInitializer";
 
 export class GroupKnockoutCreator {
+    private groupInitializer: GroupInitializer;
 
-    constructor() {
+    constructor(groupInitializer: GroupInitializer) {
+        this.groupInitializer = groupInitializer;
     }
 
-    createGamePlan(tournament: ITournament, groups: IGroup[]): IGamePlan {
+    createGamePlan(tournament: ITournament): IGamePlan {
         const gamePlan = new GamePlan(tournament.getId()!);
 
+        let groups = this.groupInitializer.initGroups(tournament.getId()!, tournament.getParticipants(), tournament.getNumberOfGroups(TournamentFormat.GROUP_KNOCKOUT));
         let groupGames = this._createGroupGames(tournament, groups);
         groupGames = this._orderGames(groupGames);
         groupGames = this._addMatchesAgainstEachOther(groupGames, tournament);

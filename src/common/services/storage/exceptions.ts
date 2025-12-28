@@ -51,3 +51,21 @@ export class CouldNotDeleteGamePlanException extends StorageException {
     super(message);
   }
 }
+
+export class CouldNotSaveGroupsException extends StorageException {
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class CouldNotDeleteGroupsException extends StorageException {
+  constructor(message: string) {
+    super(message);
+  }
+}
+
+export class CouldNotFindGroupsException extends StorageException {
+  constructor(message: string) {
+    super(message);
+  }
+}

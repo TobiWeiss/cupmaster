@@ -1,16 +1,16 @@
 import { IGamePlan } from "../types/game-plan/GamePlan";
-import { IGroup } from "../types/game-plan/Group";
 import { ITournament } from "../types/tournament/Tournament";
 import { TournamentFormat } from "../types/tournament/TournamentFormat";
 import { GroupKnockoutCreator } from "./game-plan-creators/GroupKnockoutCreator";
 import { KnockoutCreator } from "./game-plan-creators/KnockoutCreator";
 import { LeagueCreator } from "./game-plan-creators/LeagueCreator";
 import { LeagueSorter } from "./game-plan-sorters/LeagueSorter";
+import { GroupInitializer } from "./group-initializer/GroupInitializer";
 
 const gamePlanCreators = {
-  [TournamentFormat.LEAGUE]: LeagueCreator,
-  [TournamentFormat.GROUP_KNOCKOUT]: GroupKnockoutCreator,
-  [TournamentFormat.KNOCKOUT]: KnockoutCreator,
+  [TournamentFormat.LEAGUE]: () => new LeagueCreator(),
+  [TournamentFormat.GROUP_KNOCKOUT]: () => new GroupKnockoutCreator(new GroupInitializer()),
+  [TournamentFormat.KNOCKOUT]: () => new KnockoutCreator(),
 };
 
 const gamePlanSorters = {
@@ -21,16 +21,14 @@ const gamePlanSorters = {
 
 
 export class GamePlanManager {
-  static createGamePlan(tournament: ITournament, groups: IGroup[]): IGamePlan {
-    const factory = new gamePlanCreators[tournament.getFormat()];
-    if(factory instanceof GroupKnockoutCreator) {
-      return factory.createGamePlan(tournament, groups);
-    }
+  
+  static createGamePlan(tournament: ITournament): IGamePlan {
+    const factory = gamePlanCreators[tournament.getFormat()]();
     return factory.createGamePlan(tournament);
   }
 
   static updateFieldsAndDates(gamePlan: IGamePlan, tournament: ITournament): IGamePlan {
-    const factory = new gamePlanCreators[tournament.getFormat()];
+    const factory = gamePlanCreators[tournament.getFormat()]();
     return factory.updateFieldsAndDates(gamePlan, tournament);
   }
 

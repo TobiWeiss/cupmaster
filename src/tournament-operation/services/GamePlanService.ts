@@ -2,14 +2,13 @@ import { StorageInterface } from '../../common/services/storage/StorageInterface
 import { GamePlan } from '../types/game-plan/GamePlan';
 import { Tournament } from '../types/tournament/Tournament';
 import { GamePlanManager } from './GamePlanManager';
-import { IGroup } from '../types/game-plan/Group';
 
 export class GamePlanService {
 
   constructor(private storage: StorageInterface) {} 
 
-  async createGamePlan(tournament: Tournament, groups: IGroup[]): Promise<GamePlan> {
-    const gamePlan = GamePlanManager.createGamePlan(tournament, groups) as GamePlan;
+  async createGamePlan(tournament: Tournament): Promise<GamePlan> {
+    const gamePlan = GamePlanManager.createGamePlan(tournament) as GamePlan;
     gamePlan.setId(tournament.getId());
     
     await this.storage.saveGamePlan(gamePlan.toObject());

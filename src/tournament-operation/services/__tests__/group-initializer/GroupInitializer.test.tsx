@@ -26,7 +26,7 @@ describe('GroupCreator', () => {
     it('should create groups if participants cannot be equally distributed on groups', () => {
         const groupInitializer = new GroupInitializer();
         const fifteenParticipants = Array.from({ length: 15 }, (_, index) => new Participant(`Participant ${index + 1}`, `https://example.com/logo${index + 1}.png`));
-        const groups = groupCreator.initGroups("test", fifteenParticipants, 2);
+        const groups = groupInitializer.initGroups("test", fifteenParticipants, 2);
         expect(groups.length).toBe(2);
         expect(groups[0].getParticipants().length).toBe(8);
         expect(groups[1].getParticipants().length).toBe(7);

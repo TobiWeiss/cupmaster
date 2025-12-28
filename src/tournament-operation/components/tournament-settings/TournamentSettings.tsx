@@ -6,8 +6,8 @@ import { LargeText } from '../../../common/components/typography/Text';
 import { useTranslation } from 'react-i18next';
 import { PageInfo } from '../../../common/components/ui/PageInfo';
 import { Icon } from '../../../common/components/ui/Icon';
-import { TournamentFormat } from '../../types/tournament/TournamentFormat';
-import { createSettingsElements, createLeagueFormatElements } from './config';
+import { TournamentFormat, TournamentPhase } from '../../types/tournament/TournamentFormat';
+import { createSettingsElements, createLeagueFormatElements, createGroupKnockoutFormatElements } from './config';
 import { ISettingsElement } from './types';
 import { cloneDeep } from 'lodash';
 import { useNotify } from '../../../common/hooks/useNotify';
@@ -58,6 +58,8 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
       const allElements = [...createSettingsElements(translate)];
       if (editedTournament.getFormat() === TournamentFormat.LEAGUE) {
         allElements.push(...createLeagueFormatElements(translate));
+      } else if (editedTournament.getFormat() === TournamentFormat.GROUP_KNOCKOUT) {
+        allElements.push(...createGroupKnockoutFormatElements(translate));
       }
       
       const element = allElements.find(el => el.id === field);
@@ -116,6 +118,32 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
         return editedTournament.getPointsForDraw(editedTournament.getFormat());
       case 'tiebreakers':
         return editedTournament.getTiebreakers(editedTournament.getFormat()).map((tb: any) => tb.toString());
+      // Group Knockout - Group Stage
+      case 'groupStage.numberOfGroups':
+        return editedTournament.getNumberOfGroups(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
+      case 'groupStage.matchesAgainstEachParticipant':
+        return editedTournament.getMatchesAgainstEachParticipant(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
+      case 'groupStage.matchDuration':
+        return editedTournament.getMatchDuration(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
+      case 'groupStage.matchBreakDuration':
+        return editedTournament.getMatchBreakDuration(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
+      case 'groupStage.pointsForWin':
+        return editedTournament.getPointsForWin(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
+      case 'groupStage.pointsForDraw':
+        return editedTournament.getPointsForDraw(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
+      case 'groupStage.tiebreakers':
+        return editedTournament.getTiebreakers(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE).map((tb: any) => tb.toString());
+      case 'groupStage.qualifiedParticipants':
+        return editedTournament.getQualifiedParticipants(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
+      // Group Knockout - Knockout Stage
+      case 'knockoutStage.matchesAgainstEachParticipant':
+        return editedTournament.getMatchesAgainstEachParticipant(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.KNOCKOUT_STAGE);
+      case 'knockoutStage.matchDuration':
+        return editedTournament.getMatchDuration(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.KNOCKOUT_STAGE);
+      case 'knockoutStage.matchBreakDuration':
+        return editedTournament.getMatchBreakDuration(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.KNOCKOUT_STAGE);
+      case 'knockoutStage.hasThirdPlaceMatch':
+        return editedTournament.getHasThirdPlaceMatch(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.KNOCKOUT_STAGE).toString();
       default:
         return null;
     }
@@ -124,6 +152,8 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
   const allElements = [...createSettingsElements(translate)];
   if (editedTournament.getFormat() === TournamentFormat.LEAGUE) {
     allElements.push(...createLeagueFormatElements(translate));
+  } else if (editedTournament.getFormat() === TournamentFormat.GROUP_KNOCKOUT) {
+    allElements.push(...createGroupKnockoutFormatElements(translate));
   }
 
   return (
@@ -156,7 +186,7 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
                 <ElementRenderer
                   element={element}
                   value={getSettingValue(element)}
-                  onChange={(value) => {
+                  onChange={(_value) => {
                     if (element.editable) {
                       openEdit(element.id);
                     }
@@ -186,7 +216,7 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
                 <ElementRenderer
                   element={element}
                   value={getSettingValue(element)}
-                  onChange={(value) => {
+                  onChange={(_value) => {
                     if (element.editable) {
                       openEdit(element.id);
                     }
@@ -217,7 +247,7 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
                   <ElementRenderer
                     element={element}
                     value={getSettingValue(element)}
-                    onChange={(value) => {
+                    onChange={(_value) => {
                       if (element.editable) {
                         openEdit(element.id);
                       }
@@ -230,6 +260,70 @@ export const TournamentSettings: FC<TournamentSettingsProps> = ({ tournament, on
               ))}
             </div>
           </Card>
+        )}
+
+        {editedTournament.getFormat() === TournamentFormat.GROUP_KNOCKOUT && (
+          <>
+            <Card className="p-4 col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <LargeText className="font-bold">{translate('tournamentOperation.settings.categories.format.groupStage.title')}</LargeText>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {allElements.filter(el => el.id.startsWith('groupStage.')).map((element) => (
+                  <div key={element.id} className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Icon className='mr-2' size="base" icon={element.icon} />
+                      <LargeText className="text-custom-secondary-light dark:text-custom-secondary-dark font-bold">
+                        {element.label}
+                      </LargeText>
+                    </div>
+                    <ElementRenderer
+                      element={element}
+                      value={getSettingValue(element)}
+                      onChange={(_value) => {
+                        if (element.editable) {
+                          openEdit(element.id);
+                        }
+                      }}
+                      onSave={(value) => handleSave(element.id, value)}
+                      onCancel={() => handleCancel(element.id)}
+                      isEditing={isEditing[element.id] || false}
+                    />
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            <Card className="p-4 col-span-2">
+              <div className="flex items-center gap-2 mb-4">
+                <LargeText className="font-bold">{translate('tournamentOperation.settings.categories.format.knockoutStage.title')}</LargeText>
+              </div>
+              <div className="grid grid-cols-2 gap-4">
+                {allElements.filter(el => el.id.startsWith('knockoutStage.')).map((element) => (
+                  <div key={element.id} className="space-y-2">
+                    <div className="flex items-center gap-2">
+                      <Icon className='mr-2' size="base" icon={element.icon} />
+                      <LargeText className="text-custom-secondary-light dark:text-custom-secondary-dark font-bold">
+                        {element.label}
+                      </LargeText>
+                    </div>
+                    <ElementRenderer
+                      element={element}
+                      value={getSettingValue(element)}
+                      onChange={(_value) => {
+                        if (element.editable) {
+                          openEdit(element.id);
+                        }
+                      }}
+                      onSave={(value) => handleSave(element.id, value)}
+                      onCancel={() => handleCancel(element.id)}
+                      isEditing={isEditing[element.id] || false}
+                    />
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </>
         )}
       </div>
     </motion.div>

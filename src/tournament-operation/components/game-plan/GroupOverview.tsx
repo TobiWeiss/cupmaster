@@ -57,7 +57,7 @@ export const GroupOverview: FC<GroupOverviewProps> = ({ groups }) => {
               transition={{ duration: 0.2 }}
               className="overflow-hidden"
             >
-              <div className="mt-6 space-y-4">
+              <div className="mt-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
                 {groups.map((group, groupIndex) => (
                   <motion.div
                     key={group.getId()}
@@ -66,13 +66,13 @@ export const GroupOverview: FC<GroupOverviewProps> = ({ groups }) => {
                     transition={{ delay: groupIndex * 0.1 }}
                     data-testid={`group-${group.getId()}`}
                   >
-                    <Card className="p-4">
+                    <Card className="p-4 h-full">
                       <div className="mb-3">
                         <SmallText className="font-bold" data-testid={`group-name-${group.getId()}`}>
                           {group.getName() || t('tournamentOperation.gamePlan.groups.defaultName', { number: groupIndex + 1 })}
                         </SmallText>
                       </div>
-                      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+                      <div className="flex flex-col gap-3">
                         {group.getParticipants().map((participant) => (
                           <div
                             key={participant.getId()}

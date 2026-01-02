@@ -127,7 +127,7 @@
                     "qualifiedParticipants": 2
                 },
                 "knockoutConfig": {
-                    "matchesAgainstEachParticipant": 1,
+                    "matchesAgainstEachParticipant": 2,
                     "matchDuration": 15,
                     "matchBreakDuration": 5,
                     "hasThirdPlaceMatch": false
@@ -256,10 +256,10 @@
     },
     {
         "expectedData": {
-            "numberOfMatches": 54,
+            "numberOfMatches": 72,
             "matchesAgainstEachParticipant": 2,
             "expectedFirstGameStartTime": "2030-03-08T09:00:00.000Z",
-            "expectedLastGameStartTime":"2030-03-08T12:15:00.000Z",
+            "expectedLastGameStartTime":"2030-03-08T13:15:00.000Z",
             "expectedSixtGameStartTime": "2030-03-08T09:15:00.000Z"
         },
         "initialData": {
@@ -274,7 +274,7 @@
                     "phases": ["GROUP_STAGE", "KNOCKOUT_STAGE"]
                 },
                 "groupConfig": {
-                    "numberOfGroups": 5,
+                    "numberOfGroups": 4,
                     "matchesAgainstEachParticipant": 2,
                     "matchDuration": 12,
                     "matchBreakDuration": 3,
@@ -285,7 +285,7 @@
                         "HEAD_TO_HEAD",
                         "GOALS_SCORED"
                     ],
-                    "qualifiedParticipants": 0
+                    "qualifiedParticipants": 2
                 },
                 "knockoutConfig": {
                     "matchesAgainstEachParticipant": 2,

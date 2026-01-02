@@ -21,20 +21,21 @@ describe('GroupCreator', () => {
     });
 
     describe('Create Game Plan', () => {
-        it('should create a game plan with the correct number of games', () => {
+        it('should create a game plan with the correct number of games', async () => {
             const tournaments = scenarios.map((scenario) => {
                 const tournament = Tournament.init(scenario.initialData);
                 return tournament;
             });
             const expectedData = scenarios.map((scenario) => scenario.expectedData);
 
-            tournaments.forEach(async (tournament, index) => {
+            for (const [index, tournament] of tournaments.entries()) {
                 const groups = groupInitializer.initGroups(tournament.getId(), tournament.getParticipants(), tournament.getNumberOfGroups(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE));
+                vi.spyOn(storage, 'getGroups').mockReturnValue(Promise.resolve(groups));
                 const gamePlan = await groupCreator.createGamePlan(tournament);
                 expect(gamePlan).toBeDefined();
                 expect(gamePlan.getGames().length).toBe(expectedData[index].numberOfMatches);
                 assertGroupParticipantsHaveCorrectAmountOfGames(gamePlan, groups, tournament.getMatchesAgainstEachParticipant(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE));
-            });
+            }
         });
 
         it('should distribute the games over the fields', async () => {

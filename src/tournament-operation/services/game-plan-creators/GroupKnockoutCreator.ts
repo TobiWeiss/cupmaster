@@ -22,7 +22,11 @@ export class GroupKnockoutCreator {
         let gamePlanForGroups = await this.groupCreator.createGamePlan(tournament);
         let knockoutGames = await this.knockoutCreator.createGamePlanAfterGroupGames(tournament);
 
-        gamePlan.setGames([...gamePlanForGroups.getGames(), ...knockoutGames.getGames()]);
+        let games = [...gamePlanForGroups.getGames(), ...knockoutGames.getGames()];
+        games = this._assignFields(games, tournament);
+        games = this._setGameDates(games, tournament);
+
+        gamePlan.setGames(games);
 
         return gamePlan;
     }
@@ -75,9 +79,4 @@ export class GroupKnockoutCreator {
         return games;
     }
 
-
-    private async _getGroups(tournamentId: string): Promise<IGroup[]> {
-        const groups = await this.storage.getGroups(tournamentId);
-        return groups.map(group => Group.fromObject(group));
-    }
 }

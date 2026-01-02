@@ -2,7 +2,7 @@ import { StorageInterface } from "../../../common/services";
 import { Game, IGame } from "../../types/game-plan/Game";
 import { GamePlan, IGamePlan } from "../../types/game-plan/GamePlan";
 import { Group, IGroup } from "../../types/game-plan/Group";
-import { KnockoutGame, PlacementInGroupRule, WinnerOfGameRule } from "../../types/game-plan/KnockoutGame";
+import { KnockoutGame, LoserOfGameRule, PlacementInGroupRule, WinnerOfGameRule } from "../../types/game-plan/KnockoutGame";
 import { ITournament } from "../../types/tournament/Tournament";
 import { TournamentPhase } from "../../types/tournament/TournamentFormat";
 
@@ -32,7 +32,7 @@ export class KnockoutCreator {
 
         const gamesOfFirstKnockoutRound: KnockoutGame[] = this._createGamesOfFirstKnockoutRoundAfterGroupGames(groups, qualifiedTeamsPerGroup);
 
-        const gamesOfRoundsAfterFirstRound = this._createGamesForRoundsAfterFirstRound(gamesOfFirstKnockoutRound);
+        const gamesOfRoundsAfterFirstRound = this._createGamesForRoundsAfterFirstRound(gamesOfFirstKnockoutRound, tournament);
         const gamePlan = new GamePlan(tournament.getId()!);
         gamePlan.setGames([...gamesOfFirstKnockoutRound, ...gamesOfRoundsAfterFirstRound]);
         return gamePlan;
@@ -53,13 +53,16 @@ export class KnockoutCreator {
         return gamesOfFirstKnockoutRound;
     }
 
-    private _createGamesForRoundsAfterFirstRound(gamesOfFirstKnockoutRound: KnockoutGame[]): IGame[] {
+    private _createGamesForRoundsAfterFirstRound(gamesOfFirstKnockoutRound: KnockoutGame[], tournament: ITournament): IGame[] {
         const games = [];
         let numberOfGamesInLastRound = gamesOfFirstKnockoutRound.length;
         let previousRound = "1";
         let gamesOfPreviousRound = gamesOfFirstKnockoutRound;
 
         while (numberOfGamesInLastRound > 1) {
+            if (numberOfGamesInLastRound === 2 && tournament.getHasThirdPlaceMatch(tournament.getFormat(), TournamentPhase.KNOCKOUT_STAGE)) {
+                this._addGameForThirdPlace(gamesOfPreviousRound, games);
+            }
             const gamesOfCurrentRound = [];
             let currentRound;
             for (let i = 0; i < numberOfGamesInLastRound / 2; i++) {
@@ -77,6 +80,15 @@ export class KnockoutCreator {
             gamesOfPreviousRound = gamesOfCurrentRound;
         }
         return games;
+    }
+
+    private _addGameForThirdPlace(gamesOfPreviousRound: KnockoutGame[], games: any[]) {
+        const game = new Game();
+        const [prerequisiteGame1, prerequisiteGame2] = this._findPrerequisiteGames(gamesOfPreviousRound, 0);
+        const ruleForFirstParticipant = new LoserOfGameRule(prerequisiteGame1.getId());
+        const ruleForSecondParticipant = new LoserOfGameRule(prerequisiteGame2.getId());
+        const knockOutGame = new KnockoutGame(ruleForFirstParticipant, ruleForSecondParticipant, game, "THIRD_PLACE");
+        games.push(knockOutGame);
     }
 
     _getRound(amountOfGames: number, previousRound?: string): string {

@@ -1,4 +1,4 @@
-import { IGame } from "./Game";
+import { Game, IGame } from "./Game";
 import { IGroup } from "./Group";
 import { v4 as uuidv4 } from 'uuid';
 import { IBaseClass } from '../../../common/types/BaseClass';
@@ -31,14 +31,18 @@ export class GroupGame implements IGroupGame {
     }
     
     static fromObject(object: Record<string, any>): GroupGame {
-        return new GroupGame(object.groupId, object.game);
+        return new GroupGame(object.groupId, Game.fromObject(object.game));
+    }
+    
+    static isGroupGame(object: Record<string, any>): boolean {
+        return object.groupId && object.game;
     }
     
     toObject(): Record<string, any> {
         return {
             id: this.id,
             groupId: this.groupId,
-            game: this.game,
+            game: this.game.toObject(),
         };
     }
 

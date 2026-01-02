@@ -1,4 +1,4 @@
-import { IGame } from "./Game";
+import { Game, IGame } from "./Game";
 import { v4 as uuidv4 } from 'uuid';
 import { IGameParticipant } from "./GameParticipant";
 import { IScore } from "./Score";
@@ -120,7 +120,11 @@ export class KnockoutGame implements IKnockoutGame {
     }
 
     static fromObject(object: Record<string, any>): KnockoutGame {
-        return new KnockoutGame(object.ruleForFirstParticipant, object.ruleForSecondParticipant, object.game, object.round);
+        return new KnockoutGame(object.ruleForFirstParticipant, object.ruleForSecondParticipant, Game.fromObject(object.game), object.round);
+    }
+
+    static isKnockoutGame(object: Record<string, any>): boolean {
+        return object.ruleForFirstParticipant && object.ruleForSecondParticipant && object.game && object.round;
     }
     
     toObject(): Record<string, any> {
@@ -128,7 +132,8 @@ export class KnockoutGame implements IKnockoutGame {
             id: this.id,
             ruleForFirstParticipant: this.ruleForFirstParticipant,
             ruleForSecondParticipant: this.ruleForSecondParticipant,
-            game: this.game,
+            round: this.round,
+            game: this.game.toObject(),
         };
     }
     

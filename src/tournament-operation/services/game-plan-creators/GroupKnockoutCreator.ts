@@ -1,30 +1,28 @@
 import { GameField } from "../../types/game-plan/GameField";
-import { Game, IGame } from "../../types/game-plan/Game";
-import { GameParticipant } from "../../types/game-plan/GameParticipant";
+import { IGame } from "../../types/game-plan/Game";
 import { GamePlan, IGamePlan } from "../../types/game-plan/GamePlan";
 import { ITournament } from "../../types/tournament/Tournament";
 import { TournamentFormat } from "../../types/tournament/TournamentFormat";
-import { IGroup } from "../../types/game-plan/Group";
-import { GroupInitializer } from "../group-initializer/GroupInitializer";
+import { Group, IGroup } from "../../types/game-plan/Group";
+import { GroupCreator } from "./GroupCreator";
+import { KnockoutCreator } from "./KnockoutCreator";
 
 export class GroupKnockoutCreator {
-    private groupInitializer: GroupInitializer;
+    private groupCreator: GroupCreator;
+    private knockoutCreator: KnockoutCreator;
 
-    constructor(groupInitializer: GroupInitializer) {
-        this.groupInitializer = groupInitializer;
+    constructor(groupCreator: GroupCreator, knockoutCreator: KnockoutCreator) {
+        this.groupCreator = groupCreator;
+        this.knockoutCreator = knockoutCreator;
     }
 
-    createGamePlan(tournament: ITournament): IGamePlan {
+    async createGamePlan(tournament: ITournament): Promise<IGamePlan> {
         const gamePlan = new GamePlan(tournament.getId()!);
 
-        let groups = this.groupInitializer.initGroups(tournament.getId()!, tournament.getParticipants(), tournament.getNumberOfGroups(TournamentFormat.GROUP_KNOCKOUT));
-        let groupGames = this._createGroupGames(tournament, groups);
-        groupGames = this._orderGames(groupGames);
-        groupGames = this._addMatchesAgainstEachOther(groupGames, tournament);
-        groupGames = this._assignFields(groupGames, tournament);
-        groupGames = this._setGameDates(groupGames, tournament);
+        let gamePlanForGroups = await this.groupCreator.createGamePlan(tournament);
+        let knockoutGames = await this.knockoutCreator.createGamePlanAfterGroupGames(tournament);
 
-        gamePlan.setGames(groupGames);
+        gamePlan.setGames([...gamePlanForGroups.getGames(), ...knockoutGames.getGames()]);
 
         return gamePlan;
     }
@@ -44,80 +42,6 @@ export class GroupKnockoutCreator {
         gamePlan.setGames(games);
 
         return gamePlan;
-    }
-
-    _createGroupGames(tournament: ITournament, groups: IGroup[]): IGame[] {
-        let games: IGame[] = [];
-
-        const gamesOfEachGroup: IGame[][] = [];
-
-        for (let i = 0; i < groups.length; i++) {
-            const group = groups[i];
-            const groupParticipants = group.getParticipants();
-            for (let j = 0; j < groupParticipants.length; j++) {
-                const gameParticipant1 = GameParticipant.fromObject(groupParticipants[j]);
-                for (let k = j + 1; k < groupParticipants.length; k++) {
-                    const gameParticipant2 = GameParticipant.fromObject(groupParticipants[k]);
-                    const game = new Game();
-                    game.setFirstParticipant(gameParticipant1);
-                    game.setSecondParticipant(gameParticipant2);
-                    gamesOfEachGroup[i].push(game);
-                }
-                gamesOfEachGroup[i].push(...gamesOfEachGroup[i]);
-            }
-        }
-        
-
-        games = gamesOfEachGroup.flatMap(games => games)
-
-        return games;
-    }
-
-    /**
-     * Games are ordered to avoid a team playing multiple times in a row.
-     * @param games the games to order
-     * @returns 
-     */
-    _orderGames(games: IGame[]): IGame[] {
-        let orderedGames: Array<IGame> = [];
-        let teamsLastPlayed: string[] = [];
-
-        for (let index = 0; index < games.length; index++) {
-            const game = games[index];
-
-            if (!this._haveTeamsPlayedInLastGame(game, teamsLastPlayed)) {
-                teamsLastPlayed = this._addGameIfNotExists(orderedGames, game, teamsLastPlayed);
-                continue;
-            }
-
-            // If we can't directly add the game, find the next game that doesn't have the same teams as teamsLastPlayed and is not already in the orderedGames
-            const nextSuitableGameIndex = this._findNextSuitableGame(games, teamsLastPlayed, game, orderedGames);
-
-            // If no suitable game is found, try to fit it in the existing games
-            if (nextSuitableGameIndex === -1) {
-                
-                orderedGames = this._sortWithinExistingGames(orderedGames, game);
-                teamsLastPlayed = this._updateTeamsLastPlayed(game.getFirstParticipant().getId()!, game.getSecondParticipant().getId()!);
-                continue;
-            }
-            // Else add the game after the suitable game
-            teamsLastPlayed = this._addGameIfNotExists(orderedGames, games[nextSuitableGameIndex], teamsLastPlayed);
-            teamsLastPlayed = this._addGameIfNotExists(orderedGames, game, teamsLastPlayed);
-        }
-
-        return orderedGames;
-    }
-
-    _addMatchesAgainstEachOther(games: IGame[], tournament: ITournament): IGame[] {
-        let gamesWithMatchesAgainstEachOther: IGame[] = [...games];
-
-        if (tournament.getMatchesAgainstEachParticipant(TournamentFormat.LEAGUE) > 1) {
-            for (let index = 1; index < tournament.getMatchesAgainstEachParticipant(TournamentFormat.LEAGUE); index++) {
-                gamesWithMatchesAgainstEachOther = [...gamesWithMatchesAgainstEachOther, ...games.map(g => g.clone() as IGame)];
-            }
-        }
-
-        return gamesWithMatchesAgainstEachOther;
     }
 
 
@@ -152,150 +76,8 @@ export class GroupKnockoutCreator {
     }
 
 
-    // HELPER FUNCTIONS
-
-    _sortWithinExistingGames(orderedGames: IGame[], game: IGame): IGame[] {
-        orderedGames = this._tryToAddWhileAvoidingATeamPlayingTwiceInARow(orderedGames, game);
-
-        // if the games was added, we're done
-        if (orderedGames.some(g => g.getId() == game.getId())) {
-            return orderedGames;
-        }
-
-        orderedGames = this._tryToAddWhileAvoidingATeamPlayingThreeTimesInARow(orderedGames, game);
-
-        // add the game if it wasn't possible to add it while avoiding a team playing three times in a row
-        if (!orderedGames.some(g => g.getId() == game.getId())) {
-            orderedGames.push(game);
-        }
-
-        return orderedGames;
-    }
-
-    _tryToAddWhileAvoidingATeamPlayingTwiceInARow(orderedGames: IGame[], game: IGame): IGame[] {
-        let firstSuitableGameFound = false;
-        let secondSuitableGameFound = false;
-
-        for (let index = 0; index < orderedGames.length; index++) {
-            const g = orderedGames[index];
-
-            if (index === 0 && !this._doTeamsBetweenGamesOverlap([game, g])) {
-                
-                orderedGames.splice(index, 0, game);
-                return orderedGames;
-            }
-
-            if (firstSuitableGameFound == true && !this._doTeamsBetweenGamesOverlap([game, g])) {
-                
-                const removed = orderedGames.splice(index, 0, game);
-                
-                secondSuitableGameFound = true;
-                return orderedGames;
-            }
-
-            if (!this._doTeamsBetweenGamesOverlap([game, g])) {
-                firstSuitableGameFound = true;
-                
-            } else {
-                firstSuitableGameFound = false;
-            }
-
-            if (firstSuitableGameFound && secondSuitableGameFound) {
-                break;
-            }
-        }
-
-        return orderedGames;
-    }
-
-    _tryToAddWhileAvoidingATeamPlayingThreeTimesInARow(orderedGames: IGame[], game: IGame): IGame[] {
-        let isGameAdded = false;
-        for (let index = 0; index < orderedGames.length; index++) {
-
-
-            if (index === 0 || index == 1) {
-                continue;
-            }
-
-            const g0 = orderedGames[index];
-            const g1 = orderedGames[index - 1];
-
-
-            if (!this._doTeamsBetweenGamesOverlap([game, g0, g1])) {
-                orderedGames.splice(index, 0, game);
-                isGameAdded = true;
-                return orderedGames;
-            }
-
-            if (isGameAdded) {
-                break;
-            }
-        }
-
-        return orderedGames;
-    }
-
-    /**
-     * Returns true if at least one team is in all of the games passed
-     * @param games 
-     * @returns 
-     */
-    _doTeamsBetweenGamesOverlap(games: IGame[]): boolean {
-        let doTeamsOverlap = false;
-
-        const participants = games.reduce((acc: string[], g) => {
-            acc.push(g.getFirstParticipant().getId()!);
-            acc.push(g.getSecondParticipant().getId()!);
-            return acc;
-        }, []);
-
-        const uniqueParticipants = [...new Set(participants)];
-
-        uniqueParticipants.forEach(p => {
-            if (games.every(g => g.getFirstParticipant().getId() == p || g.getSecondParticipant().getId() == p)) {
-                doTeamsOverlap = true;
-            }
-        });
-
-        return doTeamsOverlap;
-    }
-
-    _haveTeamsPlayedInLastGame(game: IGame, teamsLastPlayed: string[]): boolean {
-        return teamsLastPlayed.includes(game.getFirstParticipant().getId()!) || teamsLastPlayed.includes(game.getSecondParticipant().getId()!);
-    }
-
-    _findNextSuitableGame(games: IGame[], teamsLastPlayed: string[], gameToAdd: IGame, orderedGames: IGame[]) {
-        return games.findIndex(g =>
-            orderedGames.filter(og => og.getId() == g.getId()).length == 0 &&
-            !teamsLastPlayed.includes(g.getFirstParticipant().getId()) &&
-            !teamsLastPlayed.includes(g.getSecondParticipant().getId()) &&
-            (!(g.getFirstParticipant().getId() == gameToAdd.getFirstParticipant().getId() ||
-                g.getFirstParticipant().getId() == gameToAdd.getSecondParticipant().getId()) &&
-                !(g.getSecondParticipant().getId() == gameToAdd.getSecondParticipant().getId() ||
-                    g.getSecondParticipant().getId() == gameToAdd.getFirstParticipant().getId()))
-        );
-    }
-
-    _addGameIfNotExists(orderedGames: IGame[], game: IGame, teamsLastPlayed: string[]): string[] {
-        if (orderedGames.filter(g => g.getId() == game.getId()).length == 0) {
-            orderedGames.push(game);
-            teamsLastPlayed = this._updateTeamsLastPlayed(game.getFirstParticipant().getId()!, game.getSecondParticipant().getId()!);
-        }
-
-        return teamsLastPlayed;
-    }
-
-    private _updateTeamsLastPlayed(homeTeamId: string, awayTeamId: string) {
-        const teamsLastPlayed = [];
-        teamsLastPlayed.push(homeTeamId);
-        teamsLastPlayed.push(awayTeamId);
-        return teamsLastPlayed;
-    }
-
-    _hasAmountOfMatchesAgainstEachOtherChanged(tournament: ITournament, gamePlan: IGamePlan): boolean {
-        const amountOfMatchesAgainstEachOther = tournament.getMatchesAgainstEachParticipant(TournamentFormat.LEAGUE);
-        const games = gamePlan.getGames();
-        const amountOfMatchesAgainstEachOtherInGamePlan = games.filter(g => g.getFirstParticipant().getId() == g.getSecondParticipant().getId()).length;
-        return amountOfMatchesAgainstEachOther !== amountOfMatchesAgainstEachOtherInGamePlan;
+    private async _getGroups(tournamentId: string): Promise<IGroup[]> {
+        const groups = await this.storage.getGroups(tournamentId);
+        return groups.map(group => Group.fromObject(group));
     }
 }

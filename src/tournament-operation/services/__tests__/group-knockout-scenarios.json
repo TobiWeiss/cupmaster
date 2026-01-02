@@ -16,7 +16,7 @@
                 "numberOfParticipants": 6,
                 "type": {
                     "format": "GROUP_KNOCKOUT",
-                    "phases": []
+                    "phases": ["GROUP_STAGE", "KNOCKOUT_STAGE"]
                 },
                 "groupConfig": {
                     "numberOfGroups": 2,
@@ -110,7 +110,7 @@
                 "numberOfParticipants": 16,
                 "type": {
                     "format": "GROUP_KNOCKOUT",
-                    "phases": []
+                    "phases": ["GROUP_STAGE", "KNOCKOUT_STAGE"]
                 },
                 "groupConfig": {
                     "numberOfGroups": 4,
@@ -259,7 +259,7 @@
             "numberOfMatches": 54,
             "matchesAgainstEachParticipant": 2,
             "expectedFirstGameStartTime": "2030-03-08T09:00:00.000Z",
-            "expectedLastGameStartTime":"2030-03-08T10:24:00.000Z",
+            "expectedLastGameStartTime":"2030-03-08T12:15:00.000Z",
             "expectedSixtGameStartTime": "2030-03-08T09:15:00.000Z"
         },
         "initialData": {
@@ -271,7 +271,7 @@
                 "numberOfParticipants": 19,
                 "type": {
                     "format": "GROUP_KNOCKOUT",
-                    "phases": []
+                    "phases": ["GROUP_STAGE", "KNOCKOUT_STAGE"]
                 },
                 "groupConfig": {
                     "numberOfGroups": 5,

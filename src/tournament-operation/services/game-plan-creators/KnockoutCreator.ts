@@ -1,8 +1,10 @@
+import { StorageInterface } from "../../../common/services";
 import { Game, IGame } from "../../types/game-plan/Game";
 import { GamePlan, IGamePlan } from "../../types/game-plan/GamePlan";
-import { IGroup } from "../../types/game-plan/Group";
+import { Group, IGroup } from "../../types/game-plan/Group";
 import { KnockoutGame, PlacementInGroupRule, WinnerOfGameRule } from "../../types/game-plan/KnockoutGame";
 import { ITournament } from "../../types/tournament/Tournament";
+import { TournamentPhase } from "../../types/tournament/TournamentFormat";
 
 const amountOfGamesToRound = {
     "32": "LAST_32",
@@ -13,12 +15,20 @@ const amountOfGamesToRound = {
 }
 
 export class KnockoutCreator {
+
+    private storage: StorageInterface;
+
+    constructor(storage: StorageInterface) { 
+        this.storage = storage;
+    }
+    
     createGamePlan(tournament: ITournament): IGamePlan {
         return new GamePlan(tournament.getId()!);
     }
 
-    createGamePlanAfterGroupGames(tournament: ITournament, groups: IGroup[]): IGamePlan {
-        const qualifiedTeamsPerGroup = tournament.getQualifiedParticipants(tournament.getFormat());
+    async createGamePlanAfterGroupGames(tournament: ITournament): Promise<IGamePlan> {
+        const groups = await this._getGroups(tournament.getId()!);
+        const qualifiedTeamsPerGroup = tournament.getQualifiedParticipants(tournament.getFormat(), TournamentPhase.GROUP_STAGE);
 
         const gamesOfFirstKnockoutRound: KnockoutGame[] = this._createGamesOfFirstKnockoutRoundAfterGroupGames(groups, qualifiedTeamsPerGroup);
 
@@ -99,5 +109,10 @@ export class KnockoutCreator {
 
     updateFieldsAndDates(gamePlan: IGamePlan, tournament: ITournament): IGamePlan {
         return gamePlan;
+    }
+    
+    private async _getGroups(tournamentId: string): Promise<IGroup[]> {
+        const groups = await this.storage.getGroups(tournamentId);
+        return groups.map(group => Group.fromObject(group));
     }
 }

@@ -4,17 +4,22 @@ import { GameParticipant } from "../../types/game-plan/GameParticipant";
 import { GamePlan, IGamePlan } from "../../types/game-plan/GamePlan";
 import { ITournament } from "../../types/tournament/Tournament";
 import { TournamentFormat, TournamentPhase } from "../../types/tournament/TournamentFormat";
-import { IGroup } from "../../types/game-plan/Group";
+import { Group, IGroup } from "../../types/game-plan/Group";
 import { GroupGame, IGroupGame } from "../../types/game-plan/GroupGame";
+import { StorageInterface } from "../../../common/services/storage/StorageInterface";
 
 export class GroupCreator {
+    private storage: StorageInterface;
 
-    constructor() { }
+    constructor(storage: StorageInterface) { 
+        this.storage = storage;
+    }
 
-    createGamePlan(tournament: ITournament, groups: IGroup[]): IGamePlan {
+    async createGamePlan(tournament: ITournament): Promise<IGamePlan> {
         const gamePlan = new GamePlan(tournament.getId()!);
-
-        let groupGames = this._createGames(groups);
+        const groups = await this._getGroups(tournament.getId()!);
+        
+        let groupGames = await this._createGames(groups);
         groupGames = this._orderGames(groupGames, groups);
         groupGames = this._addMatchesAgainstEachOther(groupGames, tournament);
         groupGames = this._assignFields(groupGames, tournament);
@@ -182,5 +187,10 @@ export class GroupCreator {
         const games = gamePlan.getGames();
         const amountOfMatchesAgainstEachOtherInGamePlan = games.filter(g => g.getFirstParticipant().getId() == g.getSecondParticipant().getId()).length;
         return amountOfMatchesAgainstEachOther !== amountOfMatchesAgainstEachOtherInGamePlan;
+    }
+
+    private async _getGroups(tournamentId: string): Promise<IGroup[]> {
+        const groups = await this.storage.getGroups(tournamentId);
+        return groups.map(group => Group.fromObject(group));
     }
 }

@@ -5,6 +5,8 @@ import { GameTime, IGameTime } from './GameTime';
 import { GameParticipant, IGameParticipant } from './GameParticipant';
 import { v4 as uuidv4 } from 'uuid';
 import { IBaseClass } from '../../../common/types/BaseClass';
+import { KnockoutGame } from './KnockoutGame';
+import { GroupGame } from './GroupGame';
 
 export interface IGame extends IBaseClass {
   getId(): string;
@@ -90,7 +92,7 @@ export class Game implements IGame {
     return newGame;
   }
 
-  toObject(): Record<string, any> {
+  toObject(): Record<string, any> {  
     return {
       id: this.id,
       firstParticipant: this.firstParticipant,
@@ -103,6 +105,13 @@ export class Game implements IGame {
   }
 
   static fromObject(object: Record<string, any>) {
+    if(KnockoutGame.isKnockoutGame(object)) {
+      return KnockoutGame.fromObject(object);
+    }
+    if(GroupGame.isGroupGame(object)) {
+      return GroupGame.fromObject(object);
+    }
+    console.log("is not knockout game or group game", object);
     const game = new Game();
     game.id = object.id;
     game.firstParticipant = GameParticipant.fromObject(object.firstParticipant);

@@ -8,7 +8,7 @@ export class GamePlanService {
   constructor(private storage: StorageInterface) {} 
 
   async createGamePlan(tournament: Tournament): Promise<GamePlan> {
-    const gamePlan = GamePlanManager.createGamePlan(tournament) as GamePlan;
+    const gamePlan = await GamePlanManager.createGamePlan(tournament) as GamePlan;
     gamePlan.setId(tournament.getId());
     
     await this.storage.saveGamePlan(gamePlan.toObject());

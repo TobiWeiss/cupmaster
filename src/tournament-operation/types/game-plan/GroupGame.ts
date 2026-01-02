@@ -31,7 +31,9 @@ export class GroupGame implements IGroupGame {
     }
     
     static fromObject(object: Record<string, any>): GroupGame {
-        return new GroupGame(object.groupId, Game.fromObject(object.game));
+        const groupGame = new GroupGame(object.groupId, Game.fromObject(object.game));
+        groupGame.id = object.id;
+        return groupGame;
     }
     
     static isGroupGame(object: Record<string, any>): boolean {

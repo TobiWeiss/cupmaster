@@ -48,7 +48,7 @@ export const de = {
         tiebreakers: 'Reihenfolge der Gleichstandsregeln',
         numberOfGroups: 'Anzahl der Gruppen',
         participantsPerGroup: 'Teilnehmer pro Gruppe',
-        participantsQualifying: 'Qualifizierte Teilnehmer pro Gruppe',
+        participantsQualifying: 'Anzahl der für die nächste Runde qualifizierten Teilnehmer',
         qualificationMode: 'Qualifikationsmodus',
         knockoutMatches: 'K.O.-Spiele',
         awayGoalsRule: 'Auswärtstorregel',
@@ -272,6 +272,19 @@ export const de = {
           title: 'Gruppen',
           defaultName: 'Gruppe {{number}}',
           noParticipants: 'Keine Teilnehmer in dieser Gruppe'
+        },
+        knockoutRules: {
+          placementInGroup: 'Platz {{place}} aus {{groupName}}',
+          winnerOfGame: 'Sieger von Spiel {{gameNumber}}',
+          loserOfGame: 'Verlierer von Spiel {{gameNumber}}'
+        },
+        rounds: {
+          LAST_32: 'Achtelfinale (Letzte 32)',
+          LAST_16: 'Achtelfinale (Letzte 16)',
+          QUARTER_FINALS: 'Viertelfinale',
+          SEMI_FINALS: 'Halbfinale',
+          FINAL: 'Finale',
+          THIRD_PLACE: 'Spiel um Platz 3'
         }
       },
       participants: {

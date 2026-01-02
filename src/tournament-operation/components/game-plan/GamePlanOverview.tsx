@@ -43,6 +43,7 @@ export const GamePlanOverview: FC<GamePlanOverviewProps> = ({ gamePlan, groups, 
         <GameList
           games={gamePlan?.getGames() ?? []}
           isLoading={false}
+          groups={groups}
           onReorderGames={onReorderGames}
         />
       ) : (

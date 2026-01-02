@@ -84,6 +84,19 @@ export const en = {
           title: 'Groups',
           defaultName: 'Group {{number}}',
           noParticipants: 'No participants in this group'
+        },
+        knockoutRules: {
+          placementInGroup: 'Place {{place}} from {{groupName}}',
+          winnerOfGame: 'Winner of Game {{gameNumber}}',
+          loserOfGame: 'Loser of Game {{gameNumber}}'
+        },
+        rounds: {
+          LAST_32: 'Round of 32',
+          LAST_16: 'Round of 16',
+          QUARTER_FINALS: 'Quarter Finals',
+          SEMI_FINALS: 'Semi Finals',
+          FINAL: 'Final',
+          THIRD_PLACE: 'Third Place Match'
         }
       },
       settings: {

@@ -154,9 +154,7 @@ describe('KnockoutCreator', () => {
                 const gamePlan = await knockoutCreator.createGamePlanAfterGroupGames(tournament);
                 const games = gamePlan.getGames() as KnockoutGame[];
 
-                const qualifiedTeamsPerGroup = tournament.getQualifiedParticipants(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
-                const numberOfGroups = tournament.getNumberOfGroups(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
-                const totalQualifiedTeams = numberOfGroups * qualifiedTeamsPerGroup;
+                const totalQualifiedParticipants = tournament.getQualifiedParticipants(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
 
                 // Group games by round
                 const gamesByRound: Record<string, KnockoutGame[]> = {};
@@ -177,16 +175,16 @@ describe('KnockoutCreator', () => {
                 expect(actualRounds).toContain('FINAL');
                 
                 // Check round progression
-                if (totalQualifiedTeams >= 32) {
+                if (totalQualifiedParticipants >= 32) {
                     expect(actualRounds).toContain('LAST_32');
                 }
-                if (totalQualifiedTeams >= 16) {
+                if (totalQualifiedParticipants >= 16) {
                     expect(actualRounds).toContain('LAST_16');
                 }
-                if (totalQualifiedTeams >= 8) {
+                if (totalQualifiedParticipants >= 8) {
                     expect(actualRounds).toContain('QUARTER_FINALS');
                 }
-                if (totalQualifiedTeams >= 4) {
+                if (totalQualifiedParticipants >= 4) {
                     expect(actualRounds).toContain('SEMI_FINALS');
                 }
             }

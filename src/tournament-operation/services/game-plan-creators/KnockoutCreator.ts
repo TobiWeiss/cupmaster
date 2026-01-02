@@ -7,11 +7,12 @@ import { ITournament } from "../../types/tournament/Tournament";
 import { TournamentPhase } from "../../types/tournament/TournamentFormat";
 
 const amountOfGamesToRound = {
-    "32": "LAST_32",
-    "16": "LAST_16",
-    "8": "QUARTER_FINALS",
-    "4": "SEMI_FINALS",
-    "2": "FINAL",
+    "32": "LAST_64",
+    "16": "LAST_32",
+    "8": "LAST_16",
+    "4": "QUARTER_FINALS",
+    "2": "SEMI_FINALS",
+    "1": "FINAL",
 }
 
 export class KnockoutCreator {
@@ -38,18 +39,30 @@ export class KnockoutCreator {
         return gamePlan;
     }
 
-    private _createGamesOfFirstKnockoutRoundAfterGroupGames(groups: IGroup[], qualifiedTeamsPerGroup: number) {
+    private _createGamesOfFirstKnockoutRoundAfterGroupGames(groups: IGroup[], qualifiedTeams: number) {
         const gamesOfFirstKnockoutRound: KnockoutGame[] = [];
-        groups.forEach(group => {
-            for (let i = 0; i < qualifiedTeamsPerGroup; i++) {
+        
+        const allGroupshaveEqualNumberOfQualifiedTeams = groups.length % qualifiedTeams === 0 || groups.length;
+
+        if(allGroupshaveEqualNumberOfQualifiedTeams) {
+            const qualifiedTeamsPerGroup = qualifiedTeams / groups.length;
+            const pairedGroups = groups.reduce((acc, group, index) => {
+                if(index % 2 === 0) {
+                    acc.push([group, groups[index + 1]]);
+                }
+                return acc;
+            }, [] as [IGroup, IGroup][]);
+            pairedGroups.forEach(([group1, group2]) => {
+                for(let i = 0; i < qualifiedTeamsPerGroup; i++) {   
                 const game = new Game();
-                //TODO: this has to work for more or less than two qualified teams per group
-                const ruleForFirstParticipant = new PlacementInGroupRule(group.getId(), i + 1);
-                const ruleForSecondParticipant = new PlacementInGroupRule(group.getId(), qualifiedTeamsPerGroup - i);
-                const knockOutGame = new KnockoutGame(ruleForFirstParticipant, ruleForSecondParticipant, game, this._getRound(qualifiedTeamsPerGroup));
+                const ruleForFirstParticipant = new PlacementInGroupRule(group1.getId(), i + 1);
+                const ruleForSecondParticipant = new PlacementInGroupRule(group2.getId(), qualifiedTeamsPerGroup - i);
+                const knockOutGame = new KnockoutGame(ruleForFirstParticipant, ruleForSecondParticipant, game, this._getRound(qualifiedTeams / 2));
                 gamesOfFirstKnockoutRound.push(knockOutGame);
-            }
-        });
+                }
+            });
+        }
+
         return gamesOfFirstKnockoutRound;
     }
 
@@ -66,7 +79,7 @@ export class KnockoutCreator {
             const gamesOfCurrentRound = [];
             let currentRound;
             for (let i = 0; i < numberOfGamesInLastRound / 2; i++) {
-                currentRound = this._getRound(numberOfGamesInLastRound, previousRound);
+                currentRound = this._getRound(numberOfGamesInLastRound / 2, previousRound);
                 const game = new Game();
                 const [prerequisiteGame1, prerequisiteGame2] = this._findPrerequisiteGames(gamesOfPreviousRound, i);
                 const ruleForFirstParticipant = new WinnerOfGameRule(prerequisiteGame1.getId());

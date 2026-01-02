@@ -6,6 +6,7 @@ import { NotificationType } from '../../common/types/NotifficationTypes';
 import { IParticipant } from '../types/tournament/Participant';
 import { Tournament } from '../types/tournament/Tournament';
 import { useGroups } from './useGroups';
+import { TournamentPhase } from '../types/tournament/TournamentFormat';
 
 export const useTournamentOperations = (tournamentId: string | undefined) => {
   const { tournament, setTournament, loading: tournamentLoading } = useTournament(tournamentId);
@@ -42,8 +43,10 @@ export const useTournamentOperations = (tournamentId: string | undefined) => {
   
     const oldMatchesAgainstEachParticipant = tournament.getMatchesAgainstEachParticipant(tournament.getFormat());
     const newMatchesAgainstEachParticipant = newTournament.getMatchesAgainstEachParticipant(newTournament.getFormat());
+    const oldQualifiedParticipants = tournament.getQualifiedParticipants(tournament.getFormat(), TournamentPhase.GROUP_STAGE);
+    const newQualifiedParticipants = newTournament.getQualifiedParticipants(newTournament.getFormat(), TournamentPhase.GROUP_STAGE);
     
-    const willCustomGameOrderBePreserved = oldMatchesAgainstEachParticipant === newMatchesAgainstEachParticipant;
+    const willCustomGameOrderBePreserved = oldMatchesAgainstEachParticipant === newMatchesAgainstEachParticipant && oldQualifiedParticipants === newQualifiedParticipants;
     
     if (willCustomGameOrderBePreserved) {
       const newGamePlan = await updateGamePlan(newTournament);

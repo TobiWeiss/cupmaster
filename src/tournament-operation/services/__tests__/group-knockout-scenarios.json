@@ -124,7 +124,7 @@
                         "HEAD_TO_HEAD",
                         "GOALS_SCORED"
                     ],
-                    "qualifiedParticipants": 2
+                    "qualifiedParticipants": 4
                 },
                 "knockoutConfig": {
                     "matchesAgainstEachParticipant": 2,
@@ -285,7 +285,7 @@
                         "HEAD_TO_HEAD",
                         "GOALS_SCORED"
                     ],
-                    "qualifiedParticipants": 2
+                    "qualifiedParticipants": 8
                 },
                 "knockoutConfig": {
                     "matchesAgainstEachParticipant": 2,

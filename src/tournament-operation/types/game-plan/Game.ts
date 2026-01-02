@@ -111,7 +111,7 @@ export class Game implements IGame {
     if(GroupGame.isGroupGame(object)) {
       return GroupGame.fromObject(object);
     }
-    console.log("is not knockout game or group game", object);
+    
     const game = new Game();
     game.id = object.id;
     game.firstParticipant = GameParticipant.fromObject(object.firstParticipant);

@@ -38,16 +38,15 @@ describe('KnockoutCreator', () => {
                 const gamePlan = await knockoutCreator.createGamePlanAfterGroupGames(tournament);
                 expect(gamePlan).toBeDefined();
 
-                const qualifiedTeamsPerGroup = tournament.getQualifiedParticipants(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
-                const numberOfGroups = tournament.getNumberOfGroups(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
-                const totalQualifiedTeams = numberOfGroups * qualifiedTeamsPerGroup;
+                const qualifiedTeams = tournament.getQualifiedParticipants(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
+            
 
                 // Calculate expected number of games
                 // First round: numberOfGroups * qualifiedTeamsPerGroup games (one game per qualified team per group)
                 // Then each round halves until we reach the final
                 let expectedGames = 0;
                 // First round: one game per qualified team per group
-                let gamesInFirstRound = numberOfGroups * qualifiedTeamsPerGroup;
+                let gamesInFirstRound = qualifiedTeams / 2;
                 expectedGames += gamesInFirstRound;
                 
                 // Subsequent rounds: each round halves the number of games
@@ -59,7 +58,7 @@ describe('KnockoutCreator', () => {
 
                 // Add third place match if enabled
                 const hasThirdPlace = tournament.getHasThirdPlaceMatch(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.KNOCKOUT_STAGE);
-                if (hasThirdPlace && totalQualifiedTeams >= 4) {
+                if (hasThirdPlace && qualifiedTeams >= 4) {
                     expectedGames += 1;
                 }
 
@@ -84,10 +83,9 @@ describe('KnockoutCreator', () => {
                 const gamePlan = await knockoutCreator.createGamePlanAfterGroupGames(tournament);
                 const games = gamePlan.getGames() as KnockoutGame[];
 
-                const qualifiedTeamsPerGroup = tournament.getQualifiedParticipants(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
-                const numberOfGroups = tournament.getNumberOfGroups(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
-                // First round creates qualifiedTeamsPerGroup games per group
-                const firstRoundGames = numberOfGroups * qualifiedTeamsPerGroup;
+                const qualifiedTeams = tournament.getQualifiedParticipants(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
+                // First round creates qualifiedTeams games per group
+                const firstRoundGames = qualifiedTeams / 2;
 
                 // Check first round games have PlacementInGroupRule
                 for (let i = 0; i < firstRoundGames; i++) {
@@ -110,9 +108,9 @@ describe('KnockoutCreator', () => {
                     
                     // Verify places are valid (1 to qualifiedTeamsPerGroup)
                     expect(firstPlacementRule.getPlace()).toBeGreaterThanOrEqual(1);
-                    expect(firstPlacementRule.getPlace()).toBeLessThanOrEqual(qualifiedTeamsPerGroup);
+                    expect(firstPlacementRule.getPlace()).toBeLessThanOrEqual(qualifiedTeams / groups.length);
                     expect(secondPlacementRule.getPlace()).toBeGreaterThanOrEqual(1);
-                    expect(secondPlacementRule.getPlace()).toBeLessThanOrEqual(qualifiedTeamsPerGroup);
+                    expect(secondPlacementRule.getPlace()).toBeLessThanOrEqual(qualifiedTeams / groups.length);
                 }
 
                 // Check later round games have WinnerOfGameRule
@@ -286,12 +284,11 @@ describe('KnockoutCreator', () => {
                 const gamePlan = await knockoutCreator.createGamePlanAfterGroupGames(tournament);
                 const games = gamePlan.getGames() as KnockoutGame[];
 
-                const qualifiedTeamsPerGroup = tournament.getQualifiedParticipants(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
-                const numberOfGroups = tournament.getNumberOfGroups(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
+                const qualifiedTeams = tournament.getQualifiedParticipants(TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
 
                 // Calculate expected games without third place
                 let expectedGames = 0;
-                let gamesInFirstRound = numberOfGroups * qualifiedTeamsPerGroup;
+                let gamesInFirstRound = qualifiedTeams / 2;
                 expectedGames += gamesInFirstRound;
                 
                 let gamesInCurrentRound = gamesInFirstRound;

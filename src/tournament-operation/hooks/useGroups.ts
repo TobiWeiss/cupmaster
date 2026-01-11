@@ -4,28 +4,27 @@ import { Group } from "../types/game-plan/Group";
 import { ITournament } from "../types/tournament/Tournament";
 import { GroupService } from "../services/GroupService";
 import { GroupInitializer } from "../services/group-initializer/GroupInitializer";
+import { TournamentPhase } from "../types/tournament/TournamentFormat";
 
 export const useGroups = (tournament: ITournament | null) => {
   const [groups, setGroups] = useState<Group[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const groupService = useMemo(() => new GroupService(new LocalStorage()), []);
-  const groupInitializer = useMemo(() => new GroupInitializer(), []);   
+  const groupInitializer = useMemo(() => new GroupInitializer(), []);
 
   useEffect(() => {
     const loadGroups = async () => {
-      if (!tournament?.getId()) return;
+      if (!tournament?.getId() || tournament.getPhases().includes(TournamentPhase.GROUP_STAGE)) return;
       try {
         setLoading(true);
         const data = await groupService.getGroups(tournament.getId()!);
         if (!data || data.length === 0) {
-          const numberOfGroups = tournament.getNumberOfGroups(tournament.getFormat(), tournament.getPhases()[0]);
+          const numberOfGroups = tournament.getNumberOfGroups(tournament.getFormat(), TournamentPhase.GROUP_STAGE);
           const newGroups = groupInitializer.initGroups(tournament.getId()!, tournament.getParticipants(), numberOfGroups);
-          console.info('newGroups', newGroups);
           await groupService.createGroups(newGroups);
         }
         const groups = await groupService.getGroups(tournament.getId()!);
-        console.info('groups', groups);
         setGroups(groups.map((group: Record<string, any>) => Group.fromObject(group)));
       } catch (err) {
         console.error('Error loading groups', err);
@@ -35,7 +34,7 @@ export const useGroups = (tournament: ITournament | null) => {
       }
     }
     loadGroups();
-  }, [tournament?.getId(), groupService]);
+  }, [tournament?.getId(), groupService, tournament?.getPhases()]);
 
   const createGroups = async (groups: Group[]): Promise<void> => {
     try {

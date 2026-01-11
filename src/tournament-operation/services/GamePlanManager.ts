@@ -7,7 +7,6 @@ import { GroupKnockoutCreator } from "./game-plan-creators/GroupKnockoutCreator"
 import { KnockoutCreator } from "./game-plan-creators/KnockoutCreator";
 import { LeagueCreator } from "./game-plan-creators/LeagueCreator";
 import { LeagueSorter } from "./game-plan-sorters/LeagueSorter";
-import { GroupInitializer } from "./group-initializer/GroupInitializer";
 
 const gamePlanCreators = {
   [TournamentFormat.LEAGUE]: () => new LeagueCreator(),
@@ -25,7 +24,6 @@ const gamePlanSorters = {
 export class GamePlanManager {
   
   static async createGamePlan(tournament: ITournament): Promise<IGamePlan> {
-    console.info('createGamePlan', tournament);
     const factory = gamePlanCreators[tournament.getFormat()]();
     return await factory.createGamePlan(tournament);
   }

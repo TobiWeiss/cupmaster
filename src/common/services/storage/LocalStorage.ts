@@ -120,7 +120,6 @@ export class LocalStorage implements StorageInterface {
   async getGroups(tournamentId: string): Promise<Record<string, any>[]> {
     try {
       const allGroups = await this.getAllGroups();
-      console.info('allGroups', allGroups);
       return allGroups.filter((g: Record<string, any>) => g.tournamentId === tournamentId);
     } catch (error) {
       console.error('Error getting groups in LocalStorage', error);

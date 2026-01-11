@@ -1,5 +1,5 @@
 import { arrayMove } from "@dnd-kit/sortable";
-import { IGamePlan, GamePlan } from "../../types/game-plan/GamePlan";
+import { IGamePlan } from "../../types/game-plan/GamePlan";
 import { IGamePlanSorter } from "./IGamePlanSorter";
 import { TournamentFormat } from "../../types/tournament/TournamentFormat";
 import { IGame } from "../../types/game-plan/Game";

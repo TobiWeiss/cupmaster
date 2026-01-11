@@ -9,44 +9,44 @@ import { Plus, Edit2, Trash2, Users } from 'lucide-react';
 import { ParticipantForm } from './ParticipantForm';
 import { useTranslation } from 'react-i18next';
 import { PageInfo } from '../../../common/components/ui/PageInfo';
-import { useNotify } from '../../../common/hooks/useNotify';
+import { ITournament } from '../../types/tournament/Tournament';
 
 interface ParticipantSettingsProps {
-  tournament: Tournament;
-  onSave: (participants: IParticipant[]) => void;
+  tournament: ITournament;
+  onParticipantAdded: (participant: IParticipant) => void;
+  onParticipantRemoved: (participant: IParticipant) => void;
+  onParticipantUpdated: (participant: IParticipant) => void;
 }
 
-export const ParticipantSettings: FC<ParticipantSettingsProps> = ({ tournament, onSave }) => {
+export const ParticipantSettings: FC<ParticipantSettingsProps> = ({ tournament, onParticipantAdded, onParticipantRemoved, onParticipantUpdated }) => {
   const { t } = useTranslation();
   const [isAddingParticipant, setIsAddingParticipant] = useState(false);
   const [editingParticipant, setEditingParticipant] = useState<IParticipant | null>(null);
   const [participants, setParticipants] = useState<IParticipant[]>(tournament.getParticipants() || []);
-
-  const {showNotification} = useNotify();
 
   const handleAddParticipant = (participant: IParticipant) => {
     const newParticipants = [...participants, participant];
     setParticipants(newParticipants);
     setIsAddingParticipant(false);
 
-    onSave(newParticipants);
+    onParticipantAdded(participant);
   };
 
   const handleEditParticipant = (updatedParticipant: IParticipant) => {
     setParticipants(participants.map(p => 
-      p.id === updatedParticipant.id ? updatedParticipant : p
+      p.getId() === updatedParticipant.getId() ? updatedParticipant : p
     ));
+
+    onParticipantUpdated(updatedParticipant);
    
     setEditingParticipant(null);
-
-    onSave(participants);
   };
 
-  const handleDeleteParticipant = (participantId: string) => {
-    const newParticipants = participants.filter(p => p.id !== participantId);
+  const handleDeleteParticipant = (participant: IParticipant) => {
+    const newParticipants = participants.filter(p => p.getId() !== participant.getId());
     setParticipants(newParticipants);
 
-    onSave(newParticipants);
+    onParticipantRemoved(participant);
   };
 
   return (
@@ -134,7 +134,7 @@ export const ParticipantSettings: FC<ParticipantSettingsProps> = ({ tournament, 
                     variant="outline"
                     size="sm"
                     icon={Trash2}
-                    onClick={() => handleDeleteParticipant(participant.id!)}
+                    onClick={() => handleDeleteParticipant(participant)}
                   />
                 </div>
               </div>

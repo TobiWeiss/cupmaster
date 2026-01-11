@@ -97,4 +97,12 @@ export class Group implements IGroup {
     setTournamentId(tournamentId: string): void {
         this.tournamentId = tournamentId;
     }
+
+    updateParticipant(participant: IGroupParticipant): void {
+        this.participants = this.participants.map(p => p.getId() === participant.getId() ? participant : p);
+    }
+
+    hasParticipant(participant: IGroupParticipant): boolean {
+        return this.participants.some(p => p.getId() === participant.getId());
+    }
 }

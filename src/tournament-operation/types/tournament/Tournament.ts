@@ -68,31 +68,31 @@ export class Tournament implements ITournament {
       startDate: new Date(),
       type: {
         format: TournamentFormat.LEAGUE,
-        phases: [],
+        phases: []
       },
       groupConfig: {
-        numberOfGroups: 0,
-        matchesAgainstEachParticipant: 0,
-        matchDuration: 0,
-        matchBreakDuration: 0,
-        pointsForWin: 0,
-        pointsForDraw: 0,
-        tiebreakers: [],
-        qualifiedParticipants: 0,
+        numberOfGroups: 2,
+        matchesAgainstEachParticipant: 1,
+        matchDuration: 10,
+        matchBreakDuration: 2,
+        pointsForWin: 3,
+        pointsForDraw: 1,
+        tiebreakers: [Tiebreaker.GOAL_DIFFERENCE, Tiebreaker.HEAD_TO_HEAD, Tiebreaker.GOALS_SCORED],
+        qualifiedParticipants: 2,
       },
       knockoutConfig: {
-        matchesAgainstEachParticipant: 0,
-        matchDuration: 0,
-        matchBreakDuration: 0,
-        hasThirdPlaceMatch: false,
+        matchesAgainstEachParticipant: 1,
+        matchDuration: 10,
+        matchBreakDuration: 2,
+        hasThirdPlaceMatch: true,
       },
       leagueConfig: {
-        matchesAgainstEachParticipant: 0,
-        matchDuration: 0,
-        matchBreakDuration: 0,
-        pointsForWin: 0,
-        pointsForDraw: 0,
-        tiebreakers: [],
+        matchesAgainstEachParticipant: 2,
+        matchDuration: 10,
+        matchBreakDuration: 2,
+        pointsForWin: 3,
+        pointsForDraw: 1,
+        tiebreakers: [Tiebreaker.GOAL_DIFFERENCE, Tiebreaker.HEAD_TO_HEAD, Tiebreaker.GOALS_SCORED],
       },
       fields: [],
     };
@@ -248,15 +248,19 @@ export class Tournament implements ITournament {
     return this.participants.length;
   }
 
-  addParticipant(participant: Participant) {
+  addParticipant(participant: IParticipant) {
     if (this.participants.find(p => p.name === participant.name)) {
       throw new ParticipantNameAlreadyExistsException(participant.name);
     }
     this.participants.push(participant);
   }
 
-  removeParticipant(participant: Participant) {
+  removeParticipant(participant: IParticipant) {
     this.participants = this.participants.filter(p => p.id !== participant.id);
+  }
+
+  updateParticipant(participant: IParticipant) {
+    this.participants = this.participants.map(p => p.id === participant.id ? participant : p);
   }
 
   getParticipants() {

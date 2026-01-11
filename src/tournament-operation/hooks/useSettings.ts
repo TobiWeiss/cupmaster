@@ -10,7 +10,8 @@ interface UseSettingsReturn {
     newTournament: Tournament,
     updateGamePlan: (tournament: Tournament) => Promise<any>,
     createNewGamePlan: (tournament: Tournament) => Promise<any>,
-    setTournament: (tournament: Tournament) => void
+    setTournament: (tournament: Tournament) => void,
+    createNewGroups: (tournament: Tournament) => Promise<any>
   ) => Promise<boolean>;
 }
 
@@ -78,6 +79,10 @@ export const useSettings = (): UseSettingsReturn => {
     return false;
   };
 
+  const hasTheNumberOfGroupsChanged = (oldTournament: Tournament, newTournament: Tournament): boolean => {
+    return oldTournament.getNumberOfGroups(oldTournament.getFormat(), TournamentPhase.GROUP_STAGE) !== newTournament.getNumberOfGroups(newTournament.getFormat(), TournamentPhase.GROUP_STAGE);
+  };
+
   /**
    * Determines if a new game plan needs to be created based on tournament changes
    */
@@ -85,8 +90,14 @@ export const useSettings = (): UseSettingsReturn => {
     return (
       hasTheFormatOfTheTournamentChanged(oldTournament, newTournament) ||
       haveTheMatchesAgainstEachParticipantChanged(oldTournament, newTournament) ||
-      hasTheAmountOfQualifiedParticipantsChanged(oldTournament, newTournament)
+      hasTheAmountOfQualifiedParticipantsChanged(oldTournament, newTournament) ||
+      hasTheNumberOfGroupsChanged(oldTournament, newTournament)
     );
+  };
+
+  const requiresNewGroups = (oldTournament: Tournament, newTournament: Tournament): boolean => {
+    return !oldTournament.hasGroups() && newTournament.hasGroups() 
+    && hasTheNumberOfGroupsChanged(oldTournament, newTournament);
   };
 
   const handleSettingsChange = useCallback(
@@ -95,13 +106,17 @@ export const useSettings = (): UseSettingsReturn => {
       newTournament: Tournament,
       updateGamePlan: (tournament: Tournament) => Promise<any>,
       createNewGamePlan: (tournament: Tournament) => Promise<any>,
-      setTournament: (tournament: Tournament) => void
+      setTournament: (tournament: Tournament) => void,
+      createNewGroups: (tournament: Tournament) => Promise<any>
     ): Promise<boolean> => {
       if (requiresNewGamePlan(oldTournament, newTournament)) {
         const confirmed = await showConfirmation(
           "Das Ändern dieser Einstellung führt dazu, dass der Spielplan neu berechnet und die Match-Reihenfolge geändert wird. Sind sie sicher?"
         );
         if (confirmed) {
+          if (requiresNewGroups(oldTournament, newTournament)) {
+            await createNewGroups(newTournament);
+          }
           const newGamePlan = await createNewGamePlan(newTournament);
           newTournament.updateEndDate(newGamePlan);
           setTournament(newTournament);

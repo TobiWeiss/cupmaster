@@ -143,6 +143,7 @@ export class LocalStorage implements StorageInterface {
       groups.forEach((g: Record<string, any>) => {
         allGroups.push(g);
       });
+      console.info('allGroups', allGroups);
       localStorage.setItem(LocalStorage.GROUPS_STORAGE_KEY, JSON.stringify(allGroups));
     } catch (error) {
       console.error('Error creating groups in LocalStorage', error);

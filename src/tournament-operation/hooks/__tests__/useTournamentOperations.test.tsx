@@ -21,8 +21,8 @@ vi.mock('../../../common/hooks/useNotify', () => {
 
 describe('useTournamentOperations', () => {
 
-    function TestComponent({changedParticipants, changedMatchesAgainstEachParticipant, changedStartTime}: any) {
-        const { tournament, gamePlan, groups, handleParticipantChange, handleSettingsChange, handleGameReorder, gamePlanLoading, tournamentLoading, groupsLoading } = useTournamentOperations(tournamentData[0].id);        
+    function TestComponent({addedParticipants, removedParticipants, updatedParticipants, changedMatchesAgainstEachParticipant, changedStartTime}: any) {
+        const { tournament, gamePlan, groups, handleParticipantAdded, handleParticipantRemoved, handleParticipantUpdated, handleSettingsChange, handleGameReorder, gamePlanLoading, tournamentLoading, groupsLoading } = useTournamentOperations(tournamentData[0].id);        
 
         if (gamePlanLoading || tournamentLoading || groupsLoading) {
             return <div data-testid="loading">Loading...</div>
@@ -62,7 +62,25 @@ describe('useTournamentOperations', () => {
                 <div data-testid="first-group-id">{groups[0].getId()}</div>
             )}
 
-            <button data-testid="change-participants" onClick={() => handleParticipantChange(changedParticipants)}>Change Participants</button>
+            {groups && groups.length > 0 && (
+                <div data-testid="groups">
+                    {groups.map(g => (
+                        <div data-testid={`group-${g.getId()}-participants-count`}>{g.getParticipants().length} participants</div>
+                    ))}
+                </div>
+            )}
+
+            {tournament && tournament.participants.length > 0 && (
+                <div data-testid="participants-count">{tournament.participants.length}</div>
+            )}
+
+            {groupsLoading || tournamentLoading || gamePlanLoading && (
+                <div data-testid="loading">Groups Loading...</div>
+            )}
+
+            <button data-testid="add-participants" onClick={() => handleParticipantAdded(addedParticipants)}>Add Participants</button>
+            <button data-testid="remove-participants" onClick={() => handleParticipantRemoved(removedParticipants)}>Remove Participants</button>
+            <button data-testid="update-participants" onClick={() => handleParticipantUpdated(updatedParticipants)}>Update Participants</button>
             <button data-testid="change-matches-against-each-participant" onClick={() => handleChangeMatchesAgainstEachParticipant()}>Change Matches Against Each Participant</button>
             <button data-testid="change-start-time" onClick={() => handleChangeStartTime()}>Change Start Time</button>
             <button data-testid="put first game last" onClick={() => handlePutFirstGameLast()}>Put First Game Last</button>
@@ -103,38 +121,93 @@ describe('useTournamentOperations', () => {
         });
     });
 
-    it('should change the game plan if the participants are changed', async () => {
-        const tournament = Tournament.fromObject(tournamentData[0]);
-        const changedParticipants = [...tournament.getParticipants(), Participant.fromObject({
-            id: '1',
-            name: 'Test Participant 2',
+    it('should change the game plan if a participant is added', async () => {
+        const addedParticipant = Participant.fromObject({
+            id: '999',
+            name: 'Test Participant 99',
             contact: "test2@test.com",
-            logo: "test2.png"
-        }), Participant.fromObject({
-            id: '2',
-            name: 'Test Participant 3',
-            contact: "test3@test.com",
-            logo: "test2.png"
-        })];
+            logo: "test99.png"
+        });
 
-        render(<TestComponent changedParticipants={changedParticipants} />);
+        render(<TestComponent addedParticipants={addedParticipant} />);
 
         await waitFor(() => {
             const amountOfMatches = screen.getByTestId('amount-of-matches');
             expect(amountOfMatches.textContent).toBe('21');
         });
 
-        fireEvent.click(screen.getByTestId('change-participants'));
-
+        fireEvent.click(screen.getByTestId('add-participants'));
 
         await waitFor(() => {
             expect(screen.getByTestId('loading')).toBeInTheDocument();
         });
 
         await waitFor(() => {
-            const amountOfMatches = screen.getByTestId('amount-of-matches');
-            expect(amountOfMatches.textContent).toBe('36');
+            const participantsCount = screen.getByTestId('participants-count');
+            expect(participantsCount.textContent).toBe('8');
         });
+
+        await waitFor(() => {
+            const amountOfMatches = screen.getByTestId('amount-of-matches');
+            expect(amountOfMatches.textContent).toBe('31');
+        });
+    });
+
+    it('should change the game plan if a participant is removed', async () => {
+        const removedParticipant = tournamentData[0].participants[0];
+        render(<TestComponent removedParticipants={removedParticipant} />);
+
+
+
+        await waitFor(() => {
+            const amountOfMatches = screen.getByTestId('amount-of-matches');
+            expect(amountOfMatches.textContent).toBe('21');
+        });
+
+        fireEvent.click(screen.getByTestId('remove-participants'));
+
+        await waitFor(() => {
+            const participantsCount = screen.getByTestId('participants-count');
+            expect(participantsCount.textContent).toBe('6');
+        });
+
+        await waitFor(() => {
+            const amountOfMatches = screen.getByTestId('amount-of-matches');
+            expect(amountOfMatches.textContent).toBe('15');
+        });
+    });
+
+    it("should change the groups if a participant is added", async () => {
+        
+        const addedParticipant = Participant.fromObject({
+            id: '999',
+            name: 'Test Participant 99',
+            contact: "test2@test.com",
+            logo: "test99.png"
+        });
+        render(<TestComponent addedParticipants={addedParticipant} />);
+
+        await waitFor(() => {
+            const groupsCount = screen.getByTestId('groups-count');
+            expect(groupsCount.textContent).toBe('2');
+        });
+
+        fireEvent.click(screen.getByTestId('add-participants'));
+
+        await waitFor(() => {
+            const groupsCount = screen.getByTestId('groups-count');
+            expect(groupsCount.textContent).toBe('2');
+        });
+
+        await waitFor(() => {
+            const groupParticipantsCount = screen.getByTestId('group-1-participants-count');
+            expect(groupParticipantsCount.textContent).toBe('3 participants');
+        });
+    });
+
+    it("should change the groups if a participant is removed", async () => {
+        const removedParticipant = tournamentData[0].participants[0];
+        render(<TestComponent removedParticipants={removedParticipant} />);
     });
 
     it('should change the game plan if the matches against each participant is changed', async () => {

@@ -9,18 +9,39 @@ import { useSettings } from './useSettings';
 export const useTournamentOperations = (tournamentId: string | undefined) => {
   const { tournament, setTournament, loading: tournamentLoading } = useTournament(tournamentId);
   const { gamePlan, updateGamePlan, createNewGamePlan, reorderGames, loading: gamePlanLoading } = useGamePlan(tournament);
-  const { groups, loading: groupsLoading } = useGroups(tournament);
+  const { groups, loading: groupsLoading, createGroups, addParticipantsToGroups, removeParticipantsFromGroups, updateParticipantsInGroups } = useGroups(tournament);
   const { handleSettingsChange: handleSettingsChangeInternal } = useSettings();
 
-  const handleParticipantChange = useCallback(async (participants: IParticipant[]) => {
+  const handleParticipantAdded = useCallback(async (participant: IParticipant) => {
     if (!tournament) return;
-    
-    
     const updatedTournament = Tournament.fromObject(tournament.toObject());
-    updatedTournament.setParticipants(participants);
-    
-    setTournament(updatedTournament); // this automatically saves the tournament
+    updatedTournament.addParticipant(participant);
+    setTournament(updatedTournament);
+    if(updatedTournament.hasGroups()) {
+      await addParticipantsToGroups(participant);
+    }
     await createNewGamePlan(updatedTournament);
+  }, [tournament, setTournament, createNewGamePlan]);
+
+  const handleParticipantRemoved = useCallback(async (participant: IParticipant) => {
+    if (!tournament) return;
+    const updatedTournament = Tournament.fromObject(tournament.toObject());
+    updatedTournament.removeParticipant(participant);
+    setTournament(updatedTournament);
+    if(updatedTournament.hasGroups()) {
+      await removeParticipantsFromGroups(participant);
+    }
+    await createNewGamePlan(updatedTournament);
+  }, [tournament, setTournament, createNewGamePlan]);
+
+  const handleParticipantUpdated = useCallback(async (participant: IParticipant) => {
+    if (!tournament) return;
+    const updatedTournament = Tournament.fromObject(tournament.toObject());
+    updatedTournament.updateParticipant(participant);
+    setTournament(updatedTournament);
+    if(updatedTournament.hasGroups()) {
+      await updateParticipantsInGroups(participant);
+    }
   }, [tournament, setTournament, createNewGamePlan]);
 
   const handleSettingsChange = useCallback(async (newTournament: Tournament): Promise<boolean> => {
@@ -31,7 +52,8 @@ export const useTournamentOperations = (tournamentId: string | undefined) => {
       newTournament,
       updateGamePlan,
       createNewGamePlan,
-      setTournament
+      setTournament,
+      createGroups
     );
   }, [tournament, updateGamePlan, createNewGamePlan, setTournament, handleSettingsChangeInternal]);
 
@@ -49,10 +71,13 @@ export const useTournamentOperations = (tournamentId: string | undefined) => {
     gamePlanLoading,
     groupsLoading,
     // Actions
-    handleParticipantChange,
-    handleSettingsChange,
-    handleGameReorder,
+    handleParticipantAdded,
+    handleParticipantRemoved,
+    handleParticipantUpdated,
     
+    handleGameReorder,
+  
+    handleSettingsChange,
     // Utilities
     setTournament,
   };

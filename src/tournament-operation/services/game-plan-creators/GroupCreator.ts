@@ -1,5 +1,5 @@
 import { GameField } from "../../types/game-plan/GameField";
-import { Game, IGame } from "../../types/game-plan/Game";
+import { Game } from "../../types/game-plan/Game";
 import { GameParticipant } from "../../types/game-plan/GameParticipant";
 import { GamePlan, IGamePlan } from "../../types/game-plan/GamePlan";
 import { ITournament } from "../../types/tournament/Tournament";
@@ -191,6 +191,7 @@ export class GroupCreator {
 
     private async _getGroups(tournamentId: string): Promise<IGroup[]> {
         const groups = await this.storage.getGroups(tournamentId);
+        console.info('groups', groups);
         return groups.map(group => Group.fromObject(group));
     }
 }

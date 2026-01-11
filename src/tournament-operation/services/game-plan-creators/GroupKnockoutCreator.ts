@@ -3,7 +3,6 @@ import { IGame } from "../../types/game-plan/Game";
 import { GamePlan, IGamePlan } from "../../types/game-plan/GamePlan";
 import { ITournament } from "../../types/tournament/Tournament";
 import { TournamentFormat } from "../../types/tournament/TournamentFormat";
-import { Group, IGroup } from "../../types/game-plan/Group";
 import { GroupCreator } from "./GroupCreator";
 import { KnockoutCreator } from "./KnockoutCreator";
 
@@ -17,6 +16,7 @@ export class GroupKnockoutCreator {
     }
 
     async createGamePlan(tournament: ITournament): Promise<IGamePlan> {
+        console.info('createGamePlan', tournament);
         const gamePlan = new GamePlan(tournament.getId()!);
 
         let gamePlanForGroups = await this.groupCreator.createGamePlan(tournament);
@@ -27,6 +27,8 @@ export class GroupKnockoutCreator {
         games = this._setGameDates(games, tournament);
 
         gamePlan.setGames(games);
+
+        console.info('gamePlan', gamePlan);
 
         return gamePlan;
     }

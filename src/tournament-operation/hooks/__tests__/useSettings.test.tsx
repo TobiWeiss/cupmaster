@@ -1,10 +1,33 @@
 import { describe, beforeEach, it, expect, vi } from "vitest";
-import { renderHook, waitFor } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import { useSettings } from "../useSettings";
 import { Tournament } from "../../types/tournament/Tournament";
 import { TournamentFormat, TournamentPhase } from "../../types/tournament/TournamentFormat";
 import { cloneDeep } from "lodash";
 import tournamentData from "../../__tests__/tournament.json";
+import { IGamePlan } from "../../types/game-plan/GamePlan";
+
+// Helper function to get tournament by type
+const getTournamentByType = (type: "LEAGUE" | "GROUP_KNOCKOUT" | "KNOCKOUT") => {
+    return tournamentData.find((t: any) => t.tournamentType === type) || tournamentData[0];
+};
+
+// Mock game plan with getLastGame method
+const createMockGamePlan = (): IGamePlan => {
+    return {
+        getLastGame: vi.fn().mockReturnValue(null),
+        getId: vi.fn().mockReturnValue("mock-game-plan-id"),
+        setId: vi.fn(),
+        getGames: vi.fn().mockReturnValue([]),
+        setGames: vi.fn(),
+        getMetadata: vi.fn().mockReturnValue({
+            created: new Date(),
+            modified: new Date(),
+            version: 0,
+        }),
+        setMetadata: vi.fn(),
+    } as unknown as IGamePlan;
+};
 
 vi.mock('../../../common/hooks/useNotify', () => {
   return {
@@ -20,11 +43,14 @@ describe('useSettings', () => {
   let updateGamePlan: ReturnType<typeof vi.fn>;
   let createNewGamePlan: ReturnType<typeof vi.fn>;
   let setTournament: ReturnType<typeof vi.fn>;
+  let createNewGroups: ReturnType<typeof vi.fn>;
 
   beforeEach(() => {
-    oldTournament = Tournament.init(tournamentData[0]);
-    updateGamePlan = vi.fn().mockResolvedValue({});
-    createNewGamePlan = vi.fn().mockResolvedValue({});
+    const leagueTournament = getTournamentByType("LEAGUE");
+    oldTournament = Tournament.init(leagueTournament);
+    updateGamePlan = vi.fn().mockResolvedValue(createMockGamePlan());
+    createNewGamePlan = vi.fn().mockResolvedValue(createMockGamePlan());
+    createNewGroups = vi.fn().mockResolvedValue(undefined);
     setTournament = vi.fn();
   });
 
@@ -39,7 +65,8 @@ describe('useSettings', () => {
         newTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(createNewGamePlan).toHaveBeenCalledWith(newTournament);
@@ -47,7 +74,8 @@ describe('useSettings', () => {
     });
 
     it('should require new game plan when format changes from GROUP_KNOCKOUT to LEAGUE', async () => {
-      const leagueTournament = Tournament.init(tournamentData[0]);
+      const leagueTournamentData = getTournamentByType("LEAGUE");
+      const leagueTournament = Tournament.init(leagueTournamentData);
       leagueTournament.setType(TournamentFormat.LEAGUE, []);
       const groupKnockoutTournament = Tournament.fromObject(cloneDeep(leagueTournament.toObject()));
       groupKnockoutTournament.setType(TournamentFormat.GROUP_KNOCKOUT, [TournamentPhase.GROUP_STAGE, TournamentPhase.KNOCKOUT_STAGE]);
@@ -59,7 +87,8 @@ describe('useSettings', () => {
         groupKnockoutTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(createNewGamePlan).toHaveBeenCalledWith(groupKnockoutTournament);
@@ -78,7 +107,8 @@ describe('useSettings', () => {
         newTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(createNewGamePlan).toHaveBeenCalledWith(newTournament);
@@ -86,8 +116,8 @@ describe('useSettings', () => {
     });
 
     it('should require new game plan when matches against each participant changes in GROUP_STAGE', async () => {
-      const groupKnockoutTournament = Tournament.init(tournamentData[0]);
-      groupKnockoutTournament.setType(TournamentFormat.GROUP_KNOCKOUT, [TournamentPhase.GROUP_STAGE, TournamentPhase.KNOCKOUT_STAGE]);
+      const groupKnockoutTournamentData = getTournamentByType("GROUP_KNOCKOUT");
+      const groupKnockoutTournament = Tournament.init(groupKnockoutTournamentData);
       groupKnockoutTournament.setMatchesAgainstEachParticipant(1, TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
 
       const { result } = renderHook(() => useSettings());
@@ -99,7 +129,8 @@ describe('useSettings', () => {
         newTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(createNewGamePlan).toHaveBeenCalledWith(newTournament);
@@ -107,8 +138,8 @@ describe('useSettings', () => {
     });
 
     it('should require new game plan when matches against each participant changes in KNOCKOUT_STAGE', async () => {
-      const groupKnockoutTournament = Tournament.init(tournamentData[0]);
-      groupKnockoutTournament.setType(TournamentFormat.GROUP_KNOCKOUT, [TournamentPhase.GROUP_STAGE, TournamentPhase.KNOCKOUT_STAGE]);
+      const groupKnockoutTournamentData = getTournamentByType("GROUP_KNOCKOUT");
+      const groupKnockoutTournament = Tournament.init(groupKnockoutTournamentData);
       groupKnockoutTournament.setMatchesAgainstEachParticipant(1, TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.KNOCKOUT_STAGE);
 
       const { result } = renderHook(() => useSettings());
@@ -120,7 +151,8 @@ describe('useSettings', () => {
         newTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(createNewGamePlan).toHaveBeenCalledWith(newTournament);
@@ -130,8 +162,8 @@ describe('useSettings', () => {
 
   describe('hasTheAmountOfQualifiedParticipantsChanged', () => {
     it('should require new game plan when qualified participants changes in GROUP_STAGE', async () => {
-      const groupKnockoutTournament = Tournament.init(tournamentData[0]);
-      groupKnockoutTournament.setType(TournamentFormat.GROUP_KNOCKOUT, [TournamentPhase.GROUP_STAGE, TournamentPhase.KNOCKOUT_STAGE]);
+      const groupKnockoutTournamentData = getTournamentByType("GROUP_KNOCKOUT");
+      const groupKnockoutTournament = Tournament.init(groupKnockoutTournamentData);
       groupKnockoutTournament.setQualifiedParticipants(1, TournamentFormat.GROUP_KNOCKOUT, TournamentPhase.GROUP_STAGE);
 
       const { result } = renderHook(() => useSettings());
@@ -143,7 +175,8 @@ describe('useSettings', () => {
         newTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(createNewGamePlan).toHaveBeenCalledWith(newTournament);
@@ -164,7 +197,8 @@ describe('useSettings', () => {
         newTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(updateGamePlan).toHaveBeenCalledWith(newTournament);
@@ -181,7 +215,8 @@ describe('useSettings', () => {
         newTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(updateGamePlan).toHaveBeenCalledWith(newTournament);
@@ -198,7 +233,8 @@ describe('useSettings', () => {
         newTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(updateGamePlan).toHaveBeenCalledWith(newTournament);
@@ -215,7 +251,8 @@ describe('useSettings', () => {
         newTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(updateGamePlan).toHaveBeenCalledWith(newTournament);
@@ -236,7 +273,8 @@ describe('useSettings', () => {
         newTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(updateGamePlan).toHaveBeenCalledWith(newTournament);
@@ -262,7 +300,8 @@ describe('useSettings', () => {
         newTournament,
         updateGamePlan,
         createNewGamePlan,
-        setTournament
+        setTournament,
+        createNewGroups
       );
 
       expect(success).toBe(false);

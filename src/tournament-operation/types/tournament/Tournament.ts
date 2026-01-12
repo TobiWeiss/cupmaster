@@ -118,8 +118,14 @@ export class Tournament implements ITournament {
     tournament.id = data.id;
     tournament.status = data.status;
     tournament.config = data.config;
+    tournament.config.startDate = new Date(data.config.startDate);
+    tournament.config.endDate = data.config.endDate ? new Date(data.config.endDate) : undefined;
     tournament.participants = data.participants.map((participant: Record<string, any>) => Participant.fromObject(participant));
     tournament.config.fields = data.config.fields.map((field: Record<string, any>) => Field.fromObject(field));
+    tournament.config.type = {
+      format: data.config.type.format,
+      phases: data.config.type.phases,
+    };
     return tournament;
   }
 

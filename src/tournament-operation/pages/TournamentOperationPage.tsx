@@ -16,6 +16,7 @@ export const TournamentOperationPage: React.FC = () => {
     tournament,
     gamePlan,
     groups,
+    initialized,
     tournamentLoading,
     gamePlanLoading,
     groupsLoading,
@@ -26,8 +27,7 @@ export const TournamentOperationPage: React.FC = () => {
     handleGameReorder,
   } = useTournamentOperations(id);
 
-  if (tournamentLoading || gamePlanLoading || groupsLoading) {
-    debugger;
+  if (tournamentLoading || gamePlanLoading || groupsLoading || !initialized) {
     return (
       <div className="flex items-center justify-center h-64">
         <p>Loading tournament</p>
@@ -44,7 +44,6 @@ export const TournamentOperationPage: React.FC = () => {
   }
 
   const renderContent = () => {
-    debugger;
     switch (activeTab) {
       case 'game-plan':
         return (

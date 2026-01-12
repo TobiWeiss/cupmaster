@@ -4,12 +4,13 @@ import tournamentData from "../../__tests__/tournament.json";
 import gamePlanData from "../../__tests__/game-plan.json";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { TournamentOperationPage } from "../TournamentOperationPage";
+import { LeagueCreator } from "../../services/game-plan-creators/LeagueCreator";
 
 vi.mock('react-router-dom', async () => {
     const actual = await vi.importActual('react-router-dom');
     return {
         ...actual,
-        useParams: () => ({ id: 'd59da92b-f866-4dc4-b2a4-7ee35b7dd467' }),
+        useParams: () => ({ id: 'league-tournament-id"' }),
     };
 });
 
@@ -19,8 +20,7 @@ describe('TournamentOperationPage', () => {
         localStorage.clear();
         
         // Set up test data
-        localStorage.setItem(LocalStorage.TOURNAMENT_STORAGE_KEY, JSON.stringify(tournamentData));
-        localStorage.setItem(LocalStorage.GAME_PLAN_STORAGE_KEY, JSON.stringify(gamePlanData));
+        localStorage.setItem(LocalStorage.TOURNAMENT_STORAGE_KEY, JSON.stringify([tournamentData]));
     });
 
     afterEach(() => {
@@ -32,8 +32,7 @@ describe('TournamentOperationPage', () => {
         
         await waitFor(
             () => {
-                // First, wait for the loading text to disappear
-                expect(screen.queryByText('Loading tournament...')).not.toBeInTheDocument();
+                expect(screen.queryByText('Loading tournament')).not.toBeInTheDocument();
                 const overview = screen.getByTestId('game-plan-overview');
                 expect(overview).toBeInTheDocument();
             },

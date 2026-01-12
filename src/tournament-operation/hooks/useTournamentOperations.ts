@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useGamePlan } from './useGamePlan';
 import { useTournament } from './useTournament';
 import { IParticipant } from '../types/tournament/Participant';
@@ -7,6 +7,7 @@ import { useGroups } from './useGroups';
 import { useSettings } from './useSettings';
 
 export const useTournamentOperations = (tournamentId: string | undefined) => {
+  const [initialized, setInitialized] = useState(false);
   const { tournament, setTournament, loading: tournamentLoading } = useTournament(tournamentId);
   const { gamePlan, updateGamePlan, createNewGamePlan, reorderGames, loading: gamePlanLoading } = useGamePlan(tournament);
   const { groups, loading: groupsLoading, createGroups, addParticipantsToGroups, removeParticipantsFromGroups, updateParticipantsInGroups } = useGroups(tournament);
@@ -61,6 +62,24 @@ export const useTournamentOperations = (tournamentId: string | undefined) => {
     await reorderGames(sourceIndex, destinationIndex);
   }, [reorderGames]);
 
+  // Initialize game plan and groups if they have not been created yet
+  useEffect(() => {
+    const initializeGamePlanAndGroups = async () => {
+    if(gamePlanLoading || groupsLoading || initialized) return;
+
+    if(tournament?.hasGroups() && !groups || groups?.length === 0) {
+      await createGroups(tournament!);
+    }
+
+    if(!gamePlan) {
+        await createNewGamePlan(tournament!);
+      }
+
+      setInitialized(true);
+    };
+    initializeGamePlanAndGroups();
+    }, [gamePlanLoading, groupsLoading, initialized]);
+
   return {
     // Data
     tournament,
@@ -70,6 +89,7 @@ export const useTournamentOperations = (tournamentId: string | undefined) => {
     tournamentLoading,
     gamePlanLoading,
     groupsLoading,
+    initialized,
     // Actions
     handleParticipantAdded,
     handleParticipantRemoved,

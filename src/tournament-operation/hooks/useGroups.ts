@@ -10,27 +10,12 @@ import { GroupParticipant } from "../types/game-plan/GroupParticipant";
 
 export const useGroups = (tournament: ITournament | null) => {
   const [groups, setGroups] = useState<Group[] | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const groupService = useMemo(() => new GroupService(new LocalStorage()), []);
   const groupInitializer = useMemo(() => new GroupInitializer(), []);
 
-  useEffect(() => {
-    const loadGroups = async () => {
-      try {
-        if (!tournament?.getId() || tournament.getPhases().includes(TournamentPhase.GROUP_STAGE)) return;
-        setLoading(true);
-        const groups = await groupService.getGroups(tournament.getId()!);
-        setGroups(groups.map((group: Record<string, any>) => Group.fromObject(group)));
-      } catch (err) {
-        console.error('Error loading groups', err);
-        setError(err instanceof Error ? err.message : 'Failed to load groups');
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadGroups();
-  }, [tournament?.getId(), groupService, tournament?.getPhases()]);
+
 
   const createGroups = async (currentTournament: ITournament): Promise<void> => {
     try {
@@ -94,6 +79,23 @@ export const useGroups = (tournament: ITournament | null) => {
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    const loadGroups = async () => {
+      try {
+        if (!tournament?.getId() || tournament.getPhases().includes(TournamentPhase.GROUP_STAGE)) return;
+        setLoading(true);
+        const groups = await groupService.getGroups(tournament.getId()!);
+        setGroups(groups);
+      } catch (err) {
+        console.error('Error loading groups', err);
+        setError(err instanceof Error ? err.message : 'Failed to load groups');
+      } finally {
+        setLoading(false);
+      }
+    };
+    loadGroups();
+  }, []);
 
   return { groups, loading, error, createGroups, addParticipantsToGroups, removeParticipantsFromGroups, updateParticipantsInGroups };
 };

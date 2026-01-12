@@ -12,21 +12,14 @@ export const useGamePlan = (tournament: ITournament | null) => {
 
   useEffect(() => {
     const loadGamePlan = async () => {
-      
+
       if (!tournament?.getId()) return;
       try {
         setLoading(true);
 
         const data = await gamePlanService.getGamePlan(tournament.getId()!);
-        
-        if (!data) {
-          // Create new game plan if none exists
-          const newGamePlan = await gamePlanService.createGamePlan(tournament as Tournament);
-          setGamePlan(newGamePlan);
-        } else {
- 
-          setGamePlan(data);
-        }
+
+        setGamePlan(data);
       } catch (err) {
         console.error('Error loading game plan', err);
         setError(err instanceof Error ? err.message : 'Failed to load game plan');
@@ -106,14 +99,14 @@ export const useGamePlan = (tournament: ITournament | null) => {
     }
   };
 
-  return { 
-    gamePlan, 
+  return {
+    gamePlan,
     setGamePlan,
-    updateGamePlan, 
-    createNewGamePlan, 
-    reorderGames, 
+    updateGamePlan,
+    createNewGamePlan,
+    reorderGames,
     deleteGamePlan,
-    loading, 
-    error 
+    loading,
+    error
   };
 };

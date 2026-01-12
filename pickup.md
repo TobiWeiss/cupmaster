@@ -1,3 +1,8 @@
+# 12.01.26
+
+Tests in useTournamentOperations funktionieren jetzt, useSettings auch. Logik zu Participants muss noch in eigenen Hook.
+Fast alle Tests in Module funktionieren bis auf TournamentOperationpage.test.tsx - gott weiß wieso. 
+
 # 11.01.26
 
 Ich war gerade dabei die Tests für useTournamentOperations.tsx zu reparieren. Hier geht es darum, 
